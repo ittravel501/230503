@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="./slick-1.8.1/slick/slick-theme.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js">
         
-        </script> 
+        </script>  
         <script src="./slick-1.8.1/slick/slick.min.js">
 
         </script>

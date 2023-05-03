@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"> 
 <title>항공편 조회 결과</title>
 </head>
 <body>
@@ -20,7 +20,11 @@ if(request.getParameter("pageNumber") != null){
 	pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 }
 
-String air_deppt = null;
+	String air_arrpt = null;
+	if(session.getAttribute("air_arrpt") != null){
+		air_arrpt = (String)session.getAttribute("air_arrpt");
+	}
+	String air_deppt = null;
 	if(session.getAttribute("air_deppt") != null){
 		air_deppt = (String)session.getAttribute("air_deppt");
 	}
@@ -48,8 +52,10 @@ String air_deppt = null;
 	  Vector<Airinfo> list1 = fd.getList(pageNumber);    
 for(int i = 0; i < list1.size(); i++){
 	Airinfo ai = list1.get(i);
-	 if(ai.getAir_deppt().equals(air_deppt)) { // air_deppt로 설정한 값만 가져옴 김포 선택하면 출발지가 김포인 것만
-		
+	
+	if(ai.getAir_deppt().equals(air_deppt) && ai.getAir_arrpt().equals(air_arrpt)) {
+	    if(air_dday == null || air_dday.isEmpty() || ai.getAir_dday().equals(air_dday)) { // air_deppt로 설정한 값만 가져옴 김포 선택하면 출발지가 김포인 것만
+		 /* 날짜까지 포함하면 값이 안나오지만 출발지 도착지 모두 맞으면 검색이 되긴 함. */ 
   %>
   <tr>
     <td><%= ai.getAir_num() %></td>
@@ -61,7 +67,7 @@ for(int i = 0; i < list1.size(); i++){
     <td><%= ai.getAir_fligname() %></td>
   </tr>
   <% 
-		 
+	    } 
 	 }
 	 } %>
 </table>

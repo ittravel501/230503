@@ -64,9 +64,9 @@
                               <input type="date" class="date1" name="air_dday">
               
                                <label class="come2"> 오는날</label>
-                              <input type="date" class="date2">
+                              <input type="date" class="date2" name="air_aday">
                            
-                            </div>
+                            </div> 
 
                               <div class="select_area2">
                               <label > 탑승 인원 </label>

@@ -1,5 +1,7 @@
 package dto;
 
+import java.sql.Time;
+
 public class Airinfo {
 	private int air_num;
 	private String air_deppt;
@@ -8,6 +10,11 @@ public class Airinfo {
 	private String air_aday;
 	private String air_model;
 	private String air_fligname;
+	private Time air_dday_time;
+	private Time air_aday_time;
+	private int air_time_minute;
+	private int air_price;
+	
 	
 	public int getAir_num() {
 		return air_num;
@@ -51,6 +58,32 @@ public class Airinfo {
 	public void setAir_fligname(String air_fligname) {
 		this.air_fligname = air_fligname;
 	}
+	public Time getAir_dday_time() {
+		return air_dday_time;
+	}
+	public void setAir_dday_time(Time air_dday_time) {
+		this.air_dday_time = air_dday_time;
+	}
+	public Time getAir_aday_time() {
+		return air_aday_time;
+	}
+	public void setAir_aday_time(Time air_aday_time) {
+		this.air_aday_time = air_aday_time;
+	}
+	
+	public int getAir_time_minute() {
+		return air_time_minute;
+	}
+	public void setAir_time_minute(int air_time_minute) {
+		this.air_time_minute = air_time_minute;
+	}
+	public int getAir_price() {
+		return air_price;
+	}
+	public void setAir_price(int air_price) {
+		this.air_price = air_price;
+	}
+	
 	
 	
 	

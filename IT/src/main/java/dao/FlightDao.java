@@ -29,12 +29,14 @@ public class FlightDao {
 	
 	// 출발지 선택
 	public Vector<Airinfo> pt(Airinfo airinfo) {
-	    String SQL = "SELECT * FROM air_inquiry WHERE air_dday = ? and air_deppt = ?";
+	    String SQL = "SELECT * FROM air_inquiry WHERE air_deppt = ? AND air_arrpt = ? AND air_dday = ?";
 	    Vector<Airinfo> list1 = new Vector<Airinfo>();
 	    try {
 	        PreparedStatement pstat = conn.prepareStatement(SQL);
-	        pstat.setString(1, airinfo.getAir_dday());
-	        pstat.setString(2, airinfo.getAir_deppt());
+	        pstat.setString(1, airinfo.getAir_deppt());
+	        pstat.setString(2, airinfo.getAir_arrpt());
+	        pstat.setString(3, airinfo.getAir_dday());
+	        
 	        rs = pstat.executeQuery(); // ResultSet 객체 생성
 	        while(rs.next()) {
 	            Airinfo ai = new Airinfo();
@@ -45,6 +47,10 @@ public class FlightDao {
 	            ai.setAir_aday(rs.getString(5));
 	            ai.setAir_model(rs.getString(6));
 	            ai.setAir_fligname(rs.getString(7));
+	            ai.setAir_dday_time(rs.getTime(8));
+	            ai.setAir_aday_time(rs.getTime(9));
+	            ai.setAir_time_minute(rs.getInt(10));
+	            ai.setAir_price(rs.getInt(11));
 	            list1.add(ai);
 	        }
 	    } catch (Exception e) {
@@ -57,7 +63,7 @@ public class FlightDao {
 
 	    // 조회된 기준 air_num으로 내림차순하여 pageNumber에 해당하는 10개의 항공편을 보여주는 쿼리 
 	    String SQL = "SELECT * FROM air_inquiry"
-	            + " WHERE air_num < ? ORDER BY air_num DESC LIMIT 10 OFFSET ?";
+	            + " WHERE air_num < ? ORDER BY air_num LIMIT 10 OFFSET ?";
 	         
 	    Vector<Airinfo> list1 = new Vector<Airinfo>();
 	         
@@ -75,6 +81,10 @@ public class FlightDao {
 	            ai.setAir_aday(rs.getString(5));
 	            ai.setAir_model(rs.getString(6));
 	            ai.setAir_fligname(rs.getString(7));
+	            ai.setAir_dday_time(rs.getTime(8));
+	            ai.setAir_aday_time(rs.getTime(9));
+	            ai.setAir_time_minute(rs.getInt(10));
+	            ai.setAir_price(rs.getInt(11));
 	            list1.add(ai);
 	        }
 	    } catch (Exception e) {
