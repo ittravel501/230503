@@ -10,12 +10,6 @@ public class ShoppingProdDetailService {
 	
 	public ProdInfo getProd (int prod_num) throws Exception {
 		//이 서비스 페이지에서 디비 연결을 한다. 
-
-//		System.out.println(prodinfo.getProd_num());
-//		System.out.println(prodinfo.getProd_name());
-//		System.out.println(prodinfo.getProd_mem_id());
-//		System.out.println(prodinfo.getProd_quantity());
-//		System.out.println(prodinfo.getProd_price());
 		
 		Connection con = getConnection();
 		ProdDao prodDao = ProdDao.getInstance();

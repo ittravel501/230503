@@ -21,8 +21,6 @@ public class ShoppingMainService {
 	
 	ArrayList<ProdInfo> mainprod =  prodDao.Prod_info();
 	
-	
-	
 	close(con);
 	System.out.println("마지막"+con + "\n");
 	

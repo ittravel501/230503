@@ -7,8 +7,8 @@
     <%@page import="dto.PROD_MD" %>
     
     <%@page import="vo.ProdInfo" %>
+    <%@page import="vo.CartInfo" %>
     <%@page import="dao.N_controller" %>
-
 
 <!DOCTYPE html>
 <html>
@@ -20,9 +20,8 @@
 
 	 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
 	 
-	 
 	 <link rel="stylesheet" type="text/css" href="css/header_footer.css">
-	 <link rel="stylesheet" type="text/css" href="css/shopping001_basket.css">
+	 <link rel="stylesheet" type="text/css" href="css/shopping_cart.css">
 	 
 	 <!-- 헤더 js -->
 	 <script src="js/slick-1.8.1/slick/slick.min.js"></script>
@@ -30,8 +29,6 @@
 	 <script src="js/shopping_bn.js"></script>
 
 </head>
-
-<jsp:useBean id="user" class="dao.N_controller"/> 
 
 
 <body>
@@ -41,10 +38,10 @@
 	<header>
 	   <jsp:include page="header.jsp" />
 	</header> 
-
-
-
+	
+	
 	<section>
+	
 
 		<div id="s_order" >
 			<ul>
@@ -57,6 +54,7 @@
 		<div id="s_basketwrap" >
 			<div id="s_basket" >
 				<ul>
+					<li>선택</li>
 					<li>상품</li>
 					<li>옵션</li>
 					<li>상품금액</li>
@@ -64,40 +62,30 @@
 					<li>배송비</li>
 					<li>할인/적립</li>
 					<li>합계금액</li>
-					<li>선택</li>
+					
 				</ul>
 			
 			</div>
 			
-			<div class="s_basket_prod">
-			
-				<script src="script.js"></script>
-				<%
-
-				ProdInfo pr = new ProdInfo();
-				
-				int prod_quantity = Integer.parseInt(request.getParameter("quantity_opt"));
-				String prod_bigct = request.getParameter("prod_bigct");
-				String prod_smallct = request.getParameter("prod_smallct");
-				String prod_name = request.getParameter("prod_name");
-				
-				int prod_price = Integer.parseInt(request.getParameter("prod_price"));
-				int prod_total_price = Integer.parseInt(request.getParameter("prod_total_price"));
-				
-				pr.setProd_quantity(prod_quantity);
-				pr.setProd_bigct(prod_bigct);
-				pr.setProd_smallct(prod_smallct);
-				pr.setProd_name(prod_name);
-				pr.setProd_price(prod_price);
-				pr.setProd_total_price(prod_total_price);
-				
-				ProdInfo prod_info = user.Prod_order_info(pr);
+		<%
 		
-		//out.println(prod_quantity);
+			ArrayList<CartInfo> cartinfo = (ArrayList<CartInfo>) request.getAttribute("cartdirect_arr");
 
-%>
+			for(int i=0; i<cartinfo.size(); i++) {
 				
+				int shop_bas_prod_num = cartinfo.get(i).getShop_bas_prod_num();
+				String prod_name = cartinfo.get(i).getShop_bas_prod_name();
+				int prod_quantity= cartinfo.get(i).getShop_bas_prod_quantity();
+				int prod_price = cartinfo.get(i).getShop_bas_prod_price();
+				String prod_mem_id = cartinfo.get(i).getShop_bas_prod_name();
+				
+				int prod_total_price = prod_price * prod_quantity ;		
+		%>
+			
+			<div class="s_basket_prod">
+					
 				<ul>
+					<li><input type="checkbox" ></li>
 					<li><%=prod_name %></li>
 					<li>옵션</li>
 					<li><%=prod_price %></li>
@@ -116,26 +104,52 @@
 					<% } else { %>
 						<li><%= 3000 + prod_total_price %></li>
 					<% } %>
-
-					<li>선택</li>
+					
 				</ul>
 			
 			</div>
+			
+			<div>
+				<a href="shopping_cart_delete.do?shop_bas_prod_num=<%=shop_bas_prod_num %>">삭제</a>
+			</div>
+			
+			
+			
+<!-- 			<div> -->
+<%-- 				<a href="shopping_buy.do?shop_bas_prod_num=<%=shop_bas_prod_num %>" ><input type="button" value="삭제" ></a> --%>
+<!-- 			</div> -->
+			
+		<%} %>
+		</div>
 		
+		<div id="shopping_total_price_info_wrap" >
+			<div class="shopping_total_price_info" >
+				<div class="total_price_info" >총 판매가</div>
+				<div class="total_price_info" >총 할인금액</div>
+				<div class="total_price_info" >배송비</div>
+				
+				<div class="sum_price" >
+					<span>배송비는 쿠폰할인금액에 따라 변경될 수 있습니다.</span>
+					
+					<span>총 결제예상금액</span> 
+					
+				</div>
+				
+				
+				
+				
+				
+			</div>
 		</div>
 	
-
-
 	</section>
-
+	
 
 
 	<footer>
     	<jsp:include page="footer.jsp"/>
 	</footer>
 
-
-</div>
 </body>
 
 </html>

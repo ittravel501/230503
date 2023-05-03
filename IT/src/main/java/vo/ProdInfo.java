@@ -5,9 +5,9 @@ public class ProdInfo {
 	int prod_num;
 	String prod_bigct;
 	String prod_smallct;
-	int prod_quantity;
+//	int prod_quantity;
 	int prod_price;
-	int prod_total_price;
+//	int prod_total_price;
 	
 	String prod_img;
 	String prod_review;
@@ -19,7 +19,7 @@ public class ProdInfo {
 	String prod_opbct;
 	String prod_opsct;
 	String prod_check;
-	String prod_mem_id;
+//	String prod_mem_id;
 	
 	String prod_img2;
 	String prod_img3;
@@ -82,18 +82,18 @@ public class ProdInfo {
 	
 	
 	
-	public int getProd_total_price() {
-		return prod_total_price;
-	}
-	public void setProd_total_price(int prod_total_price) {
-		this.prod_total_price = prod_total_price;
-	}
-	public int getProd_quantity() {
-		return prod_quantity;
-	}
-	public void setProd_quantity(int prod_quantity) {
-		this.prod_quantity = prod_quantity;
-	}
+//	public int getProd_total_price() {
+//		return prod_total_price;
+//	}
+//	public void setProd_total_price(int prod_total_price) {
+//		this.prod_total_price = prod_total_price;
+//	}
+//	public int getProd_quantity() {
+//		return prod_quantity;
+//	}
+//	public void setProd_quantity(int prod_quantity) {
+//		this.prod_quantity = prod_quantity;
+//	}
 	public int getProd_price() {
 		return prod_price;
 	}
@@ -180,11 +180,11 @@ public class ProdInfo {
 	public void setProd_check(String prod_check) {
 		this.prod_check = prod_check;
 	}
-	public String getProd_mem_id() {
-		return prod_mem_id;
-	}
-	public void setProd_mem_id(String prod_mem_id) {
-		this.prod_mem_id = prod_mem_id;
-	}
+//	public String getProd_mem_id() {
+//		return prod_mem_id;
+//	}
+//	public void setProd_mem_id(String prod_mem_id) {
+//		this.prod_mem_id = prod_mem_id;
+//	}
 
 }

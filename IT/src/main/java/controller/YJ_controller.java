@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import action.Action;
 import action.ShoppingBuyAction;
-//import action.ShoppingBuySuccessAction;
+import action.ShoppingBuySuccessAction;
 import action.ShoppingCartAction;
+import action.ShoppingCartDirectAction;
+import action.ShoppingCartDeleteAction;
 import action.ShoppingMainAction;
 import action.ShoppingProdAction;
 import vo.ActionForward;
@@ -72,6 +74,33 @@ public class YJ_controller extends javax.servlet.http.HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+		}
+		
+		else if(command.equals("/shopping_cart_direct.do") ) {
+		
+			action = new ShoppingCartDirectAction();
+			
+			try {
+				
+				forward = action.execute(request, response);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		else if(command.equals("/shopping_cart_delete.do") ) {
+			
+			action = new ShoppingCartDeleteAction();
+			
+			try {
+				
+				forward = action.execute(request, response);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		else if(command.equals("/shopping_buy.do") ) {
@@ -89,7 +118,7 @@ public class YJ_controller extends javax.servlet.http.HttpServlet {
 		
 		else if(command.equals("/shopping_buy_success.do") ) {
 			
-//			action = new ShoppingBuySuccessAction();
+			action = new ShoppingBuySuccessAction();
 			
 			try {
 				
@@ -99,6 +128,8 @@ public class YJ_controller extends javax.servlet.http.HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		
 		
 		if(forward != null){
 			

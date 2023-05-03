@@ -42,10 +42,14 @@
 
 	<section>
 	
+		<%
+			String mem_id =(String)session.getAttribute("mem_id");
+		%>
+	
 		<div id="shopping_quickmenu_wrap" >
 			<ul>
 				<li class="s_quickmenu" >
-					<a href="shopping_cart.do" ><img alt="cartimg" src="shopimg/cart.png" style="width: 100px; height: 100px;" >장바구니</a>
+					<a href="shopping_cart_direct.do?mem_id=<%=mem_id %>" ><img alt="cartimg" src="shopimg/cart.png" style="width: 100px; height: 100px;" >장바구니</a>
 				</li>
 				
 				<li class="s_quickmenu">
@@ -57,7 +61,6 @@
 				</li>
 			</ul>
 		</div>
-		
 	
 		 <div class="slideshow-container"> <!--광고배너 이미지 3개 -->
 
@@ -91,11 +94,8 @@
 				</div>
 			</div>
 			
-			-->
+		--> 
 			
-			</script>
-
-
 			<div id="allmenu"> <!-- 상품 전체 시작 -->
 
 			<div id="hot_item"> <!-- hot item 시작 -->
@@ -115,9 +115,9 @@
 							
 							String prodImgPath = "shopimg/" + prodinfo.get(i).getProd_img();
 						
-						//int prod_num = prodinfo.get(i).getProd_num();
-						//String prod_name = prodinfo.get(i).getProd_name();
-						//String prod_img = prodinfo.get(i).getProd_img();
+							//int prod_num = prodinfo.get(i).getProd_num();
+							//String prod_name = prodinfo.get(i).getProd_name();
+							//String prod_img = prodinfo.get(i).getProd_img();
 									
 					%> 
 					
@@ -166,7 +166,7 @@
 	         
 	            <div class="menu2">
 	            
-	            <%	
+	            <%
 						//데이터베이스에 있는 모든 정보를 가져와서 나열하고, 그걸 클릭해야되는거니까 arraylist가 맞나?
 								
 						//ArrayList<ProdInfo> prodinfo = (ArrayList<ProdInfo>) request.getAttribute("article");
@@ -181,7 +181,7 @@
 						//String prod_name = prodinfo.get(i).getProd_name();
 						//String prod_img = prodinfo.get(i).getProd_img();
 									
-					%> 
+				%> 
 	            
 	            <div id="prod_wrap2" >
 	            

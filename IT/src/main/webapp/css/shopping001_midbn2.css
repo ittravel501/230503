@@ -6,19 +6,16 @@ ul, dl, dd {
 #banner2{
   width: 1920px;
   height: 200px;
-  margin-top: 150px;
-  margin-left: -320px;
+  margin: 80px 0 40px -320px;
 
 }
-
 
 .slider {
   list-style:none;
   height:200px;
   overflow:hidden;
-  margin-top: 200px
+ /* margin-top: 200px*/
   
-
 }
 
 .slider:after {

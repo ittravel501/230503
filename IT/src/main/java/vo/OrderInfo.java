@@ -7,6 +7,35 @@ public class OrderInfo {
 	String ord_mobile;
 	String ord_code;
 	String ord_mem_addr;
+	String ord_mem_addr1;
+	public String getOrd_mem_addr1() {
+		return ord_mem_addr1;
+	}
+	public void setOrd_mem_addr1(String ord_mem_addr1) {
+		this.ord_mem_addr1 = ord_mem_addr1;
+	}
+	public String getOrd_mem_addr2() {
+		return ord_mem_addr2;
+	}
+	public void setOrd_mem_addr2(String ord_mem_addr2) {
+		this.ord_mem_addr2 = ord_mem_addr2;
+	}
+	public String getOrd_mem_addr3() {
+		return ord_mem_addr3;
+	}
+	public void setOrd_mem_addr3(String ord_mem_addr3) {
+		this.ord_mem_addr3 = ord_mem_addr3;
+	}
+	public String getOrd_mem_addr4() {
+		return ord_mem_addr4;
+	}
+	public void setOrd_mem_addr4(String ord_mem_addr4) {
+		this.ord_mem_addr4 = ord_mem_addr4;
+	}
+
+	String ord_mem_addr2;
+	String ord_mem_addr3;
+	String ord_mem_addr4;
 	//String ord_addr2;
 	String ord_ask;
 	

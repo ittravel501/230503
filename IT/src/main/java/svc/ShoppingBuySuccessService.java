@@ -2,29 +2,22 @@ package svc;
 
 import static db.JdbcUtil.getConnection;
 
-import java.io.Closeable;
 import java.sql.Connection;
-
-import dao.ProdDao;
-import dto.Joininfo;
-import vo.ProdInfo;
 
 import dao.OrderDao;
 import vo.OrderInfo;
+import vo.ProdInfo;
 
-
-public class ShoppingBuyService {
+public class ShoppingBuySuccessService {
 	
-	public OrderInfo getBuy () throws Exception {
+public OrderInfo getBuySuccess () throws Exception {
 		
 		Connection con = getConnection();
 		OrderDao orderDao = OrderDao.getInstance();
 		orderDao.setConnection(con);
 		
-//		OrderInfo orderinfo = new OrderInfo();
-		
-//		Joininfo joininfo = new Joininfo();
-		OrderInfo orderinfo = orderDao.order_mem_info();
+		OrderInfo orderinfo = new OrderInfo();
+		orderDao.order_pay_success();
 		
 		return orderinfo;
 		

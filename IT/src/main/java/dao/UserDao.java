@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Set;
+
+import javax.websocket.Session;
 
 import dto.Joininfo;
 
@@ -29,29 +32,20 @@ public class UserDao {
 	
 	// 로그인 가능 유무
 	public int login(String mem_id, String mem_pw) {
-		
 	    String SQL = "select mem_pw from mem_account where mem_id = ? ";
 	 
 	    try {
-	    	
 	        PreparedStatement pstat = conn.prepareStatement(SQL);
 	        pstat.setString(1, mem_id);
-	        
 	        rs = pstat.executeQuery();
 
 	        if(rs.next()) {
-	        	
-	        	if(rs.getString(1).equals(mem_pw)) { //rs.getString(1)는 mem_id를 넣고 셀렉된 mem_pwd이다.
-	        		
+	        	if(rs.getString(1).equals(mem_pw)) {
 	        		return 1; // 로그인 성공
-	        		
 	        	} else
-	        		
 	        		return 0;
 	        }
-	        
 	        return -1;
-	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -114,18 +108,29 @@ public class UserDao {
 			
 			PreparedStatement pstat = conn.prepareStatement(SQL);
 			
+			String ord_addr1 = info.getMem_addr1();
+			String ord_addr2 = info.getMem_addr2();
+			String ord_addr3 = info.getMem_addr3();
+			String ord_addr4 = info.getMem_addr4();
+			
 			pstat.setString(1, info.getMem_id()); //아이디
 			pstat.setString(2, info.getMem_pw()); //비번
 			pstat.setString(3, info.getMem_name()); //이름
 			pstat.setString(4, info.getMem_nick()); //닉네임
 			pstat.setString(5, info.getMem_email1()+info.getMem_email2()); //이메일
-			pstat.setString(6,"우편번호 : "+ info.getMem_addr1()+" / 도로명 주소 : "+ info.getMem_addr2()+" / 상세 주소 : "+ info.getMem_addr3() + " /(참고 :" + info.getMem_addr4() +")"); //주소
+			pstat.setString(6, info.getMem_addr1()+"/"+ info.getMem_addr2()+"/"+ info.getMem_addr3() + "/" + info.getMem_addr4()); //주소
+//			pstat.setString(6,"우편번호 : "+ info.getMem_addr1()+" / 도로명 주소 : "+ info.getMem_addr2()+" / 상세 주소 : "+ info.getMem_addr3() + " /(참고 :" + info.getMem_addr4() +")"); //주소
 			pstat.setString(7, info.getMem_mobile0()+" / "+info.getMem_mobile1()+ " - "+info.getMem_mobile2()+ " - "+info.getMem_mobile3()); //전화번호
 			pstat.setString(8, info.getMem_sex()); //성별
 			pstat.setString(9, info.getMem_birth1()+ info.getMem_birth2()+ info.getMem_birth3()); //생년월일
 			pstat.setString(10, info.getMem_news()); //소식받기
 			
 			System.out.println(info.getMem_mobile1());
+			System.out.println(ord_addr1);
+			System.out.println(ord_addr2);
+			System.out.println(ord_addr3);
+			System.out.println(ord_addr4 + "     여기까아쥐" );
+			
 			
 			rowNum = pstat.executeUpdate();
 			

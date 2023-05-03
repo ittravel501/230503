@@ -7,6 +7,7 @@
     <%@page import="dto.PROD_MD" %>
     
     <%@page import="vo.ProdInfo" %>
+    <%@page import="vo.CartInfo" %>
     <%@page import="dao.N_controller" %>
 
 <!DOCTYPE html>
@@ -18,7 +19,6 @@
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 	 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
-	 
 	 
 	 <link rel="stylesheet" type="text/css" href="css/header_footer.css">
 	 <link rel="stylesheet" type="text/css" href="css/shopping_cart.css">
@@ -32,17 +32,49 @@
 
 <jsp:useBean id="user" class="dao.N_controller"/> 
 
-
 <body>
+
+	
+
+			
 
 <!--헤더부분-->
 
 	<header>
 	   <jsp:include page="header.jsp" />
 	</header> 
-
-
+	
+			<%
+			
+					int prod_quantity = Integer.parseInt(request.getParameter("prod_quantity"));
+					String prod_name = request.getParameter("prod_name");
+					int prod_price = Integer.parseInt(request.getParameter("prod_price"));
+					int prod_total_price = prod_price * prod_quantity; //제품값 * 수량 //따로 저장하지 않음.
+					
+					String prod_bigct = request.getParameter("prod_bigct");
+					String prod_smallct = request.getParameter("prod_smallct");
+					
+					/////////////////////////////////////////////
+					
+					CartInfo cart = new CartInfo();
+					
+					int shop_bas_prod_num = cart.getShop_bas_prod_num();
+					String shop_bas_prod_name = cart.getShop_bas_prod_name();
+					int shop_bas_prod_quantity = cart.getShop_bas_prod_quantity();
+					int shop_bas_prod_price =  cart.getShop_bas_prod_price();
+					String shop_bas_mem_id = cart.getShop_bas_mem_id();
+					
+// 					pr.setShop_bas_smallct(prod_smallct);
+// 					pr.setProd_name(prod_name);
+					
+// 					pr.setProd_total_price(prod_total_price);
+					
+// 					ProdInfo prod_info = user.Prod_order_info(pr);
+			
+// 					out.println(prod_quantity);
+				%>
 	<section>
+	
 
 		<div id="s_order" >
 			<ul>
@@ -69,33 +101,9 @@
 			</div>
 			
 			<div class="s_basket_prod">
-			
-				<%
-
-					ProdInfo pr = new ProdInfo();
-					
-					int prod_quantity = Integer.parseInt(request.getParameter("quantity_opt"));
-					String prod_bigct = request.getParameter("prod_bigct");
-					String prod_smallct = request.getParameter("prod_smallct");
-					String prod_name = request.getParameter("prod_name");
-					
-					int prod_price = Integer.parseInt(request.getParameter("prod_price"));
-					int prod_total_price = prod_price * prod_quantity;
-					
-					pr.setProd_quantity(prod_quantity);
-					pr.setProd_bigct(prod_bigct);
-					pr.setProd_smallct(prod_smallct);
-					pr.setProd_name(prod_name);
-					pr.setProd_price(prod_price);
-					pr.setProd_total_price(prod_total_price);
-					
-					ProdInfo prod_info = user.Prod_order_info(pr);
-			
-					out.println(prod_quantity);
-				
-				%>
 					
 				<ul>
+					<li>선택</li>
 					<li><%=prod_name %></li>
 					<li>옵션</li>
 					<li><%=prod_price %></li>
@@ -115,25 +123,24 @@
 						<li><%= 3000 + prod_total_price %></li>
 					<% } %>
 
-					<li>선택</li>
+					
 				</ul>
 			
+			</div>
+			
+			<div>
+				<a href="shopping_cart_delete.do?shop_bas_prod_num=<%=shop_bas_prod_num %>">삭제</a>
 			</div>
 		
 		</div>
 	
-
-
 	</section>
-
 
 
 	<footer>
     	<jsp:include page="footer.jsp"/>
 	</footer>
 
-
-</div>
 </body>
 
 </html>

@@ -43,6 +43,73 @@ a {
 
 /*////////////////////////////////////////////////*/
 
+section input.input-border-none{
+	border: none;
+	outline: none;
+	
+}
+
+/*////////////////////////////////////////////////*/
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  text-align: center;
+}
+
+/*////////////////////////////////////////////////*/
+
+.modal {
+  display: none; /* 모달창 숨김 */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  text-align: center;
+}
+
+.modal-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-btn:hover {
+  opacity: 0.8;
+}
+
+
+
+
+
+
+
+
+/*////////////////////////////////////////////////*/
+
+
+
+
 
 section{
 	width: 100%
@@ -63,6 +130,7 @@ section .s_prod_wrap{
 section .img_wrap{
 	width: 630px;
 	display: inline-block;
+	float: left;
 }
 
 section #s_prod_detail_img_wrap {
@@ -85,7 +153,13 @@ section #s_prod_big_img{
 	display: inline-block;
     vertical-align: middle;
     margin-left: 5px;
+    
+    position: relative;
 }
+
+
+
+
 
 section .prod_info_wrap{
 	width: 40%;
@@ -98,13 +172,27 @@ section .prod_info_wrap{
 section .info_heading_wrap{
 	margin-bottom: 50px;
 }
-
+/*
 section .info_heading_desc input{
 	width: 100px;
 	
 }
+*/
 section #prod_name{
 	font-size: 1.5em;
+	margin: 10px 0px;
+}
+
+section #prod_name2{
+	padding: 0 30px;
+}
+
+section #prod_price{
+	font-size: 1.7em;
+}
+
+section table{
+	margin-bottom: 30px;
 }
 
 
@@ -120,6 +208,8 @@ section .total_prod_wrap {
 	background-color: white;
 	display: flex;
     justify-content: space-between;
+    border-top-style: solid ;
+    border-top-width: 0.5px;
 }
 
 section .total_prod_wrap p{
@@ -156,6 +246,7 @@ section .total_price_wrap input#prod_total_price{
 }
 
 
+
 section .prod_button .prod_cart{
 	width: 48%;
     border: 1px solid #7E7DCB;
@@ -165,22 +256,24 @@ section .prod_button .prod_cart{
 }
 
 
-/*
+
 section .prod_button input[type="submit"]{
 	width: 48%;
     border: 1px solid #7E7DCB;
     color: #7E7DCB;
     margin-left: 0%;
     background: #fff;
+    height: 60px;
 }
-*/
+
 
 section .prod_button .prod_buy{
 	width: 48%;
-    border: 1px solid #7E7DCB;
+/*     border: 1px solid #7E7DCB; */
     color: white;
     margin-left: 0%;
     background: #7E7DCB;
+    
 }
 
 section .prod_button a{

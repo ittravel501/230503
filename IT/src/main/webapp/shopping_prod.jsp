@@ -68,7 +68,7 @@ function scrollToTop() {
 			int prod_price = prod.getProd_price();
 			
 			
-			String prod_mem_id = prod.getProd_mem_id();
+// 			String prod_mem_id = prod.getProd_mem_id();
 			
 			String prod_opbct = prod.getProd_opbct();
 			String prod_opsct = prod.getProd_opsct();
@@ -104,8 +104,6 @@ function scrollToTop() {
 					<img style="width: 100px; height: 100px;" src=<%=aaa[i] %>>
 				</div>
 				
-				
-								
 				<%} %>
 				
 				
@@ -124,12 +122,12 @@ function scrollToTop() {
 		
 			<div class="info_heading_wrap" >
 			 
-				<div class="info_heading_desc">
+<!-- 				<div class="info_heading_desc"> -->
 				
-				<input class="input-border-none" name="prod_bigct" value="<%=prod_bigct %>" readonly="readonly" >
-				 > 
-				 <input class="input-border-none" name="prod_smallct" value=<%=prod_smallct %> readonly="readonly" >	
-				 </div>
+<%-- 				<input class="input-border-none" name="prod_bigct" value="<%=prod_bigct %>" readonly="readonly" > --%>
+<!-- 				 >  -->
+<%-- 				 <input class="input-border-none" name="prod_smallct" value=<%=prod_smallct %> readonly="readonly" >	 --%>
+<!-- 				 </div> -->
 				 
 				<h2><input class="input-border-none" id="prod_name" name="prod_name" value="<%=prod_name %>" readonly="readonly" > </h2>
 				
@@ -142,6 +140,7 @@ function scrollToTop() {
 			%>
 			
 			<input type="hidden" name = "prod_mem_id" value = "<%=mem_id%>">
+			
 			<input type="hidden" name = "prod_num" value = "<%=prod_num %>">
 			<input type="hidden" name = "prod_image" value="<%=prodImgPath %>" >
 			<input type="hidden" name = "prod_opbct" value="<%=prod_opbct %>" >
@@ -249,11 +248,41 @@ function scrollToTop() {
 					
 				</a>    --> 
 				
-				<input id="add-to-cart-btn" class="input-border-none" type="submit" value="여기 장바구니"  >
+				<input type="submit" value="장바구니에 담기" onclick="showModal(); return false;" style="width: 48%; " >
+				
+<!-- 				<input id="add-to-cart-btn" class="" type="submit" value="장바구니 추가" onclick="showPopup()" > -->
+				
+				
+				<!-- 모달 창 -->
+				<div id="myModal" class="modal">
+				  <div class="modal-content">
+				  	<p>장바구니에 상품이 추가되었습니다.</p>
+				    <span class="close" onclick="closeModal()"><button>쇼핑 계속하기</button></span>
+				    <input type="submit">장바구니 바로가기
+				  </div>
+				</div>
 				
 				<a href="shopping_buy.do?prod_num=<%=prod_num %>&prod_mem_id=<%=mem_id %>" class="prod_buy" >구매하기</a>
 				
 			</div>
+			
+			<script>
+			
+			 function showModal() {
+				    var modal = document.getElementById("myModal");
+				    modal.style.display = "block";
+				  }
+
+				  function closeModal() {
+				    var modal = document.getElementById("myModal");
+				    modal.style.display = "none";
+				  }
+
+				  // 쇼핑 계속하기 버튼 클릭 시 모달 닫기
+				 // document.querySelector('.close button').addEventListener('click', closeModal);
+				}
+
+			</script>
 			
 				<div id="kakao_checkout_button" >
 					
@@ -281,6 +310,10 @@ function scrollToTop() {
 							window.open(url, '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
 						}
 						</script>
+						
+						
+						
+						
 					
 					      
 					  <button type="button" class="__checkout_btn_wish ">

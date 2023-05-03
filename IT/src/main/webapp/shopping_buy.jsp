@@ -6,11 +6,9 @@
     
     <%@page import="dto.Joininfo" %>
     <%@page import="vo.ProdInfo" %>
-    <%@page import="dao.N_controller" %>
-    
     <%@page import="vo.OrderInfo" %>
+    
     <%@page import="dao.OrderDao" %>
-    <%@page import="dao.ProdDao" %>
     <%@page import="dao.UserDao" %>
     
 <!DOCTYPE html>
@@ -22,25 +20,27 @@
 <link rel="stylesheet" href="css/shopping_buy.css">
 </head>
 
-<jsp:useBean id="user" class="dao.N_controller"/> 
-
-
 <body>
 <%
+
 
 	int prod_num = Integer.parseInt(request.getParameter("prod_num")); //오더 디비 처리하는 곳에다가 넣을 것
 	String prod_mem_id = request.getParameter("prod_mem_id"); //오더 디비 처리하는 곳에다가 넣을 것
 
-	ProdInfo prodinfo = new ProdInfo(); 
-	OrderInfo orderinfo = new OrderInfo(); 
+	OrderInfo orderinfo = (OrderInfo) request.getAttribute("order_article");
+	String ord_mem_addr1 = orderinfo.getOrd_mem_addr1();
+	String ord_mem_addr2 = orderinfo.getOrd_mem_addr2();
+	String ord_mem_addr3 = orderinfo.getOrd_mem_addr3();
+	String ord_mem_addr4 = orderinfo.getOrd_mem_addr4();
 	
- 	ProdDao proddao = new ProdDao(); 
+//  	ProdDao proddao = new ProdDao();
+//  	OrderDao orderdao  = new OrderDao() ;
 	
-	prodinfo = proddao.Prod_detail(prod_num); //ord_num을 넣긴했는데, 거기 받는 값은 거기서 정하는 것이기 때문에 상관없음. 넘어간 내용만 중요함.
-	int ord_num = prodinfo.getProd_num();
+// 	prodinfo = proddao.Prod_detail(prod_num); //ord_num을 넣긴했는데, 거기 받는 값은 거기서 정하는 것이기 때문에 상관없음. 넘어간 내용만 중요함.
+// 	int ord_num = prodinfo.getProd_num();
 	
-	Joininfo join = new Joininfo(); //회원가입 데이터에서 회원정보 가져와야 된다!!
-	UserDao userdao = new UserDao();
+// 	Joininfo join = new Joininfo(); //회원가입 데이터에서 회원정보 가져와야 된다!!
+// 	UserDao userdao = new UserDao();
 	
 	//userdao.
 	//String ord_mobile = join.getMem_mobile();
@@ -84,11 +84,8 @@
 		String ord_name = (String)session.getAttribute("mem_name");
 		String ord_mobile = (String)session.getAttribute("mem_mobile");
 		
-		String ord_addr = (String)session.getAttribute("mem_addr");
+ 		//String ord_addr = (String)session.getAttribute("mem_addr");
 		
-		String ord_addr1 = (String)session.getAttribute("mem_addr1");
-		String ord_addr2 = (String)session.getAttribute("mem_addr2");
-		String ord_addr3 = (String)session.getAttribute("mem_addr3");
 		
 	%>
 	
@@ -97,10 +94,9 @@
 	
 	전화번호 : <%=ord_mobile %><br>
 	
-	주소 : <%=ord_addr %>
-	주소1:<%=ord_addr1 %>
-	주소2:<%=ord_addr2 %>
-	주소3:<%=ord_addr3 %>
+	주소1:<%=ord_mem_addr1 %><br>
+	주소2:<%=ord_mem_addr2 %><br>
+	주소3:<%=ord_mem_addr3 %><br>
 	
 	</div>
 	
@@ -121,7 +117,10 @@
 					
 						<tr>
 							<th>배송지선택</th>
-							<td><input type="text" name="mem_addr" value="" ></td>
+							<td>
+							<input type="radio" name="mem_addr" value="기존 배송지" >기존 배송지
+							<input type="radio" name="mem_addr"  >신규 배송지
+							</td>
 						</tr>
 						
 						<tr>
@@ -131,7 +130,6 @@
 							<input type="text" name="mem_name" id="mem_name_input" value="<%=ord_name %>"  >
 							 <input type="checkbox" id="same_as_orderer" onchange="toggleInput()">주문자와 동일
       						</td>
-							
 						</tr>
 						
 						<tr>
@@ -142,11 +140,11 @@
 						<tr>
 							<th>주소</th>
 							<td>
-								<input type="text" name="mem_addr1"	id="sample6_postcode" placeholder="우편번호" size="35" readonly ><br>
+								<input type="text" name="mem_addr1"	id="sample6_postcode" placeholder="우편번호" size="35" readonly value="" ><br>
 								
-								<input type="text" name="mem_addr2" id="sample6_address" placeholder="주소" name="address" size="35" style="margin-top: 3px"	readonly><br> 
-								<input type="text" name="mem_addr3" id="sample6_detailAddress" placeholder="상세주소" style="margin-top: 3px" size="16"> 
-								<input type="text" name="mem_addr4" id="sample6_extraAddress" placeholder="참고항목" size="15" style="margin-top: 3px">
+								<input type="text" name="mem_addr2" id="sample6_address" placeholder="주소" name="address" size="35" style="margin-top: 3px" value=""	readonly><br> 
+								<input type="text" name="mem_addr3" id="sample6_detailAddress" placeholder="상세주소" style="margin-top: 3px" size="16"  value=""> 
+								<input type="text" name="mem_addr4" id="sample6_extraAddress" placeholder="참고항목" size="15" style="margin-top: 3px"  value="" >
 							</td>
 							
 							<td>
