@@ -51,7 +51,7 @@
  			
  		%>	
  		<script>
-			alert("패스워드가 틀립니다.");
+			alert("올바른 비밀번호를 입력해주세요.");
 			location.href="login001.jsp";
 			history.back();
 		</script>	
