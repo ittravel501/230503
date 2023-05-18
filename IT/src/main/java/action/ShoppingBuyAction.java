@@ -33,7 +33,7 @@ public class ShoppingBuyAction implements Action {
 //			String prod_quantity = request.getParameter("prod_quantity");
 			
 			ShoppingBuyService prodBuyService = new ShoppingBuyService();
-			OrderInfo article =  prodBuyService.getBuy(prod_mem_id);
+			OrderInfo article =  prodBuyService.getBuy(prod_mem_id); 
 			request.setAttribute("order_article", article);
 			forward.setPath("/shopping_buy.jsp");
 			

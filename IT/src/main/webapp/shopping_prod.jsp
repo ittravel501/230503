@@ -83,7 +83,7 @@
 		
 		%>
 	
-<form action="shopping_cart.do"  >
+
 
 <div id="s_order_wrap" >
 	<div class="s_prod_wrap">
@@ -141,12 +141,14 @@
 				String mem_id = (String)session.getAttribute("mem_id");
 			%>
 			
-			<input type="hidden" name = "prod_mem_id" value = "<%=mem_id%>">
+			<form action="shopping_cart.do" id ="myForm" >  
 			
+			<input type="hidden" name = "prod_mem_id" value = "<%=mem_id%>">
+			<input type="hidden" name = "prod_name" value = "<%=prod_name %>" >
 			<input type="hidden" name = "prod_num" value = "<%=prod_num %>">
-			<input type="hidden" name = "prod_image" value="<%=prodImgPath %>" >
-			<input type="hidden" name = "prod_opbct" value="<%=prod_opbct %>" >
-			<input type="hidden" name = "prod_opsct" value="<%=prod_opsct %>" >
+			<input type="hidden" name = "prod_image" value ="<%=prodImgPath %>" >
+			<input type="hidden" name = "prod_opbct" value ="<%=prod_opbct %>" >
+			<input type="hidden" name = "prod_opsct" value ="<%=prod_opsct %>" >
 			
 			
 			<table>
@@ -250,87 +252,111 @@
 					
 				</a>    --> 
 				
-				<input type="submit" value="장바구니에 담기" onclick="showModal(); return false;" style="width: 48%; " >
+					<input type="submit" value="장바구니에 담기" onclick="showModal()" style="width: 48%; " >
+					
+					<div id="modal" style="display: none;">
+					  <p>장바구니에 추가하였습니다.</p>
+					  <button onclick="closeModal()">쇼핑 계속하기</button>
+					  <button onclick="goToCart()">장바구니로 이동</button>
+					</div>
+					
+	<!-- 				<input id="add-to-cart-btn" class="" type="submit" value="장바구니 추가" onclick="showPopup()" > -->
+					
+					<%
+					
+					
+					%>
+	
 				
-<!-- 				<input id="add-to-cart-btn" class="" type="submit" value="장바구니 추가" onclick="showPopup()" > -->
+				<script>
+				  function showModal() {
+					  alert(아아아알럿);
+				    var modal = document.getElementById('modal');
+				    modal.style.display = 'block';
+				    
+				    return false;
+				  }
+				  
+				  function yourFunction(){
+					submitForm();  
+					  return true;
+				  }
+				  
+				  function submitForm(){
+					  var form = document.getElementById("myForm")
+					form.submit();
+				  }
 				
+				  function closeModal() {
+				    var modal = document.getElementById('modal');
+				    modal.style.display = 'none';
+				  }
 				
-				<!-- 모달 창 -->
-				<div id="myModal" class="modal">
-				  <div class="modal-content">
-				  	<p>장바구니에 상품이 추가되었습니다.</p>
-				    <span class="close" onclick="closeModal()"><button>쇼핑 계속하기</button></span>
-				    <input type="submit">장바구니 바로가기
-				  </div>
-				</div>
+				  function goToCart() {
+				    window.location.href = 'shopping_cart.do';
+				  }
+				</script>
 				
-				<a href="shopping_buy.do?prod_num=<%=prod_num %>&prod_mem_id=<%=mem_id %>" class="prod_buy" >구매하기</a>
+				<a href="#" onclick="buyProduct()"  class="prod_buy" >구매하기</a>
+				
+				<script>
+
+				//제품상세 페이지에서 구매하기 버튼 누르면 실행되는 것.				
+				function buyProduct() {
+					  var prod_quantity = document.getElementById("quantity").value;
+					  var href = "shopping_buy.do?prod_num=<%=prod_num %>&prod_mem_id=<%=mem_id %>&prod_price=<%=prod_price %>&prod_quantity=" + prod_quantity;
+					  location.href = href;
+					}
+				</script>
 				
 			</div>
-			
-			<script>
-			
-			 function showModal() {
-				    var modal = document.getElementById("myModal");
-				    modal.style.display = "block";
-				  }
-
-				  function closeModal() {
-				    var modal = document.getElementById("myModal");
-				    modal.style.display = "none";
-				  }
-
-				  // 쇼핑 계속하기 버튼 클릭 시 모달 닫기
-				 // document.querySelector('.close button').addEventListener('click', closeModal);
-				}
-
-			</script>
+			</form>
 			
 			<div class="ec-base-button" >
 			
-				<div id="kakao_checkout_button" >
+<!-- 				<div id="kakao_checkout_button" > -->
 					
-					<div class="__checkout_buy_contents">
+<!-- 					<div class="__checkout_buy_contents"> -->
       
-					  <span class="__checkout_img_comm __checkout_buy_title">
-					    구매와 관리를<br>톡으로 간편하게
-					  </span>
+<!-- 					  <span class="__checkout_img_comm __checkout_buy_title"> -->
+<!-- 					    구매와 관리를<br>톡으로 간편하게 -->
+<!-- 					  </span> -->
 					
 					      
-					  <button type="button" class="__checkout_btn_buy "  onclick="openPopup()" >
-					    <span class="__checkout_img_comm __checkout_img_buy">
+<!-- 					  <button type="button" class="__checkout_btn_buy "  onclick="openPopup()" > -->
+<!-- 					    <span class="__checkout_img_comm __checkout_img_buy"> -->
 					    
-					      <img alt="kakaopay" src="shopimg/kakaopay_img.jpg" style="width: 60px; height: 40px;" >
-					    </span>
-					  </button>
+<!-- 					      <img alt="kakaopay" src="shopimg/kakaopay_img.jpg" style="width: 60px; height: 40px;" > -->
+<!-- 					    </span> -->
+<!-- 					  </button> -->
 					  
-					  <script>
-						function openPopup() {
-							var url = "http://wepplication.github.io/tools/barcodeGen/";
-							var width = 500;
-							var height = 500;
-							var left = 0;
-							var top = 0;
-							window.open(url, '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
-						}
-						</script>
+<!-- 					  <script> -->
+<!-- // // 						function openPopup() { -->
+<!-- // // 							var url = "http://wepplication.github.io/tools/barcodeGen/"; -->
+<!-- // // 							var width = 500; -->
+<!-- // // 							var height = 500; -->
+<!-- // // 							var left = 0; -->
+<!-- // // 							var top = 0; -->
+<!-- // // 							window.open(url, '_blank', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=' + width + ', height=' + height + ', top=' + top + ', left=' + left); -->
+<!-- // // 						} -->
+<!-- 						</script> -->
 						
 						
 						
 						
 					
 					      
-					  <button type="button" class="__checkout_btn_wish ">
-					    <span class="__checkout_img_comm __checkout_img_wish">찜</span>
-					  </button>
+<!-- 					  <button type="button" class="__checkout_btn_wish "> -->
+<!-- 					    <span class="__checkout_img_comm __checkout_img_wish">찜</span> -->
+<!-- 					  </button> -->
 					
-					</div>
+<!-- 					</div> -->
 					
-				</div>		
+<!-- 				</div>		 -->
 				
-				<div id="naver_checkout_button"	>
+<!-- 				<div id="naver_checkout_button"	> -->
 				
-				</div>
+<!-- 				</div> -->
 				</div>
 					
 				</div>		
@@ -407,7 +433,7 @@
 </div>
 
 
-</form>
+
 </section>
 
 <footer>
@@ -415,4 +441,7 @@
 </footer>
 
 </body>
+
+					
+				
 </html>
