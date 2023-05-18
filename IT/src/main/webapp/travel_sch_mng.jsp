@@ -8,13 +8,13 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Calendar" %>
 <%@page import="dto.TravelDTO"%>
-<%@page import="dto.SchDTO"%>
-<%@page import="vo.LocInfoVO"%>
-<%@page import="vo.TravelSchMngVO"%>
+<%@page import="dto.*"%>
+<%@page import="vo.*"%>
+
 <%
-	ArrayList<LocInfoVO> locList=(ArrayList<LocInfoVO>)request.getAttribute("locList");
+	ArrayList<Travel_LocInfoVO> locList=(ArrayList<Travel_LocInfoVO>)request.getAttribute("locList");
 	ArrayList<TravelSchMngVO> schdayList=(ArrayList<TravelSchMngVO>)request.getAttribute("sch_dayList");
-	ArrayList<SchDTO> schDTO1=(ArrayList<SchDTO>)request.getAttribute("schDTO1");
+	ArrayList<TravelSchDTO> schDTO1=(ArrayList<TravelSchDTO>)request.getAttribute("schDTO1");
 
 	
 	
