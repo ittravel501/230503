@@ -13,11 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import dto.FAQ_MD;
-import dto.Join_MD;
 import dto.N_MD;
 import dto.PROD_MD;
 import dto.QNA_MD;
-
+import vo.JoinVO;
 import vo.ProdInfo;
 
 public class N_controller {
@@ -29,7 +28,7 @@ public class N_controller {
 	public N_controller() {  //생성자 
 	
 		try{
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		}
 		catch(Exception e)
 		{
@@ -41,7 +40,7 @@ public class N_controller {
 
 		try{
 
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/teamproject?useUnicode=true&characterEncoding=utf8","root","1234");		
+			conn = DriverManager.getConnection("jdbc:mysql://13.211.240.42/:3306/teamproject?useUnicode=true&characterEncoding=utf8","all","1234");		
 			
 			if(conn==null) {
 				throw new Exception("데이터베이스에 연결할 수 없습니다.");
@@ -657,61 +656,15 @@ public Integer F_viewcount (String faq_num) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public void join_insert(Join_MD md) {	 //select 메소드, 리턴 해서 반환값이 list ArrayList<md>해서 void는 못쓰다..		
-	
-	try { //실행
 
-		conn();
-		
-		String mem_id = md.getMem_id();
-		String mem_pw = md.getMem_pw();
-		String mem_name = md.getMem_name();
-		String mem_nick = md.getMem_nick();
-		String mem_email = md.getMem_email1() +"@" + md.getMem_email1();
-		String mem_addr ="(우:" + md.getPostal_code() + ")" + md.getAddr() + md.getExtra_addr() + "(" + md.getRefer_addr() +")";
-		String mem_mobile = md.getMem_mobile1() + "-"+ md.getMem_mobile2() +"-" +md.getMem_mobile3();
-		String mem_sex = md.getMem_sex();
-		String mem_birth = md.getMem_birthyear() + md.getMem_birthmonth() +md.getMem_birthday();
-		String mem_news = md.getMem_news();
-		//String mem_join = md.getMem_join();
-		
-		Date currentDate = new Date();		
-		java.sql.Date mem_join = new java.sql.Date(currentDate.getTime());
-		md.setMem_join(mem_join.toString());
-				
-		String ss = String.format("insert into mem_account values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",mem_id,mem_pw,mem_name,	mem_nick,mem_email,mem_addr,mem_mobile,mem_sex,mem_birth,mem_news,mem_join);
-					 
-		System.out.println(ss);
-		
-		int rowNum = stmt.executeUpdate(ss);
-		if(rowNum <1) {
-			throw new Exception("데이터를 DB에 입력할 수 없습니다");
-		}
-		
-		System.out.println("됐냥??");
-	
-	}
-		
-		catch(Exception e) {	//예외처리
-			
-			System.out.println(e);	
-			//System.out.println(qnamng.getPostdate());
-			System.out.println("회원가입 왜 안되냥??");
-			
-			
-		}finally{
-			
-			diconn(); //데이터베이스 연결 종료
-		}
-}
 
-public Join_MD login(String mem_id, String mem_pw) {
+public JoinVO login(String mem_id, String mem_pw) {
 	
 	String idd;
 	String pww;
 	String nick;
 	
-	Join_MD md = new Join_MD();
+	JoinVO md = new JoinVO();
 	
 	try {	
 			conn();
@@ -789,9 +742,9 @@ public ArrayList<ProdInfo> Prod_info() { //페이지에서 각 제품을 선택�
 			p_list.setProd_num(rs.getInt("prod_num"));
 			p_list.setProd_bigct(rs.getString("prod_bigct"));;
 			p_list.setProd_smallct(rs.getString("prod_smallct"));
-			p_list.setProd_quantity(rs.getInt("prod_quantity"));
+//			p_list.setProd_quantity(rs.getInt("prod_quantity"));
 			p_list.setProd_price(rs.getInt("prod_price"));
-			p_list.setProd_total_price(rs.getInt("prod_total_price"));
+//			p_list.setProd_total_price(rs.getInt("prod_total_price"));
 			p_list.setProd_img(rs.getString("prod_img"));
 			p_list.setProd_review(rs.getString("prod_review"));
 			p_list.setProd_qna(rs.getString("prod_qna"));
@@ -802,7 +755,7 @@ public ArrayList<ProdInfo> Prod_info() { //페이지에서 각 제품을 선택�
 			p_list.setProd_opbct(rs.getString("prod_opbct"));
 			p_list.setProd_opsct(rs.getString("prod_opsct"));
 			p_list.setProd_check(rs.getString("prod_check"));
-			p_list.setProd_mem_id(rs.getString("prod_mem_id"));
+//			p_list.setProd_mem_id(rs.getString("prod_mem_id"));
 			
 			P_list.add(p_list);
 			
@@ -839,9 +792,9 @@ public ProdInfo Prod_order_info(ProdInfo pr) { //상세페이지에서 수량, �
 			p_list.setProd_num(rs.getInt("prod_num"));
 			p_list.setProd_bigct(rs.getString("prod_bigct"));;
 			p_list.setProd_smallct(rs.getString("prod_smallct"));
-			p_list.setProd_quantity(rs.getInt("prod_quantity"));
+//			p_list.setProd_quantity(rs.getInt("prod_quantity"));
 			p_list.setProd_price(rs.getInt("prod_price"));
-			p_list.setProd_total_price(rs.getInt("prod_total_price"));
+//			p_list.setProd_total_price(rs.getInt("prod_total_price"));
 			p_list.setProd_img(rs.getString("prod_img"));
 			//p_list.setProd_review(rs.getString("prod_review"));
 			//p_list.setProd_qna(rs.getString("prod_qna"));
@@ -852,7 +805,7 @@ public ProdInfo Prod_order_info(ProdInfo pr) { //상세페이지에서 수량, �
 			p_list.setProd_opbct(rs.getString("prod_opbct"));
 			p_list.setProd_opsct(rs.getString("prod_opsct"));
 			p_list.setProd_check(rs.getString("prod_check"));
-			p_list.setProd_mem_id(rs.getString("prod_mem_id"));
+//			p_list.setProd_mem_id(rs.getString("prod_mem_id"));
 			
 		}
 		

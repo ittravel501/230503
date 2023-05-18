@@ -50,6 +50,7 @@ import vo.TravelSchMngVO;
 						
 			boolean isWriteSuccess = insertScheduleService.insertSch(travelSchDTO);
 			System.out.println("isWriteSuccess: " + isWriteSuccess);
+			
 			if (!isWriteSuccess) {
 
 				PrintWriter out = response.getWriter();

@@ -4,7 +4,7 @@
     <%@ page import = "java.util.ArrayList" %>
     
     
-    <%@page import="dto.Joininfo" %>
+    <%@page import="vo.JoinVO" %>
     <%@page import="vo.ProdInfo" %>
     <%@page import="vo.OrderInfo" %>
     

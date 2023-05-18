@@ -28,25 +28,31 @@
 
 <section>
 
-<button onclick="scrollToTop()" id="scroll-to-top-button">Top</button>
+	<button onclick="scrollToTop()" id="scroll-to-top-button">Top</button>
 
-<script type="text/javascript">
-function scrollToTop() {
-	  window.scrollTo({
-	    top: 0,
-	    behavior: "smooth"
-	  });
-	}
-
-	window.onscroll = function() {scrollFunction()};
-	  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-	    document.getElementById("scroll-to-top-button").style.display = "block";
-	  } else {
-	    document.getElementById("scroll-to-top-button").style.display = "none";
-	  }
-	}
-
-</script>	
+	<script>
+		//상단으로 이동
+		function scrollToTop() {
+			window.scrollTo({
+				top: 0,
+				behavior: "instant"
+			});
+		}
+		
+		function toggleScrollButton() {
+			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+				
+				document.getElementById("scroll-to-top-button").style.display = "block";
+			} else {
+	  			document.getElementById("scroll-to-top-button").style.display = "none";
+			}
+		}
+		
+			window.onscroll = function() {
+				toggleScrollButton();
+			}
+			toggleScrollButton();
+	</script>	
 
 		<%
 		
@@ -66,7 +72,6 @@ function scrollToTop() {
 			
 			//int prod_quantity = prod.getProd_quantity();
 			int prod_price = prod.getProd_price();
-			
 			
 // 			String prod_mem_id = prod.getProd_mem_id();
 			
@@ -115,14 +120,11 @@ function scrollToTop() {
 			</div>
 		</div>
 		
-		
-		
-		
 		<div class="prod_info_wrap" >
 		
 			<div class="info_heading_wrap" >
 			 
-<!-- 				<div class="info_heading_desc"> -->
+				<div class="info_heading_desc">
 				
 <%-- 				<input class="input-border-none" name="prod_bigct" value="<%=prod_bigct %>" readonly="readonly" > --%>
 <!-- 				 >  -->
@@ -284,6 +286,8 @@ function scrollToTop() {
 
 			</script>
 			
+			<div class="ec-base-button" >
+			
 				<div id="kakao_checkout_button" >
 					
 					<div class="__checkout_buy_contents">
@@ -296,7 +300,7 @@ function scrollToTop() {
 					  <button type="button" class="__checkout_btn_buy "  onclick="openPopup()" >
 					    <span class="__checkout_img_comm __checkout_img_buy">
 					    
-					      카카오 페이구매
+					      <img alt="kakaopay" src="shopimg/kakaopay_img.jpg" style="width: 60px; height: 40px;" >
 					    </span>
 					  </button>
 					  
@@ -325,8 +329,11 @@ function scrollToTop() {
 				</div>		
 				
 				<div id="naver_checkout_button"	>
+				
 				</div>
-			</div>
+				</div>
+					
+				</div>		
 		
 		</div>
 		

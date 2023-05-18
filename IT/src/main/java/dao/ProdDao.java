@@ -45,13 +45,6 @@ public class ProdDao {
 
 
 ////////////////////////////////////////////////////////////////////////////////////
-	
-public void prod_image_insert () {
-	
-}
-	
-	
-////////////////////////////////////////////////////////////////////////////////////
 
 
 public ArrayList<ProdInfo> Prod_info() { //페이지에서 각 제품을 선택하면 보여지는 상세페이지의 데이터들.
@@ -78,6 +71,10 @@ public ArrayList<ProdInfo> Prod_info() { //페이지에서 각 제품을 선택�
 				p_list.setProd_price(rs.getInt("prod_price"));
 //				p_list.setProd_total_price(rs.getInt("prod_total_price"));
 				p_list.setProd_img(rs.getString("prod_img"));
+				p_list.setProd_img2(rs.getString("prod_img2"));
+//				p_list.setProd_img3(rs.getString("prod_img3"));
+//				p_list.setProd_img4(rs.getString("prod_img4"));
+//				p_list.setProd_img5(rs.getString("prod_img5"));
 				p_list.setProd_review(rs.getString("prod_review"));
 				p_list.setProd_qna(rs.getString("prod_qna"));
 				p_list.setProd_avg(rs.getInt("prod_avg"));
@@ -86,7 +83,7 @@ public ArrayList<ProdInfo> Prod_info() { //페이지에서 각 제품을 선택�
 				p_list.setProd_name(rs.getString("prod_name"));
 				p_list.setProd_opbct(rs.getString("prod_opbct"));
 				p_list.setProd_opsct(rs.getString("prod_opsct"));
-				p_list.setProd_check(rs.getString("prod_check"));
+//				p_list.setProd_check(rs.getString("prod_check"));
 //				p_list.setProd_mem_id(rs.getString("prod_mem_id"));
 				
 				P_list.add(p_list);
@@ -142,6 +139,10 @@ public ArrayList<ProdInfo> Prod_info() { //페이지에서 각 제품을 선택�
 				p_list.setProd_smallct(rs.getString("prod_smallct"));
 				p_list.setProd_price(rs.getInt("prod_price"));
 				p_list.setProd_img(rs.getString("prod_img"));
+				p_list.setProd_img2(rs.getString("prod_img2"));
+//				p_list.setProd_img3(rs.getString("prod_img3"));
+//				p_list.setProd_img4(rs.getString("prod_img4"));
+//				p_list.setProd_img5(rs.getString("prod_img5"));
 				p_list.setProd_avg(rs.getInt("prod_avg"));
 				p_list.setProd_cou(rs.getInt("prod_cou"));
 				p_list.setProd_postdate(rs.getString("prod_postdate"));
@@ -155,7 +156,7 @@ public ArrayList<ProdInfo> Prod_info() { //페이지에서 각 제품을 선택�
 //				p_list.setProd_quantity(rs.getInt("prod_quantity"));
 				p_list.setProd_review(rs.getString("prod_review"));
 				p_list.setProd_qna(rs.getString("prod_qna"));
-				p_list.setProd_check(rs.getString("prod_check"));
+//				p_list.setProd_check(rs.getString("prod_check"));
 				
 			}
 			
@@ -188,6 +189,11 @@ public ArrayList<ProdInfo> Prod_info() { //페이지에서 각 제품을 선택�
 		int shop_bas_prod_price = cart.getShop_bas_prod_price();
 		String shop_bas_mem_id = cart.getShop_bas_mem_id();
 		
+//		System.out.println("name:        "+shop_bas_prod_name);
+//		System.out.println("quantity:            "+shop_bas_prod_quantity);
+//		System.out.println("price:          "+shop_bas_prod_price);
+//		System.out.println("mem_id:       "+shop_bas_mem_id);
+		
 		CartInfo cartinfo = new CartInfo();
 		
 		try {
@@ -204,7 +210,7 @@ public ArrayList<ProdInfo> Prod_info() { //페이지에서 각 제품을 선택�
 			
 			int rowNum = pstmt.executeUpdate();
 			
-			System.out.println("들어갔?"+rowNum);
+//			System.out.println("들어갔?"+rowNum);
 		
 		if(rowNum <1) {
 			
@@ -277,7 +283,7 @@ public CartInfo Prod_cart_select(int shop_bas_prod_num) { //메인페이지에�
 	
 ///////////////////////////////////////////////////////////////////////
 
-public ArrayList<CartInfo> Prod_cart_direct_select(String cart_id) { //메인페이지에서 이미지 누르면 이미지에 맞는 상품상세페이지 나옴. 
+public ArrayList<CartInfo> Prod_cart_direct_select(String mem_id) { //메인페이지에서 이미지 누르면 이미지에 맞는 상품상세페이지 나옴. 
 	
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
@@ -286,7 +292,7 @@ public ArrayList<CartInfo> Prod_cart_direct_select(String cart_id) { //메인페
 	try {
 		
 		pstmt = con.prepareStatement( " select * from shop_bas where shop_bas_mem_id = ? ");
-		pstmt.setString(1, cart_id);
+		pstmt.setString(1, mem_id);
 		rs = pstmt.executeQuery(); //rs에 셀렉문 저장됨.
 		
 		while(rs.next()) {
@@ -296,9 +302,9 @@ public ArrayList<CartInfo> Prod_cart_direct_select(String cart_id) { //메인페
 			
 			cartinfo.setShop_bas_prod_num(rs.getInt("shop_bas_prod_num"));	
 			cartinfo.setShop_bas_prod_name(rs.getString("shop_bas_prod_name"));	
-			cartinfo.setShop_bas_prod_quantity(rs.getInt("shop_bas_prod_num"));	
-			cartinfo.setShop_bas_prod_price(rs.getInt("shop_bas_price"));	
-//			C_list.setShop_bas_mem_id(rs.getString("shop_bas_mem_id"));	
+			cartinfo.setShop_bas_prod_quantity(rs.getInt("shop_bas_prod_quantity"));	
+			cartinfo.setShop_bas_prod_price(rs.getInt("shop_bas_price"));
+			cartinfo.setShop_bas_mem_id(rs.getString("shop_bas_mem_id"));	
 			
 			C_d_list.add(cartinfo);
 			
@@ -321,6 +327,149 @@ public ArrayList<CartInfo> Prod_cart_direct_select(String cart_id) { //메인페
 }
 
 ///////////////////////////////////////////////////////////////////////
+
+	public ArrayList<ProdInfo> Prod_all () { //메인페이지에서 이미지 누르면 이미지에 맞는 상품상세페이지 나옴. 
+	
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		
+		//ProdInfo P_list = new ProdInfo ();
+		
+		ArrayList<ProdInfo> prodinfo_all = new ArrayList<ProdInfo>();
+		
+		try {
+		
+			pstmt = con.prepareStatement( " SELECT * FROM prod_info ");
+			
+			System.out.println(pstmt);
+			//System.out.println(prod_num);
+			
+			rs = pstmt.executeQuery(); //rs에 셀렉문 저장됨.
+			
+			if(rs.next()) {
+			//셀렉문 결과가 많은(전체 셀렉)것은 while로, 셀력 결과가 하나인 것(단일상품, 상세페이지 등등,,)은 if를 사용한다.
+			
+			//	System.out.println(rs.getInt(prod_num)); 
+			//	System.out.println(rs.getString("prod_bigct"));
+			ProdInfo p_list = new ProdInfo();
+			
+			p_list.setProd_num(rs.getInt("prod_num"));	
+			p_list.setProd_name(rs.getString("prod_name"));
+			p_list.setProd_bigct(rs.getString("prod_bigct"));;
+			p_list.setProd_smallct(rs.getString("prod_smallct"));
+			p_list.setProd_price(rs.getInt("prod_price"));
+			p_list.setProd_img(rs.getString("prod_img"));
+			p_list.setProd_img2(rs.getString("prod_img2"));
+//			p_list.setProd_img3(rs.getString("prod_img3"));
+//			p_list.setProd_img4(rs.getString("prod_img4"));
+//			p_list.setProd_img5(rs.getString("prod_img5"));
+			p_list.setProd_avg(rs.getInt("prod_avg"));
+			p_list.setProd_cou(rs.getInt("prod_cou"));
+			p_list.setProd_postdate(rs.getString("prod_postdate"));
+			p_list.setProd_opbct(rs.getString("prod_opbct"));
+			p_list.setProd_opsct(rs.getString("prod_opsct"));
+			//p_list.setProd_mem_id(rs.getString("prod_mem_id"));
+			
+			
+			//이거는 여기에다가 두는게 맞는건가. 이건 구매자가 선택해야 나오는 건데??
+			//p_list.setProd_total_price(rs.getInt("prod_total_price"));
+			//p_list.setProd_quantity(rs.getInt("prod_quantity"));
+			p_list.setProd_review(rs.getString("prod_review"));
+			p_list.setProd_qna(rs.getString("prod_qna"));
+//			p_list.setProd_check(rs.getString("prod_check"));
+			
+			prodinfo_all.add(p_list);
+		
+			}
+		
+		} catch (Exception e) {
+			System.out.println("제품상세페이지 select 실패");
+			System.out.println(e);
+			e.printStackTrace();
+		
+		}finally {
+			
+			close(rs);
+			close(pstmt);
+		
+		}
+	return prodinfo_all;
+	
+	}
+	
+///////////////////////////////////////////////////////////////////////
+
+public ArrayList<ProdInfo> Prod_category (String clickedLiId) { //메인페이지에서 이미지 누르면 이미지에 맞는 상품상세페이지 나옴. 
+
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+
+
+	//ProdInfo P_list = new ProdInfo ();
+	
+	ArrayList<ProdInfo> prodinfo_all = new ArrayList<ProdInfo>();
+
+	try {
+	
+			pstmt = con.prepareStatement( " SELECT * FROM prod_info where prod_bigct = ? ");
+			pstmt.setString(1, clickedLiId);
+			
+			System.out.println(pstmt);
+			//System.out.println(prod_num);
+			
+			rs = pstmt.executeQuery(); //rs에 셀렉문 저장됨.
+		
+			if(rs.next()) {
+			//셀렉문 결과가 많은(전체 셀렉)것은 while로, 셀력 결과가 하나인 것(단일상품, 상세페이지 등등,,)은 if를 사용한다.
+			
+				//	System.out.println(rs.getInt(prod_num)); 
+				//	System.out.println(rs.getString("prod_bigct"));
+				ProdInfo p_list = new ProdInfo();
+				
+				p_list.setProd_num(rs.getInt("prod_num"));	
+				p_list.setProd_name(rs.getString("prod_name"));
+				p_list.setProd_bigct(rs.getString("prod_bigct"));;
+				p_list.setProd_smallct(rs.getString("prod_smallct"));
+				p_list.setProd_price(rs.getInt("prod_price"));
+				p_list.setProd_img(rs.getString("prod_img"));
+				p_list.setProd_img2(rs.getString("prod_img2"));
+				//p_list.setProd_img3(rs.getString("prod_img3"));
+				//p_list.setProd_img4(rs.getString("prod_img4"));
+				//p_list.setProd_img5(rs.getString("prod_img5"));
+				p_list.setProd_avg(rs.getInt("prod_avg"));
+				p_list.setProd_cou(rs.getInt("prod_cou"));
+				p_list.setProd_postdate(rs.getString("prod_postdate"));
+				p_list.setProd_opbct(rs.getString("prod_opbct"));
+				p_list.setProd_opsct(rs.getString("prod_opsct"));
+				//p_list.setProd_mem_id(rs.getString("prod_mem_id"));
+				
+				
+				//이거는 여기에다가 두는게 맞는건가. 이건 구매자가 선택해야 나오는 건데??
+				//p_list.setProd_total_price(rs.getInt("prod_total_price"));
+				//p_list.setProd_quantity(rs.getInt("prod_quantity"));
+				p_list.setProd_review(rs.getString("prod_review"));
+				p_list.setProd_qna(rs.getString("prod_qna"));
+				//p_list.setProd_check(rs.getString("prod_check"));
+				
+				prodinfo_all.add(p_list);
+		
+			}
+	
+		} catch (Exception e) {
+		System.out.println("제품상세페이지 select 실패");
+		System.out.println(e);
+		e.printStackTrace();
+	
+		}finally {
+		
+		close(rs);
+		close(pstmt);
+		
+		}
+		return prodinfo_all;
+	
+	}
 	
 
 }

@@ -84,12 +84,12 @@
 				int prod_price = Integer.parseInt(request.getParameter("prod_price"));
 				int prod_total_price = Integer.parseInt(request.getParameter("prod_total_price"));
 				
-				pr.setProd_quantity(prod_quantity);
+// 				pr.setProd_quantity(prod_quantity);
 				pr.setProd_bigct(prod_bigct);
 				pr.setProd_smallct(prod_smallct);
 				pr.setProd_name(prod_name);
 				pr.setProd_price(prod_price);
-				pr.setProd_total_price(prod_total_price);
+// 				pr.setProd_total_price(prod_total_price);
 				
 				ProdInfo prod_info = user.Prod_order_info(pr);
 		

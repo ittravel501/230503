@@ -28,7 +28,7 @@ public class ShoppingCartDeleteAction implements Action {
 		
 //		request.setAttribute("order_article", article);
 	   	
-   		forward.setPath("/shopping_cart_direct.jsp");
+   		forward.setPath("/shopping_cart_direct.do");
    		
    		return forward;
 	

@@ -54,18 +54,49 @@
 		<div id="s_basketwrap" >
 			<div id="s_basket" >
 				<ul>
-					<li>선택</li>
+					<li><input type="checkbox" name="cart_checkbox_all" onchange="allupdateCount()" ></li>
 					<li>상품</li>
 					<li>옵션</li>
 					<li>상품금액</li>
 					<li>수량</li>
-					<li>배송비</li>
 					<li>할인/적립</li>
 					<li>합계금액</li>
-					
+					<li></li>
 				</ul>
 			
 			</div>
+			
+			<!-- ======================  구매할 제품 선택하는 체크박스 .js 시작	======================  -->
+			
+			<script>
+			
+				//전체 체크박스 선택/선택취소
+				function allupdateCount() {
+					
+					var allChecked = document.getElementsByName("cart_checkbox_all")[0].checked; // "cart_checkbox_all" 체크박스 요소의 체크 상태를 가져옴
+					var checkboxes = document.getElementsByName("cart_checkbox"); // "cart_checkbox" 체크박스 요소들의 상태를 변경
+					 
+					for (var i = 0; i < checkboxes.length; i++) {
+						
+						checkboxes[i].checked = allChecked;
+						updateCount(); // 각 체크박스 요소의 상태를 변경할 때마다 updateCount() 함수 호출
+					 }
+				}
+				
+				//////////////////////////////////////////////////////////////////////
+				
+				//각 제품 체크박스 선택/취소
+				function updateCount() {
+				    
+				    var checkedCount = document.querySelectorAll('input[name="cart_checkbox"]:checked').length;	// 체크된 체크박스 요소의 개수를 가져옴
+				    var countElement = document.getElementById('checked_count'); // 카운트를 표시할 요소를 가져와서 업데이트
+				    
+				    countElement.textContent = checkedCount;
+				  }
+			
+			</script>
+			
+			<!-- ======================  구매할 제품 선택하는 체크박스 .js 끝	======================  -->
 			
 		<%
 		
@@ -85,19 +116,15 @@
 			<div class="s_basket_prod">
 					
 				<ul>
-					<li><input type="checkbox" ></li>
+					<li><input type="checkbox" name="cart_checkbox" onchange="updateCount()"  ></li>
 					<li><%=prod_name %></li>
 					<li>옵션</li>
 					<li><%=prod_price %></li>
 					<li><%=prod_quantity %></li>
-					
-					<% if(prod_total_price >= 2000000) { %>
-			            <li>무료</li>
-			        <% } else { %>
-			            <li>3000</li>
-			        <% } %>
 			        
 					<li>할인/적립</li>
+					
+					<!-- 			///////////////////////////          -->
 					
         			<% if(prod_total_price >= 2000000) { %>
 						<li><%=prod_total_price %></li>
@@ -105,13 +132,26 @@
 						<li><%= 3000 + prod_total_price %></li>
 					<% } %>
 					
+					<!-- 			///////////////////////////           -->
+					
+<%-- 					<% if(prod_total_price >= 2000000) { %> --%>
+<!-- 			            <li>무료</li> -->
+<%-- 			        <% } else { %> --%>
+<!-- 			            <li>3000</li> -->
+<%-- 			        <% } %> --%>
+
+					<li>
+						<a href="shopping_cart_delete.do?shop_bas_prod_num=<%=shop_bas_prod_num %>"
+						   onclick="return confirm('해당 제품을 삭제하시겠습니까?')">삭제</a>
+					</li>
+			        
 				</ul>
 			
 			</div>
 			
-			<div>
-				<a href="shopping_cart_delete.do?shop_bas_prod_num=<%=shop_bas_prod_num %>">삭제</a>
-			</div>
+<!-- 			<div> -->
+<%-- 				<a href="shopping_cart_delete.do?shop_bas_prod_num=<%=shop_bas_prod_num %>">삭제</a> --%>
+<!-- 			</div> -->
 			
 			
 			
@@ -122,6 +162,7 @@
 		<%} %>
 		</div>
 		
+		
 		<div id="shopping_total_price_info_wrap" >
 			<div class="shopping_total_price_info" >
 				<div class="total_price_info" >총 판매가</div>
@@ -131,15 +172,22 @@
 				<div class="sum_price" >
 					<span>배송비는 쿠폰할인금액에 따라 변경될 수 있습니다.</span>
 					
-					<span>총 결제예상금액</span> 
+					<span>총 결제예상금액 </span> 
 					
 				</div>
 				
-				
-				
-				
-				
 			</div>
+		</div>
+		
+		
+		
+		<div id="order_btn_wrap" >
+		
+			<div class="order_btn" >
+				<button>선택주문(<span id="checked_count">0</span>)</button>
+				<button>전체주문</button>
+			</div>
+			
 		</div>
 	
 	</section>

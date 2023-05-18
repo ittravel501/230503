@@ -17,10 +17,10 @@ public class FlightDao {
 	
 	public FlightDao() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String dbURL = "jdbc:mysql://localhost:3306/teamproject?useUnicode=true&characterEncoding=euc-kr";
-			String dbID = "root";
-			String dbPW = "eogkrrksek!1";
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String dbURL = "jdbc:mysql://13.211.240.42/:3306/teamproject?useUnicode=true&characterEncoding=utf8";
+			String dbID = "all";
+			String dbPW = "1234";
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 		} catch (Exception e) {
 			e.printStackTrace();

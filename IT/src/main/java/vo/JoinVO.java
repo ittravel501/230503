@@ -1,6 +1,6 @@
-package dto;
+package vo;
 
-public class Joininfo {
+public class JoinVO {
 	private String mem_id;
 	private String mem_pw; 
 	private String mem_name;

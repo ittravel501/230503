@@ -7,7 +7,7 @@
 
     <%@page import="dao.N_controller" %>
     
-    <%@page import="dto.Joininfo" %>
+    <%@page import="vo.JoinVO" %>
     
     
 <!DOCTYPE html>

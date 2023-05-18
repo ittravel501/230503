@@ -36,47 +36,73 @@
 /*/////////////////////////////////////////////////////////*/
 
 section #shopping_quickmenu_wrap {
+	text-align: center;
     width: 100px;
-    height: 300px;
-    border-style: solid;
-    border-width: 1px;
-    position: fixed;
-    z-index: 1;
+    border: 1px solid #d9d9d9;
+    border-radius: 30px;
+    position: absolute;
     margin-left: 1400px;
-   /* background-color: grey; */
+    padding-top: 30px;
+    padding-bottom: 30px;
+    top: 750px;	
       	
 }
 
-section ul li.s_quickmenu{
-	width: 100px;
-	height: 100px;
+#shopping_quickmenu_wrap.sticky {
+  position: fixed;
+  top: 0;
+}
+
+
+section .s_quickmenu{
+	position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 70px;
+    padding-top: 5px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
 	
 }
 
 /* ////////////////////////////////// */
 
-section .shopping_topmenu_wrap{
-	width: 	100%;
-	margin-top: 50px;
-	
+section #shopping_topmenu_wrap{
+	width: 	1900px;
+	position: absolute;
+	top: 700px;	
+	background-color: white;
+/* 	border: solid 1px; */	
+	border-bottom: solid 1px;
+	z-index: 999;
+	margin-left: -330px;
+}
+
+#shopping_topmenu_wrap.sticky {
+  position: fixed;
+/*   top: 0; */
 }
 
 section #shopping_topmenu{
+	position: relative;
 	width: 700px;
-	height: 50px;
-	line-height: 50px;
+	height: 70px;
+	line-height: 70px;
 	margin: 0 auto;
-	
+	z-index: 5
 }
 
-section .shopping_topmenu_wrap div ul{
+section #shopping_topmenu_wrap  ul{
 	display: flex;
 	justify-content: space-around;
-	font-size: 15px;
+	font-size: 30px;
 }
 
-section .shopping_topmenu_wrap div ul li{
+section #shopping_topmenu_wrap  ul li{
 	cursor: pointer;
+	
 }
 
 /*///////*/
@@ -254,6 +280,19 @@ section #curation_txt{
 	margin-bottom: 30px;
 }
 
+section #curation.item #prod_wrap3 ul{
+	overflow: hidden;
+}
+
+section #curation_item #prod_wrap3 img{
+	transition: transform .2s;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+section #curation_item #prod_wrap3 img:hover{
+     transform: scale(1.05); 
+}
+
 section #only_item{
 	margin-top: 100px;
 	width: 1280px;
@@ -413,14 +452,14 @@ section a #only_img_4_img2{
 
 .menu2 #prod_wrap2{
 	width: 33%;
-	/*height: 300px;*/
+	height: 380px;
 	display: inline-block;
 }
 
 .menu3 #prod_wrap3{
 	/*width: 1008px;*/
 	width: 25%;
-	/*height: 300px;*/
+	height: 280px;
 	display: inline-block;
 }
 

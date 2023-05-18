@@ -47,20 +47,38 @@
 		%>
 	
 		<div id="shopping_quickmenu_wrap" >
-			<ul>
-				<li class="s_quickmenu" >
-					<a href="shopping_cart_direct.do?mem_id=<%=mem_id %>" ><img alt="cartimg" src="shopimg/cart.png" style="width: 100px; height: 100px;" >장바구니</a>
-				</li>
+				<div class="s_quickmenu" >
+<!-- 					<a href="shopping_cart_direct.do" ><img alt="cartimg" src="shopimg/cart.png" style="width: 50px; height: 50px;" >장바구니</a> -->
+					<a href="shopping_cart.do" ><img alt="cartimg" src="shopimg/cart.png" style="width: 50px; height: 50px;" >장바구니</a>
+				</div>
 				
-				<li class="s_quickmenu">
-					<a href="" >찜 목록</a>
-				</li>
+				<div class="s_quickmenu">
+					<a href="" ><img alt="hartimg" src="shopimg/jim.png" style="width: 50px; height: 50px;" >찜 목록</a>
+				</div>
 				
-				<li class="s_quickmenu">
-					<a href="" >결제하기</a>
-				</li>
-			</ul>
+				<div class="s_quickmenu">
+					<a href="shopping_prod_all.do" >전체보기</a>
+				</div>
 		</div>
+		
+		<script>
+		var shoppingQuickmenu = document.getElementById("shopping_quickmenu_wrap");
+		var originalPosition = shoppingQuickmenu.offsetTop;
+
+		window.addEventListener("scroll", function() {
+		  var scrollPosition = window.scrollY;
+		  
+		  if (scrollPosition >= originalPosition) {
+			  shoppingQuickmenu.classList.add("sticky");
+			  shoppingQuickmenu.style.top = "150px";
+
+		  } else {
+		    shoppingQuickmenu.classList.remove("sticky");
+		    shoppingQuickmenu.style.top = originalPosition + "px";
+		  }
+		});
+		
+		</script>
 	
 		 <div class="slideshow-container"> <!--광고배너 이미지 3개 -->
 
@@ -96,6 +114,36 @@
 			
 		--> 
 			
+			<div id="shopping_topmenu_wrap"  >
+				<div id="shopping_topmenu" >
+					<ul>
+						<li>캐리어</li>
+						<li>가방</li>
+						<li>여행용품</li>
+						<li>아울렛</li>
+					</ul>				
+				</div>
+			</div>
+			
+			<script>
+			var shoppingTopmenu = document.getElementById("shopping_topmenu_wrap");
+			var originalPositionTop = shoppingTopmenu.offsetTop;
+	
+			window.addEventListener("scroll", function() {
+			  var scrollPosition = window.scrollY;
+			  
+			  if (scrollPosition >= originalPositionTop) {
+				  shoppingTopmenu.classList.add("sticky");
+				  shoppingTopmenu.style.top = "0px";
+	
+			  } else {
+				  shoppingTopmenu.classList.remove("sticky");
+				  shoppingTopmenu.style.top = originalPositionTop + "px";
+			  }
+			});
+			
+			</script>
+			
 			<div id="allmenu"> <!-- 상품 전체 시작 -->
 
 			<div id="hot_item"> <!-- hot item 시작 -->
@@ -108,6 +156,8 @@
 						//데이터베이스에 있는 모든 정보를 가져와서 나열하고, 그걸 클릭해야되는거니까 arraylist가 맞나?
 								
 						ArrayList<ProdInfo> prodinfo = ( ArrayList<ProdInfo> ) request.getAttribute("articlemain");
+					
+						session.setAttribute("articlemain", prodinfo);
 						//request는 object로 받기 때문에 정확한 데이터타입을 정해줘야 함.
 						//여기서는 arraylist로 받았기 때문에 (ArrayList<ProdInfo>) request.getAttribute("article"); 이렇게 받음.
 						

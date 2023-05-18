@@ -325,6 +325,33 @@ section #prod_additional .info_img_wrap{
 
 /*ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ*/
 
+section .ec-base-button{
+	background-color: beige;
+	width: 100%;
+	height: 50px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.ec-base-button #kakao_checkout_button{
+	width: 90%;
+	float: right;
+	
+}
+
+.ec-base-button #kakao_checkout_button .__checkout_buy_title{
+	width: 285px;
+	height: 50px;
+	background-color: aqua;
+	
+}
+
+button.__checkout_btn_buy{
+	width: 110px;
+    height: 30px;
+    background-color: #fee400;
+    border-style: hidden;
+}
+
 
 
 

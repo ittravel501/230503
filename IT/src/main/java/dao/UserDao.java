@@ -8,7 +8,7 @@ import java.util.Set;
 
 import javax.websocket.Session;
 
-import dto.Joininfo;
+import vo.JoinVO;
 
 import java.sql.PreparedStatement;
 
@@ -20,9 +20,9 @@ public class UserDao {
 	
 	public UserDao() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String dbURL = "jdbc:mysql://localhost:3306/teamproject?useUnicode=true&characterEncoding=utf8";
-			String dbID = "root";
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String dbURL = "jdbc:mysql://13.211.240.42/:3306/teamproject?useUnicode=true&characterEncoding=utf8";
+			String dbID = "all";
 			String dbPW = "1234";
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 		} catch (Exception e) {
@@ -54,10 +54,10 @@ public class UserDao {
 	}
 	
 	//닉네임을 헤더에 세션 저장
-	public Joininfo loginsession(String mem_id) {
+	public JoinVO loginsession(String mem_id) {
 		
 		
-		Joininfo joininfo = new Joininfo() ;
+		JoinVO joininfo = new JoinVO() ;
 		
 //		String nick = "";
 //		String name = "";
@@ -98,7 +98,7 @@ public class UserDao {
 	}
 	
 	// 회원가입 insert 정보입력
-	public int join(Joininfo info) {
+	public int join(JoinVO info) {
 		
 		int rowNum = 0;
 		
@@ -120,7 +120,7 @@ public class UserDao {
 			pstat.setString(5, info.getMem_email1()+info.getMem_email2()); //이메일
 			pstat.setString(6, info.getMem_addr1()+"/"+ info.getMem_addr2()+"/"+ info.getMem_addr3() + "/" + info.getMem_addr4()); //주소
 //			pstat.setString(6,"우편번호 : "+ info.getMem_addr1()+" / 도로명 주소 : "+ info.getMem_addr2()+" / 상세 주소 : "+ info.getMem_addr3() + " /(참고 :" + info.getMem_addr4() +")"); //주소
-			pstat.setString(7, info.getMem_mobile0()+" / "+info.getMem_mobile1()+ " - "+info.getMem_mobile2()+ " - "+info.getMem_mobile3()); //전화번호
+			pstat.setString(7, info.getMem_mobile0()+"/"+info.getMem_mobile1()+ "/"+info.getMem_mobile2()+ "/"+info.getMem_mobile3()); //전화번호
 			pstat.setString(8, info.getMem_sex()); //성별
 			pstat.setString(9, info.getMem_birth1()+ info.getMem_birth2()+ info.getMem_birth3()); //생년월일
 			pstat.setString(10, info.getMem_news()); //소식받기

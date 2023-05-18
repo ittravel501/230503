@@ -7,7 +7,7 @@
 
 <% request.setCharacterEncoding("UTF-8"); %>
 
-<jsp:useBean id="user" class="dto.Joininfo"></jsp:useBean>
+<jsp:useBean id="user" class="vo.JoinVO"></jsp:useBean>
 
 <jsp:setProperty property="*" name="user"/>
 

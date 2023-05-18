@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import action.Action;
 import action.ShoppingBuyAction;
-import action.ShoppingBuySuccessAction;
 import action.ShoppingCartAction;
 import action.ShoppingCartDirectAction;
+import action.ShoppingCompleteAction;
 import action.ShoppingCartDeleteAction;
 import action.ShoppingMainAction;
 import action.ShoppingProdAction;
+import action.ShoppingProdAllAction;
 import vo.ActionForward;
 
 @WebServlet("*.do") //.bo로 들어오는 모든 request를 이 컨트롤러에서 받겠다.
@@ -38,61 +39,112 @@ public class YJ_controller extends javax.servlet.http.HttpServlet {
 			//요청의 이름이 boardWriteForm.jsp면 qna_board_write.jsp로 간다는 뜻이다. 
 			
 		} else if(command.equals("/shoppingmain.do") ) {
+			
 			action = new ShoppingMainAction();
+			
 			try {
+				
 				forward = action.execute(request, response);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 		} else if(command.equals("/shopping_prod.do") ) {
-			action = new ShoppingProdAction(); //클래스 액션 객제 생성
+			
+			action = new ShoppingProdAction();
+			//클래스 액션 객제 생성
+			
 			try {
-				forward = action.execute(request, response); //클래스 ShoppingProdAction의 메소드 execute호출
+				
+				forward = action.execute(request, response);
+				//클래스 ShoppingProdAction의 메소드 execute호출 
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
-		}else if(command.equals("/shopping_cart.do") ) {
-			action = new ShoppingCartAction();
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		}
+	 else if(command.equals("/shopping_prod_all.do") ) {
 		
-		}else if(command.equals("/shopping_cart_direct.do") ) {
+		action = new ShoppingProdAllAction();
+		//클래스 액션 객제 생성
+		
+		try {
+			
+			forward = action.execute(request, response);
+			//클래스 ShoppingProdAction의 메소드 execute호출 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}else if(command.equals("/shopping_cart.do") ) {
+			
+			action = new ShoppingCartAction();
+			
+			try {
+				
+				forward = action.execute(request, response);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		else if(command.equals("/shopping_cart_direct.do") ) {
+		
 			action = new ShoppingCartDirectAction();
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			
-		}else if(command.equals("/shopping_cart_delete.do") ) {
-			action = new ShoppingCartDeleteAction();
 			try {
+				
 				forward = action.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}else if(command.equals("/shopping_buy.do") ) {
-			action = new ShoppingBuyAction();
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}else if(command.equals("/shopping_buy_success.do") ) {
-			action = new ShoppingBuySuccessAction();
-			try {
-				forward = action.execute(request, response);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		
+		else if(command.equals("/shopping_cart_delete.do") ) {
+			
+			action = new ShoppingCartDeleteAction();
+			
+			try {
+				
+				forward = action.execute(request, response);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		else if(command.equals("/shopping_buy.do") ) {
+					
+			action = new ShoppingBuyAction();
+			
+			try {
+				
+				forward = action.execute(request, response);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		else if(command.equals("/shopping_complete.do") ) {
+			
+			action = new ShoppingCompleteAction();
+			
+			try {
+				
+				forward = action.execute(request, response);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		
 		if(forward != null){
 			

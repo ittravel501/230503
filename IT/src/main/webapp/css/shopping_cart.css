@@ -79,30 +79,66 @@ section div.s_basket_prod ul li{
 
 #shopping_total_price_info_wrap .shopping_total_price_info{
 	width: 1020px;
-	height: 1000px;
+	height: 300px;
     background-color: blue;
     margin: 0 auto 50px auto;
 }
 
 #shopping_total_price_info_wrap .total_price_info{
 	float: left;
-    background-color: aqua;
-    width: 340px;
-    height: 150ppx;
+    background-color: white;
+    width: 32%;
+    /* margin: 0 auto; */
     line-height: 150px;
     text-align: center;
+    
+    border-top-style: solid;
+    border-top-color: #7E7DCB;
+    
+    border-left-style: solid ;
+    border-left-color: gray;
+}
+
+
+#shopping_total_price_info_wrap .total_price_info:nth-child(3){
+    border-top-style: solid;
+    border-top-color: #7E7DCB;
+    
+    border-right-style: solid ;
+    border-right-color: gray;
 }
 
 #shopping_total_price_info_wrap .sum_price{
 	width: 1020px;
-    height: 500px;
+    height: 100px;
     background-color: beige;
     float: left;
+    border-top-style: solid;
+    border-color: #7E7DCB;
 }
 
-.sum_price span{
-	
+.sum_price span:nth-child(2){
+	float: right;	
 }
+
+/*............................ 카드 바로가기 속 선택주문/전체주문 버튼 css 시작 .............................*/
+
+#order_btn_wrap{
+	width: 100%	
+}
+
+#order_btn_wrap div.order_btn{
+	width: 220px;
+	margin: 0 auto;
+	margin-bottom: 30px;
+}
+
+#order_btn_wrap div.order_btn button{
+	width: 100px;
+	height: 50px;
+}
+
+/*............................ 카드 바로가기 속 선택주문/전체주문 버튼 css 끝 .............................*/
 
 
 

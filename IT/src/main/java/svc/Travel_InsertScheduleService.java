@@ -2,7 +2,7 @@ package svc;
 
 import java.sql.Connection;
 import static db.JdbcUtil.*;
-import dao.TravelPlanDAO;
+import dao.*;
 import dto.TravelSchDTO;
 
 public class Travel_InsertScheduleService {

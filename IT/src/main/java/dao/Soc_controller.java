@@ -16,7 +16,7 @@ public class Soc_controller {
 	public Soc_controller() { // 생성자
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (Exception e) {
 
 		}
@@ -27,7 +27,7 @@ public class Soc_controller {
 		try {
 
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/teamproject?useUnicode=true&characterEncoding=utf8", "root", "1234");
+					"jdbc:mysql://13.211.240.42/:3306/teamproject?useUnicode=true&characterEncoding=utf8", "root", "1234");
 
 			if (conn == null) {
 				throw new Exception("데이터베이스에 연결할 수 없습니다.");
