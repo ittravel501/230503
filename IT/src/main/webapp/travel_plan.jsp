@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html;charset=utf-8"	pageEncoding="UTf-8"%>
-<% request.setCharacterEncoding("utf-8");%>
+<%@page import="vo.TravelPlanVO"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%
+ request.setCharacterEncoding("utf-8");
+%>
+<%
+	ArrayList<TravelPlanVO> cityList=(ArrayList<TravelPlanVO>)request.getAttribute("cityList");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,18 +129,19 @@ function inputnum(){ //인원 직접 입력하기
 </script>
 
 
+
 <body>
 
 
 
 	<header>
-		<jsp:include page="header.jsp" />
+	<jsp:include page="/header.jsp" />
 	</header>
 
 
 	<section>
 
-		<form action="travel_plan2.jsp" method="post">
+		<form action="insertTravel.bo" method="post">
 
 			<!--///////////// 팝업창 ////////// 	 -->
 			<div class='gray_layer' id='background' onclick="closemodal()"></div>
@@ -152,7 +162,7 @@ function inputnum(){ //인원 직접 입력하기
 								easy" You're always riding in the backseat Now I'm smiling from
 								the stage while You were clapping in the nosebleeds</div>
 							<div>
-								<button type="button" id="modalchoose" onclick="add()">여행지 추가하기</button>
+								<button type="button" style = "cursor : pointer; "id="modalchoose" onclick="add()">여행지 추가하기</button>
 							</div>
 
 <!--					 cityexplain2 -->
@@ -190,9 +200,9 @@ function inputnum(){ //인원 직접 입력하기
 							<li>															
 								<div style="display: flex;" >
 									<div class="material-symbols-outlined" style="margin-left: 10px; margin-top: 6px; color: grey; font-size:30px;">group</div>
-									<div class="plusminus" id="subtractp" style="margin-left: 5px;" onclick="subtractpeople()"><img src="./travelplanimgs/remove-13-16.png" style="width: 12px; height: 12px; padding-top:4px;"></div>
-									<input class="howmany" name = "howmany" onchange="inputnum()" style = "padding:3px; width: 20px;" value="1">	
-									<div class="plusminus"id="addp" style="margin-left: 3px;" ><img src="./travelplanimgs/add-43-16.png" style="width: 12px; height: 12px; padding-top:3px;"></div>
+									<div class="plusminus" id="subtractp" style="margin-left: 5px;" onclick="subtractpeople()"><img src="travelplanimgs/remove-13-16.png" style="width: 12px; height: 12px; padding-top:4px;"></div>
+									<input class="howmany" name = "tra_ppl" onchange="inputnum()" style = "padding:3px; width: 20px;" value="1">	
+									<div class="plusminus"id="addp" style="margin-left: 3px;" ><img src="travelplanimgs/add-43-16.png" style="width: 12px; height: 12px; padding-top:3px;"></div>
 								</div>	
 							</li>
 							<li><input type="submit" id="desearbtn" value="선택완료"></li>
@@ -243,767 +253,140 @@ function inputnum(){ //인원 직접 입력하기
 <!-- 		sortwrap -->
 			</div>
 
+
+
+
+
 			<div class="picswraps">
 				<div class="recdes_asia">
 					<div class="picwrap1">
-						<div class="pntwrap1" onclick="openmodal('bangkok')">
-							<div class="pic">
-								<img src="./travelplanimgs/bangkok.jpg" class="zoom">
-<!-- 						pic	 -->
+					<%
+					if(cityList != null){
+						for(int i=0;i<cityList.size();i++){			
+							if("asia".equals(cityList.get(i).getCity_con())){%>			 
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+								<div class="pic">
+									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
+				<!-- 						pic	 -->
+								</div>
+								<div class="textwrap">
+									<ul class="text">
+										<li><%=cityList.get(i).getCity_name() %></li>  
+				<!-- 									나중에 나라이름 넣을 것 -->
+										<li><%=cityList.get(i).getCity_eng().toUpperCase()%></li>
+									</ul>
+				<!-- 						textwrap	 -->
+								</div>
+				<!-- 					pntwrap1 -->
 							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>태국 방콕</li>
-									<li>Bangkok</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap1 -->
-						</div>
-
-						<div class="pntwrap" 	onclick="openmodal('vangvieng')">
-							<div class="pic">
-								<img src="./travelplanimgs/vangvieng.jpg" class="zoom">
-<!-- 						pic	 -->
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>라오스 방비엥</li>
-									<li>Vang Vieng</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-
-						<div class="pntwrap" onclick="openmodal('taipei')">
-							<div class="pic">
-								<img src="./travelplanimgs/taipei.jpg" class="zoom" >
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>대만 타이페이</li>
-									<li>Taipei</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap	 -->
-						</div>
-
-						<div class="pntwrap"onclick="openmodal('chiangmai')">
-							<div class="pic">
-								<img src="./travelplanimgs/chiangmai.jpg" class="zoom" >
-<!-- 						pic	 -->
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>태국 치앙마이</li>
-									<li>ChiangMai</li>
-								</ul>
-<!-- 						textwrap -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-
-						<div class="pntwrap" onclick="openmodal('danang')">
-							<div class="pic">
-								<img src="./travelplanimgs/danang.jpg" class="zoom" >
-<!-- 						pic	 -->
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>베트남 다낭</li>
-									<li>Da Nang</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap	 -->
-						</div>
-<!-- 				picwrap1	 -->
+							<%}%>
+						<%}
+					}%>
 					</div>
-
-					<div class="picwrap1">
-						<div class="pntwrap1"  onclick="openmodal('Phnom Penh')">
-							<div class="pic">
-								<img src="./travelplanimgs/Phnom Penh.jpg" class="zoom">
-<!-- 						pic	 -->
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>캄보디아 프놈펜</li>
-									<li>Phnom Penh</li>
-								</ul>
-<!-- 						textwrap -->
-							</div>
-<!-- 					pntwrap1 -->
-						</div>
-						<div class="pntwrap"onclick="openmodal('bali')">
-							<div class="pic">
-								<img src="./travelplanimgs/bali.jpg" class="zoom" >
-<!-- 						pic	 -->
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>인도네시아 발리</li>
-									<li>Bali</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap	 -->
-						</div>
-						<div class="pntwrap" onclick="openmodal('singapore')">
-							<div class="pic">
-								<img src="./travelplanimgs/singapore.jpg" class="zoom" 	>
-<!-- 						pic	 -->
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li></li>
-									<li>싱가포르</li>
-									<li>Singapore</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap	 -->
-						</div>
-
-						<div class="pntwrap" onclick="openmodal('Kaohsiung')">
-							<div class="pic">
-								<img src="./travelplanimgs/Kaohsiung.jpg" class="zoom">
-<!-- 						pic	 -->
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>대만 가오슝</li>
-									<li>Kaohsiung</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						<div class="pntwrap" onclick="openmodal('Nha Trang')">
-							<div class="pic">
-								<img src="./travelplanimgs/Nha Trang.jpg" class="zoom"	>
-<!-- 						pic -->
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>베트남 나트랑</li>
-									<li>Nha Trang</li>
-								</ul>
-<!-- 						textwrap -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-<!-- 				picwrap1	 -->
-					</div>
-<!-- 			recdes_asia -->
 				</div>
-
-
 				<div class="recdes_america">
 					<div class="picwrap1">
-						<div class="pntwrap1" onclick="openmodal('la')">
-							<div class="pic">
-								<img src="./travelplanimgs/la.jpg" class="zoom">
+					<%
+					if(cityList != null){
+						for(int i=0;i<cityList.size();i++){			
+							if("america".equals(cityList.get(i).getCity_con())){%>			 
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+								<div class="pic">
+									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
+				<!-- 						pic	 -->
+								</div>
+								<div class="textwrap">
+									<ul class="text">
+										<li><%=cityList.get(i).getCity_name() %></li>  
+				<!-- 									나중에 나라이름 넣을 것 -->
+										<li><%=cityList.get(i).getCity_eng().toUpperCase()%></li>
+									</ul>
+				<!-- 						textwrap	 -->
+								</div>
+				<!-- 					pntwrap1 -->
 							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>미국 로스앤젤레스</li>
-									<li>Los Angeles</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap1 -->
-						</div>
-						
-						<div class="pntwrap"onclick="openmodal('vancouver')">
-							<div class="pic">
-								<img src="./travelplanimgs/vancouver.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>캐나다 밴쿠버</li>
-									<li>Vancouver</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('reclasvegas')">
-							<div class="pic">
-								<img src="./travelplanimgs/reclasvegas.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>미국 라스베가스</li>
-									<li>Las Vegas</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap	 -->
-						</div>
-
-						<div class="pntwrap" onclick="openmodal('seattle')">
-							<div class="pic">
-								<img src="./travelplanimgs/seattle.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>미국 시애틀</li>
-									<li>Seattle</li>
-								</ul>
-<!-- 						textwarp	 -->
-							</div>
-<!-- 					pntwrap	 -->
-						</div>
-
-
-						<div class="pntwrap" onclick="openmodal('toronto')">
-							<div class="pic">
-								<img src="./travelplanimgs/toronto.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>캐나다 토론토</li>
-									<li>Toronto</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap	 -->
-						</div>
-<!-- 				picwrap1	 -->
+							<%}%>
+						<%}
+					}%>
 					</div>
-
-
-					<div class="picwrap1">
-						<div class="pntwrap1" onclick="openmodal('mexicocity')">
-							<div class="pic">
-								<img src="./travelplanimgs/mexicocity.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>멕시코 멕시코시티</li>
-									<li>Mexicocity</li>
-								</ul>
-<!-- 						textwrap -->
-							</div>
-<!-- 					pntwwrap1 -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('lapaz')">
-							<div class="pic">
-								<img src="./travelplanimgs/lapaz.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>볼리비아 라파스</li>
-									<li>La Paz</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap	 -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('newyork')">
-							<div class="pic">
-								<img src="./travelplanimgs/newyork.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>미국 뉴욕</li>
-									<li>New York</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('saopaulo')">
-							<div class="pic">
-								<img src="./travelplanimgs/saopaulo.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>브라질 상파울루</li>
-									<li>São Paulo</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap"	onclick="openmodal('sf')">
-							<div class="pic">
-								<img src="./travelplanimgs/sf.jpg" class="zoom"	>
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>미국샌프란시스코</li>
-									<li>San Francisco</li>
-								</ul>
-<!-- 						textwrap -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-<!-- 				picwrap1 -->
-					</div>
-					
-<!-- 			recdes_america -->
 				</div>
-
 				<div class="recdes_europe">
 					<div class="picwrap1">
-						<div class="pntwrap1" onclick="openmodal('barcelona')">
-							<div class="pic">
-								<img src="./travelplanimgs/barcelona.jpg" class="zoom">
+					<%
+					if(cityList != null){
+						for(int i=0;i<cityList.size();i++){			
+							if("europe".equals(cityList.get(i).getCity_con())){%>			 
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+								<div class="pic">
+									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
+				<!-- 						pic	 -->
+								</div>
+								<div class="textwrap">
+									<ul class="text">
+										<li><%=cityList.get(i).getCity_name() %></li>  
+				<!-- 									나중에 나라이름 넣을 것 -->
+										<li><%=cityList.get(i).getCity_eng().toUpperCase()%></li>
+									</ul>
+				<!-- 						textwrap	 -->
+								</div>
+				<!-- 					pntwrap1 -->
 							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>스페인 바르셀로나</li>
-									<li>Barcelona</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap1 -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('lisbon')">
-							<div class="pic">
-								<img src="./travelplanimgs/lisbon.jpg" class="zoom"	>
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>포르투갈 리스본</li>
-									<li>Lisbon</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('berlin')">
-							<div class="pic">
-								<img src="./travelplanimgs/berlin.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>독일 베를린</li>
-									<li>Berlin</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('bern')">
-							<div class="pic">
-								<img src="./travelplanimgs/bern.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>스위스 베른</li>
-									<li>Bern</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('amsterdam')">
-							<div class="pic">
-								<img src="./travelplanimgs/amsterdam.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>네덜란드 암스테르담</li>
-									<li>Amsterdam</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-<!-- 				picwrap1 -->
+							<%}%>
+						<%}
+					}%>
 					</div>
-
-
-					<div class="picwrap1">
-						<div class="pntwrap1" onclick="openmodal('wien')">
-							<div class="pic">
-								<img src="./travelplanimgs/wien.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>오스트리아 빈</li>
-									<li>Wien</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap1 -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('venezia' )">
-							<div class="pic">
-								<img src="./travelplanimgs/venezia.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>이태리 베네치아</li>
-									<li>Venezia</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'antwerp')">
-							<div class="pic">
-								<img src="./travelplanimgs/antwerp.jpg" class="zoom" >
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>벨기에 앤트워프</li>
-									<li>Antwerp</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'copenhagen')">
-							<div class="pic">
-								<img src="./travelplanimgs/copenhagen.jpg" class="zoom" >
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>덴마크 코펜하겐</li>
-									<li>Copenhagen</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'nice')">
-							<div class="pic">
-								<img src="./travelplanimgs/nice.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>프랑스 니스</li>
-									<li>Nice</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-<!-- 				picwrap1 -->
-					</div>
-<!-- 			recdes_europe	 -->
 				</div>
-
-
-
 				<div class="recdes_oceania">
 					<div class="picwrap1">
-						<div class="pntwrap1"onclick="openmodal( 'melbourne')">
-							<div class="pic">
-								<img src="./travelplanimgs/melbourne.jpg" class="zoom">
+					<%
+					if(cityList != null){
+						for(int i=0;i<cityList.size();i++){			
+							if("oceania".equals(cityList.get(i).getCity_con())){%>			 
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+								<div class="pic">
+									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
+				<!-- 						pic	 -->
+								</div>
+								<div class="textwrap">
+									<ul class="text">
+										<li><%=cityList.get(i).getCity_name() %></li>  
+				<!-- 									나중에 나라이름 넣을 것 -->
+										<li><%=cityList.get(i).getCity_eng().toUpperCase()%></li>
+									</ul>
+				<!-- 						textwrap	 -->
+								</div>
+				<!-- 					pntwrap1 -->
 							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>호주 멜버른</li>
-									<li>Melbourne</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap1 -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'brisbane')">
-							<div class="pic">
-								<img src="./travelplanimgs/brisbane.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>호주 브리즈번</li>
-									<li>Brisbane</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'auckland')">
-							<div class="pic">
-								<img src="./travelplanimgs/auckland.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>뉴질랜드 오클랜드</li>
-									<li>Auckland</li>
-								</ul>
-<!-- 						textwrap -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'palau')">
-							<div class="pic">
-								<img src="./travelplanimgs/palau.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>팔라우</li>
-									<li>Palau</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap"onclick="openmodal( 'saipan')">
-							<div class="pic">
-								<img src="./travelplanimgs/saipan.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-
-									<li>사이판</li>
-									<li>Saipan</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-<!-- 				picwrap1 -->
+							<%}%>
+						<%}
+					}%>
 					</div>
-
-
-					<div class="picwrap1">
-						<div class="pntwrap1"onclick="openmodal( 'guam')">
-							<div class="pic">
-								<img src="./travelplanimgs/guam.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>괌</li>
-									<li>guam</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap1	 -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'goldcoast')">
-							<div class="pic">
-								<img src="./travelplanimgs/goldcoast.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>호주 골드코스트</li>
-									<li>Goldcoast</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal('tauranga')">
-							<div class="pic">
-								<img src="./travelplanimgs/tauranga.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>뉴질랜드 타우랑가</li>
-									<li>Tauranga</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap">
-							<div class="pic">
-								<img src="./travelplanimgs/fiji.jpg" class="zoom"
-									onclick="openmodal( 'fiji')">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>피지</li>
-									<li>Fiji</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap		 -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'southisland')">
-							<div class="pic">
-								<img src="./travelplanimgs/southisland.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>뉴질랜드 남섬</li>
-									<li>South Island</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-<!-- 				picwrap1 -->
-					</div>
-<!-- 			recdes_oceania	 -->
 				</div>
-
 				<div class="recdes_africa">
 					<div class="picwrap1">
-						<div class="pntwrap1" onclick="openmodal( 'cairo')">
-							<div class="pic">
-								<img src="./travelplanimgs/cairo.jpg" class="zoom">
+					<%
+					if(cityList != null){
+						for(int i=0;i<cityList.size();i++){			
+							if("africa".equals(cityList.get(i).getCity_con())){%>			 
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+								<div class="pic">
+									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
+				<!-- 						pic	 -->
+								</div>
+								<div class="textwrap">
+									<ul class="text">
+										<li><%=cityList.get(i).getCity_name() %></li>  
+				<!-- 									나중에 나라이름 넣을 것 -->
+										<li><%=cityList.get(i).getCity_eng().toUpperCase()%></li>
+									</ul>
+				<!-- 						textwrap	 -->
+								</div>
+				<!-- 					pntwrap1 -->
 							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>이집트 카이로</li>
-									<li>Cairo</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap1 -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'daressalaam')">
-							<div class="pic">
-								<img src="./travelplanimgs/daressalaam.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>탄자니아 다르에스살람</li>
-									<li>Dar es Salaam</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'mauritius')">
-							<div class="pic">
-								<img src="./travelplanimgs/mauritius.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>모리셔스Mauritius</li>
-								</ul>
-<!-- 						textwrap -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-
-						<div class="pntwrap" onclick="openmodal( 'capetown')">
-							<div class="pic">
-								<img src="./travelplanimgs/capetown.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>남아공 케이프타운</li>
-									<li>Cape Town</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'nyirobi')">
-							<div class="pic">
-								<img src="./travelplanimgs/nyirobi.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>케냐 나이로비</li>
-									<li>Nyirobi</li>
-								</ul>
-<!-- 						textwrap -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-<!-- 				picwrap1	 -->
+							<%}%>
+						<%}
+					}%>
 					</div>
-
-
-					<div class="picwrap1">
-						<div class="pntwrap1" onclick="openmodal('kigali')">
-							<div class="pic">
-								<img src="./travelplanimgs/kigali.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>르완다 키갈리</li>
-									<li>Kigali</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap1 -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'seychelles') ">
-							<div class="pic">
-								<img src="./travelplanimgs/seychelles.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>세이셸</li>
-									<li>Seychelles</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'zanzibar')">
-							<div class="pic">
-								<img src="./travelplanimgs/zanzibar.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>탄자니아 잔지바르</li>
-									<li>Zanzibar</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'checchaouen')">
-							<div class="pic">
-								<img src="./travelplanimgs/checchaouen.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>모로코 쉐프샤우엔</li>
-									<li>Checchaouen</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-						
-						<div class="pntwrap" onclick="openmodal( 'accra')">
-							<div class="pic">
-								<img src="./travelplanimgs/accra.jpg" class="zoom">
-							</div>
-							<div class="textwrap">
-								<ul class="text">
-									<li>가나 아크라</li>
-									<li>Accra</li>
-								</ul>
-<!-- 						textwrap	 -->
-							</div>
-<!-- 					pntwrap -->
-						</div>
-<!-- 				picwrap1 -->
-					</div>
-<!-- 			recdes_africa -->
 				</div>
 <!-- 		picswraps -->
 			</div>
@@ -1018,7 +401,7 @@ function inputnum(){ //인원 직접 입력하기
 					
 					<div class="nemowrap">
 						<div class="pic3s"  onclick="openmodal()">
-							<img src="./travelplanimgs/top4bali.jpg" class="zoom">
+							<img src="travelplanimgs/top4bali.jpg" class="zoom">
 						</div>
 						<div class="textwrap">
 							<ul class="usertext">
@@ -1032,7 +415,7 @@ function inputnum(){ //인원 직접 입력하기
 	
 					<div class="nemowrapwm">
 						<div class="pic3s" onclick="openmodal()">
-							<img src="./travelplanimgs/top4paris.jpg" class="zoom">
+							<img src="travelplanimgs/top4paris.jpg" class="zoom">
 						</div>
 						<div class="textwrap">
 							<ul class="usertext">
@@ -1046,7 +429,7 @@ function inputnum(){ //인원 직접 입력하기
 					
 					<div class="nemowrapwm">
 						<div class="pic3s">
-							<img src="./travelplanimgs/top4newyork.jpg" class="zoom" onclick="openmodal()">
+							<img src="travelplanimgs/top4newyork.jpg" class="zoom" onclick="openmodal()">
 						</div>
 						<div class="textwrap">
 							<ul class="usertext">
@@ -1060,7 +443,7 @@ function inputnum(){ //인원 직접 입력하기
 
 					<div class="nemowrapwml">
 						<div class="pic3s">
-							<img src="./travelplanimgs/top4sydney.jpg" class="zoom" onclick="openmodal()">
+							<img src="travelplanimgs/top4sydney.jpg" class="zoom" onclick="openmodal()">
 						</div>
 						<div class="textwrap">
 							<ul class="usertext">
@@ -1078,7 +461,7 @@ function inputnum(){ //인원 직접 입력하기
 					<div class="ltextwrap" id="modal">회원님들이 다녀오신 여행지</div>
 					<div class="nemowrap">
 						<div class="pic3s">
-							<img src="./travelplanimgs/dubai.jpg" class="zoom"
+							<img src="travelplanimgs/dubai.jpg" class="zoom"
 								onclick="openmodal()">
 						</div>
 						<div class="textwrap">
@@ -1093,7 +476,7 @@ function inputnum(){ //인원 직접 입력하기
 					
 					<div class="nemowrapwm">
 						<div class="pic3s">
-							<img src="./travelplanimgs/bohol.jpg" class="zoom"
+							<img src="travelplanimgs/bohol.jpg" class="zoom"
 								onclick="openmodal()">
 						</div>
 						<div class="textwrap">
@@ -1108,7 +491,7 @@ function inputnum(){ //인원 직접 입력하기
 					
 					<div class="nemowrapwm">
 						<div class="pic3s">
-							<img src="./travelplanimgs/tainan.jpg" class="zoom"
+							<img src="travelplanimgs/tainan.jpg" class="zoom"
 								onclick="openmodal()">
 						</div>
 						<div class="textwrap">
@@ -1123,7 +506,7 @@ function inputnum(){ //인원 직접 입력하기
 
 					<div class="nemowrapwml">
 						<div class="pic3s">
-							<img src="./travelplanimgs/lasvegas.jpg" class="zoom"
+							<img src="travelplanimgs/lasvegas.jpg" class="zoom"
 								onclick="openmodal()">
 						</div>
 						<div class="textwrap">
@@ -1142,7 +525,7 @@ function inputnum(){ //인원 직접 입력하기
 					<div class="ltextwrap">제철여행지 - 지금이 이 나라를 여행하기에 가장 좋은 날씨!</div>
 					<div class="nemowrap">
 						<div class="pic3s">
-							<img src="./travelplanimgs/venice.jpg" class="zoom">
+							<img src="travelplanimgs/venice.jpg" class="zoom">
 						</div>
 						<div class="textwrap">
 							<ul class="usertext">
@@ -1155,7 +538,7 @@ function inputnum(){ //인원 직접 입력하기
 					</div>
 					<div class="nemowrapwm">
 						<div class="pic3s">
-							<img src="./travelplanimgs/taiwan.jpg" class="zoom">
+							<img src="travelplanimgs/taiwan.jpg" class="zoom">
 						</div>
 						<div class="textwrap">
 							<ul class="usertext">
@@ -1166,9 +549,9 @@ function inputnum(){ //인원 직접 입력하기
 						</div>
 <!-- 				nemowrapwm -->
 					</div>
-					<div class="nemowrapwm">
+					<div class="nemowrapwm">6
 						<div class="pic3s">
-							<img src="./travelplanimgs/vietnam.jpg" class="zoom">
+							<img src="travelplanimgs/vietnam.jpg" class="zoom">
 						</div>
 						<div class="textwrap">
 							<ul class="usertext">
@@ -1182,7 +565,7 @@ function inputnum(){ //인원 직접 입력하기
 
 					<div class="nemowrapwml">
 						<div class="pic3s">
-							<img src="./travelplanimgs/austria.jpg" class="zoom">
+							<img src="travelplanimgs/austria.jpg" class="zoom">
 						</div>
 						<div class="textwrap">
 							<ul class="usertext">
@@ -1205,33 +588,19 @@ function inputnum(){ //인원 직접 입력하기
 
 
 	<footer>
-		<jsp:include page="footer.jsp" />
+<jsp:include page="/footer.jsp" />
 	</footer>
 
-
 <script>
-function openmodal(city_eng) {
-
+function openmodal(city_eng, city_name) {
 	$('#background').fadeIn(200);
 	$('#front').fadeIn(200);
 	$('body').addClass('modal-open');
-
-	$.ajax({
-		url : "travel_plan3.jsp",
-		type : "get",
-		data : {
-				city_eng : city_eng,
-				},
-		success : function(data) {
-				console.log(data);
-				var city_name = data.split(',')[0];
-				document.getElementById("photo2").style.backgroundImage = "url('./travelplanimgs/"+ city_eng + ".jpg')",
-				document.getElementById("smallcity1").innerText = city_name,
-				document.getElementById("smallcity2").innerText = city_eng.toUpperCase()
-				}
-			});
+	console.log(city_eng);
+	document.getElementById("photo2").style.backgroundImage = "url('travelplanimgs/"+city_eng + ".jpg')",
+	document.getElementById("smallcity1").innerText = city_name,
+	document.getElementById("smallcity2").innerText = city_eng.toUpperCase()
 };
-
 </script>
 
 </body>

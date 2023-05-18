@@ -1,8 +1,8 @@
-package dto;
+package vo;
 
-public class Travel_plan_dto {
+public class TravelMasterVO {
 
-	int tra_num, tra_people;
+	int tra_num, tra_city_num; 
 	String tra_mem_id, tra_title, tra_dday, tra_aday, tra_city;
 	public int getTra_num() {
 		return tra_num;
@@ -10,11 +10,11 @@ public class Travel_plan_dto {
 	public void setTra_num(int tra_num) {
 		this.tra_num = tra_num;
 	}
-	public int getTra_people() {
-		return tra_people;
+	public int getTra_city_num() {
+		return tra_city_num;
 	}
-	public void setTra_people(int tra_people) {
-		this.tra_people = tra_people;
+	public void setTra_city_num(int tra_city_num) {
+		this.tra_city_num = tra_city_num;
 	}
 	public String getTra_mem_id() {
 		return tra_mem_id;
@@ -45,6 +45,7 @@ public class Travel_plan_dto {
 	}
 	public void setTra_city(String tra_city) {
 		this.tra_city = tra_city;
-	}
+	} 
+
 	
 }
