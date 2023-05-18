@@ -1,5 +1,9 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html;charset=utf-8"
     pageEncoding="UTF-8"%>
+<%@ page import="vo.TourInfo" %>
+<%@page import ="java.util.*" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,57 +11,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>투어페이지</title>
 	<!--link-->
-	<link rel="stylesheet" href="css/tour_index.css">
-	
+	<link rel="stylesheet" href="assets/css/tour_index.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> 
 	
 	<link rel="stylesheet" href="css/slick.css" />
 	<link rel="stylesheet" href="css/slick-theme.css" />
-
-	<script src="js/jquery.js"></script>
-	
+	<script src="assets/js/tour_page.js"></script>
 	<script src="js/slick-1.8.1/slick/slick.min.js"></script>
-	
-<script>
-    $(document).ready(function() {
-        $('#choi').on('change', function() {
-            var choi = $(this).val();
-            $('#for, #kor, #alist, #blist, #glist, #klist').hide();
-            if (choi === '해외여행') {
-                $('#for').show();
-            } else if (choi === '국내여행') {
-                $('#kor').show();
-            }
-        });
-        
-        $('#for').on('change', function() {
-            var forVal = $(this).val();
-            $('#alist, #blist, #glist, #klist').hide();
-            if (forVal === '일본') {
-                $('#alist').show();
-            } else if (forVal === '동남아') {
-                $('#blist').show();
-            }
-        });
-        
-        $('#kor').on('change', function() {
-            var korVal = $(this).val();
-            $('#glist, #klist').hide();
-            if (korVal === '강원도') {
-                $('#glist').show();
-            } else if (korVal === '제주도') {
-                $('#klist').show();
-            }
-        });
-    });
-</script>
 	
 </head>
 <body>
  <header>
-  <%@include file="header.jsp" %>
+  <jsp:include page="/header.jsp" />
 </header>
-
 
 <div id="wrap" style="text-align: center;">
 		<!--투어페이지-->
@@ -202,143 +168,57 @@
 				</div>
 				<div class="wrap001">
 					<div id="prod_con">
-						<ul>
-							<li class="aa">
-								<div class="prod_img"><img src="imgs/tour/tour01.jpg"></div>
+					<ul>
+					<% 
+						ArrayList<TourInfo> tourlist =(ArrayList<TourInfo>)request.getAttribute("tourlist");
+						for(int i=0; i<tourlist.size(); i++) { 
+							int tour_num = tourlist.get(i).getTour_num();
+							String tour_img1 = tourlist.get(i).getTour_img1();
+							String tour_spe = tourlist.get(i).getTour_spe();
+							String tour_name = tourlist.get(i).getTour_name();
+							int tour_dc = tourlist.get(i).getTour_dc();
+							int tour_price = tourlist.get(i).getTour_price();
+							float tour_avg = tourlist.get(i).getTour_avg();
+							int tour_review = tourlist.get(i).getTour_review();
+							String tour_sub_name=tourlist.get(i).getTour_sub_name();
+						%>
+						
+							<li><a href="tour_detail.co?tour_num=<%=tour_num%>">
+								<div class="prod_img"><img src="assets/img/<%=tour_img1 %>"></div>
 								<div class="prod_txt" >
-									<div class="txt00">[히트상품]</div>
+									<div class="txt00"><%=tour_spe %></div>
 									<div class="txt01">
-										<div>얼리버드 세부퍼시픽</div>
-										<div>특가좌석</div>
+										<div><%=tour_name %></div>
+										<div><%=tour_sub_name %></div>
 									</div>
-									<div class="txt02">세부 / 마닐라 편도 항공권<div>11</div>%</div>
+									<div class="txt02">세부제목<div><%=tour_dc %></div>%</div>
 									
 									<div class="cal_wrap">
-									<div class="img03"><img src="imgs/tour/calender.png" style="width: 24px; opacity: 70%;"></div>
-									<div class="txt04">~9월 초 출발일</div>
+									<div class="img03"><img src="./imgs/tour/calender.png" style="width: 24px; opacity: 70%;"></div>
+									<div class="txt04">세부내용</div>
 									</div>
 									
-									<div class="txt05">899,000원~</div>
-									<div class="average">
-										<a href="#"><img src="imgs/tour/avg_45.png"></a>
-										<a href="#">[29]</a>
+									<div class="txt05">
+									<fmt:formatNumber type="number" pattern="#,###"/><%=tour_price %>원
 									</div>
-								</div>
-							</li>
-							<li class="aa">
-								<div class="prod_img"><img src="imgs/tour/tour01.jpg"></div>
-								<div class="prod_txt" >
-									<div class="txt00">[히트상품]</div>
-									<div class="txt01">
-										<div>얼리버드 세부퍼시픽</div>
-										<div>특가좌석</div>
+									<a href="#" class="a_style"><div class="average">
+<%-- 										<div style="display:none;">[<%=tour_avg %>]</div> --%>
+<!-- 										<div><img src="assets/img/avg_45.png"></div> -->
+<%-- 										<div>[<%=tour_review %>]</div></a> --%>
 									</div>
-									<div class="txt02">세부 / 마닐라 편도 항공권<div>11</div>%</div>
-									
-									<div class="cal_wrap">
-									<div class="img03"><img src="imgs/tour/calender.png" style="width: 24px; opacity: 70%;"></div>
-									<div class="txt04">~9월 초 출발일</div>
-									</div>
-									
-									<div class="txt05">899,000원~</div>
-									<div class="average">
-										<div><a href="#"><img src="imgs/tour/avg_45.png"></a></div>
-										<div><a href="#">[29]</a></div>
-									</div>
-								</div>
-							</li>
-							<li class="aa">
-								<div class="prod_img"><img src="imgs/tour/tour01.jpg"></div>
-								<div class="prod_txt" >
-									<div class="txt00">[히트상품]</div>
-									<div class="txt01">
-										<div>얼리버드 세부퍼시픽</div>
-										<div>특가좌석</div>
-									</div>
-									<div class="txt02">세부 / 마닐라 편도 항공권<div>11</div>%</div>
-									
-									<div class="cal_wrap">
-									<div class="img03"><img src="imgs/tour/calender.png" style="width: 24px; opacity: 70%;"></div>
-									<div class="txt04">~9월 초 출발일</div>
-									</div>
-									
-									<div class="txt05">899,000원~</div>
-									<div class="average">
-										<div><a href="#"><img src="imgs/tour/avg_45.png"></a></div>
-										<div><a href="#">[29]</a></div>
-									</div>
-								</div>
-							</li>
-							<li class="aa">
-								<div class="prod_img"><img src="imgs/tour/tour01.jpg"></div>
-								<div class="prod_txt" >
-									<div class="txt00">[히트상품]</div>
-									<div class="txt01">
-										<div>얼리버드 세부퍼시픽</div>
-										<div>특가좌석</div>
-									</div>
-									<div class="txt02">세부 / 마닐라 편도 항공권<div>11</div>%</div>
-									
-									<div class="cal_wrap">
-									<div class="img03"><img src="imgs/tour/calender.png" style="width: 24px; opacity: 70%;"></div>
-									<div class="txt04">~9월 초 출발일</div>
-									</div>
-									
-									<div class="txt05">899,000원~</div>
-									<div class="average">
-										<div><a href="#"><img src="imgs/tour/avg_45.png"></a></div>
-										<div><a href="#">[29]</a></div>
-									</div>
-								</div>
-							</li>
-							<li class="aa">
-								<div class="prod_img"><img src="imgs/tour/tour01.jpg"></div>
-								<div class="prod_txt" >
-									<div class="txt00">[히트상품]</div>
-									<div class="txt01">
-										<div>얼리버드 세부퍼시픽</div>
-										<div>특가좌석</div>
-									</div>
-									<div class="txt02">세부 / 마닐라 편도 항공권<div>11</div>%</div>
-									
-									<div class="cal_wrap">
-									<div class="img03"><img src="imgs/tour/calender.png" style="width: 24px; opacity: 70%;"></div>
-									<div class="txt04">~9월 초 출발일</div>
-									</div>
-									
-									<div class="txt05">899,000원~</div>
-									<div class="average">
-										<div><a href="#"><img src="imgs/tour/avg_45.png"></a></div>
-										<div><a href="#">[29]</a></div>
-									</div> 
-								</div>
-							</li>
-							<li class="aa">
-								<div class="prod_img"><img src="imgs/tour/tour01.jpg"></div>
-								<div class="prod_txt" >
-									<div class="txt00">[히트상품]</div>
-									<div class="txt01">
-										<div>얼리버드 세부퍼시픽</div>
-										<div>특가좌석</div>
-									</div>
-									<div class="txt02">세부 / 마닐라 편도 항공권<div>11</div>%</div>
-									
-									<div class="cal_wrap">
-									<div class="img03"><img src="imgs/tour/calender.png" style="width: 24px; opacity: 70%;"></div>
-									<div class="txt04">~9월 초 출발일</div>
-									</div>
-									
-									<div class="txt05">899,000원~</div>
-									<div class="average">
-										<div><a href="#"><img src="imgs/tour/avg_45.png"></a></div>
-										<div><a href="#">[29]</a></div>
-									</div>
-								</div>
-							</li>
-						</ul>		
+									</a>
+									</li>
+									<% } %>
+									</ul>
+							
 					</div>
 					<div id="pagewrap">
 						<ul>
+						<c:set var="nowPage" value="1"/>
+						<c:set var="perPage" value="5"/>
+						<c:set var="totalPage" value="${(totalCount+perPage-1)/perPage }"/>
+						<c:set var="start" value="${(nowPage - 1) * perPage}" />
+						<c:set var="end" value="${nowPage * perPage}" />
 							<li class="page_arr"><a href="#"><</a></li>
 							<li class="page_icon"><a href="#">1</a></li>
 							<li class="page_icon"><a href="#">2</a></li>
@@ -355,7 +235,7 @@
 	</div>
 
 	  <footer>
-           <%@include file="footer.jsp" %>
+           <jsp:include page="footer.jsp" />
         </footer>
 	<script>
 		$( document ).ready( function() {
