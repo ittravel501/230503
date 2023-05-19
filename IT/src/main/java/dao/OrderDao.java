@@ -2,24 +2,16 @@ package dao;
 
 import static db.JdbcUtil.close;
 
-import java.io.Closeable;
-import java.security.interfaces.RSAKey;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 
-import javax.servlet.jsp.jstl.sql.Result;
 import javax.sql.DataSource;
-import javax.websocket.OnClose;
 
 import db.JdbcUtil;
 import vo.OrderInfo;
-import vo.CartInfo;
 
 public class OrderDao {
 	
@@ -127,7 +119,6 @@ public class OrderDao {
 			System.out.println("order insert 실패");
 			System.out.println(e);
 			e.printStackTrace();
-			// TODO: handle exception
 			
 		} finally {
 			JdbcUtil.commit(con);
@@ -169,7 +160,6 @@ public void cart_order(OrderInfo orderinfo) {
 			System.out.println("cart_order insert 실패");
 			System.out.println(e);
 			e.printStackTrace();
-			// TODO: handle exception
 			
 		} finally {
 			JdbcUtil.commit(con);
@@ -288,7 +278,6 @@ public void cart_order(OrderInfo orderinfo) {
 				System.out.println("결제성공페이지 select 실패");
 				System.out.println(e);
 				e.printStackTrace();
-				// TODO: handle exception
 				
 				
 			} finally {
@@ -364,7 +353,6 @@ public void cart_order(OrderInfo orderinfo) {
 			System.out.println(e);
 			e.printStackTrace();
 			
-			// TODO: handle exception
 			
 		} finally {
 		
@@ -427,7 +415,7 @@ public void cart_order(OrderInfo orderinfo) {
 			System.out.println("orderinfo insert 실행");
 			System.out.println("==============================");
 			ArrayList<Integer> ord_shop_bas_prod_num = orderinfo.getOrd_shop_bas_prod_num2();
-			ArrayList<String> ord_shop_bas_prod_name = orderinfo.getOrd_name2();
+//			ArrayList<String> ord_shop_bas_prod_name = orderinfo.getOrd_name2();
 			
 				
 			for (int i = 0; i < ord_shop_bas_prod_num.size(); i++) {
@@ -523,7 +511,6 @@ public void cart_order(OrderInfo orderinfo) {
 //		System.out.println(e);
 //		e.printStackTrace();
 //	
-//	// TODO: handle exception
 //	
 //	}finally {
 //		close(rs);
