@@ -13,15 +13,16 @@
         <title>왕복 (가는날)</title>
         <link rel="stylesheet" href="./css/flight2.css">
         <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"> </script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
         <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="//code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
-        </script> 
         <script src="./slick-1.8.1/slick/slick.min.js">
         </script>
-        <script src="./js/flight2.js"></script>
+        <script src="./js/flight2.js">
+
+        </script>
     </head>
     <style type="text/css">
     </style>
@@ -127,7 +128,7 @@ for(int i = 0; i < list1.size(); i++){
 	Airinfo ai = list1.get(i);
 	
 	if(ai.getAir_deppt().equals(air_deppt) && ai.getAir_arrpt().equals(air_arrpt)) {
-	    if(air_dday == null || air_dday.isEmpty() || ai.getAir_dday().equals(air_dday)) { // air_deppt로 설정한 값만 가져옴 김포 선택하면 출발지가 김포인 것만
+	/*     if(air_dday == null || air_dday.isEmpty() || ai.getAir_dday().equals(air_dday)) { // air_deppt로 설정한 값만 가져옴 김포 선택하면 출발지가 김포인 것만 */
 		 /* 날짜까지 포함하면 값이 안나오지만 출발지 도착지 모두 맞으면 검색이 되긴 함. */ 
   %>
 <div class="divwrap3">
@@ -180,7 +181,7 @@ int minutes = duration % 60; // 분 계산
 </div>
 </div>
   <% 
-	    } 
+/* 	    }  */
 	 }
 	 } %>
 

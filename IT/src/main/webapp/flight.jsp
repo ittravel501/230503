@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+    <%@page import="java.sql.Time" %>
+    <%@page import="dao.BoardDao"%>
+<%@page import="javax.swing.border.Border"%>
+<%@page import="dao.FlightDao"%>
+<%@page import="java.util.Vector"%>
+<%@page import="dto.Airinfo"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -55,7 +61,7 @@
                             <div class="bowl">
                     
                             </div>
-                            <form action="flightAction.jsp" method="post">
+                            <form action="flightAction.jsp" method="post" onsubmit="return checkForm();">
                             <!-- 출발지 / 도착지  -->
             				<jsp:include page="flightselectlist.jsp"></jsp:include>
                           
@@ -63,7 +69,7 @@
                               <label class="come1"> 가는날</label>
                               <input type="date" class="date1" name="air_dday">
               
-                               <label class="come2"> 오는날</label>
+                               <label class="come3"> 오는날</label>
                               <input type="date" class="date2" name="air_aday">
                            
                             </div> 
@@ -169,88 +175,7 @@
 
      </section>
 
-     <section>
-        <div class="centerdiv1">
-           <div class="wrapdiv1">
-          <img src="./flightimgs/배너1100.png" alt="">
-      </div>
-
-      <section>
-            <div class="wrap4">
-            <h2>해외 특가 항공권 ✈ </h2>
-            <div class="imgdiv">
-
-              <div class="salediv1">
-                 <img src="./flightimgs/뉴욕1.jpg" alt="" >
-                 <div class="fontdiv2"> 자유의 나라로 </div>
-                  <div class="fontdiv1"> 인천 ↔ 뉴욕 </div>
-                <div class="fontdiv3"> 1,096,100원~ </div>
-              </div>
-
-                 <div class="salediv1">
-                        <img src="./flightimgs/방콕1.jpg" alt="" >
-                        <div class="fontdiv2"> 지금 가장 뜨는 곳 </div>
-                        <div class="fontdiv1"> 인천 ↔ 방콕 </div>
-                        <div class="fontdiv3"> 383,600원~ </div>
-              </div>
-                 <div class="salediv2">
-                        <img src="./flightimgs/하와이1.jpg" alt="" >
-                        <div class="fontdiv2"> 휴양이 필요해 </div>
-                        <div class="fontdiv1"> 인천 ↔ 하와이 </div>
-                        <div class="fontdiv3"> 1,031,400원~ </div>
-              </div>
-                 <div class="salediv3">
-                        <img src="./flightimgs/파리1.jpg" alt="" >
-                        <div class="fontdiv2"> MD 강력 추천 </div>
-                        <div class="fontdiv1"> 인천 ↔ 파리 </div>
-                        <div class="fontdiv3"> 781,300원~ </div>
-              </div>
-              
-            </div>
-            
-            </div>
-        </div>
-
-        <div class="wrap4">
-            <h2>국내 특가 항공권 ✈ </h2>
-            <div class="imgdiv">
-              <div class="salediv1">
-                 <img src="./flightimgs/제주도.jpg" alt="" >
-                 <div class="fontdiv2"> 제주로 떠나요 </div>
-                  <div class="fontdiv1"> 김포 ↔ 제주 </div>
-                <div class="fontdiv3"> 90,000원~ </div>
-              </div>
-
-                 <div class="salediv1">
-                        <img src="./flightimgs/부산.jpg" alt="" >
-                        <div class="fontdiv2"> 지금 부산 바다로 </div>
-                        <div class="fontdiv1"> 김포 ↔ 부산 </div>
-                        <div class="fontdiv3"> 50,000원~ </div>
-              </div>
-                 <div class="salediv2">
-                        <img src="./flightimgs/양양제주.jpg" alt="" >
-                        <div class="fontdiv2"> 양양에서 제주로! </div>
-                        <div class="fontdiv1"> 양양 ↔ 제주 </div>
-                        <div class="fontdiv3"> 90,000원~  </div>
-              </div>
-                 <div class="salediv3">
-                        <img src="./flightimgs/서울서울.jpg" alt="" >
-                        <div class="fontdiv2"> 떠나요 서울로 </div>
-                        <div class="fontdiv1"> 여수 ↔ 김포 </div>
-                        <div class="fontdiv3"> 80,000원~  </div>
-              </div>
-              
-            </div>
-            
-            </div>
-        </div>
-
-
-           <div class="wrapdiv1_1">
-        <img src="./flightimgs/이동봉사1.png" alt="">
-    </div>
-
-     </section>
+<jsp:include page="flight_1.jsp"></jsp:include>
 		
 		        <div class="floating">
           <img src="./flightimgs/이동봉사 신청.png" style="opacity: 100%;"></a>

@@ -129,7 +129,7 @@
 원
 </div>
 </div>
-<div class="divbottom2_3" onclick="location.href='flight3.jsp'">
+<div class="divbottom2_3" onclick="location.href='flight5.jsp'">
 <div class="divbottom2_3_1">
 다음<!-- 왕복이면 오는날 비행기 조회 페이지로 보냄 -->
 </div>

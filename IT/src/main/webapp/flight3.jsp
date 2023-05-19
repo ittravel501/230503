@@ -1,301 +1,214 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@page import="dao.BoardDao"%>
+<%@page import="javax.swing.border.Border"%>
+<%@page import="dao.FlightDao"%>
+<%@page import="java.util.Vector"%>
+<%@page import="dto.Airinfo"%>
+<%@page import="java.sql.Time" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
-        <title>ø’∫π (ø¿¥¬≥Ø)</title> 
+        <title>ÏôïÎ≥µ (Í∞ÄÎäîÎÇ†)</title>
         <link rel="stylesheet" href="./css/flight2.css">
         <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"> </script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
         <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="//code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
-        </script> 
         <script src="./slick-1.8.1/slick/slick.min.js">
         </script>
-        <script src="./js/flight2.js"></script>
+        <script src="./js/flight2.js">
+
+        </script>
     </head>
     <style type="text/css">
     </style>
 <body>
-<!-- «Ï¥ı -->
+<%
+int pageNumber = 1; // Í∏∞Î≥∏ ÌéòÏù¥ÏßÄ, Í∏∞Î≥∏Ï†ÅÏúºÎ°ú ÌéòÏù¥ÏßÄÎäî 1Î∂ÄÌÑ∞ ÏãúÏûë
+if(request.getParameter("pageNumber") != null){
+	// Ï†ïÏàòÌòïÏúºÎ°ú ÌÉÄÏûÖ Î≥ÄÍ≤Ω
+	pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+}
+
+	String air_arrpt = null;
+	if(session.getAttribute("air_arrpt") != null){
+		air_arrpt = (String)session.getAttribute("air_arrpt");
+	}
+	String air_deppt = null;
+	if(session.getAttribute("air_deppt") != null){
+		air_deppt = (String)session.getAttribute("air_deppt");
+	}
+	
+	String air_dday = null;
+	if(session.getAttribute("air_dday") != null){
+		air_dday = (String)session.getAttribute("air_dday");
+	}
+	
+	String air_aday = null;
+	if(session.getAttribute("air_aday") != null){
+		air_aday = (String)session.getAttribute("air_aday");
+	}
+	
+	Time air_dday_time = null;
+	if(session.getAttribute("air_dday_time") != null){
+	    // Î¨∏ÏûêÏó¥Î°úÎ∂ÄÌÑ∞ TimeÏúºÎ°ú Î≥ÄÌôò
+	    air_dday_time = Time.valueOf((String)session.getAttribute("air_dday_time"));
+	}
+	
+	Time air_aday_time = null;
+	if(session.getAttribute("air_aday_time") != null){
+	    // Î¨∏ÏûêÏó¥Î°úÎ∂ÄÌÑ∞ TimeÏúºÎ°ú Î≥ÄÌôò
+	    air_aday_time = Time.valueOf((String)session.getAttribute("air_aday_time"));
+	}
+	
+	String air_model = null;
+	if(session.getAttribute("air_model") != null){
+		air_model = (String)session.getAttribute("air_model");
+	}
+	
+	String air_fligname = null;
+	if(session.getAttribute("air_fligname") != null){
+		air_fligname = (String)session.getAttribute("air_fligname");
+	}
+	
+	int air_price = 0; // Í∏∞Î≥∏ ÌéòÏù¥ÏßÄ, Í∏∞Î≥∏Ï†ÅÏúºÎ°ú ÌéòÏù¥ÏßÄÎäî 1Î∂ÄÌÑ∞ ÏãúÏûë
+	if(request.getParameter("air_price") != null){
+		// Ï†ïÏàòÌòïÏúºÎ°ú ÌÉÄÏûÖ Î≥ÄÍ≤Ω
+		air_price = Integer.parseInt(request.getParameter("air_price"));
+	}
+	int air_time_minute; // Í∏∞Î≥∏ ÌéòÏù¥ÏßÄ, Í∏∞Î≥∏Ï†ÅÏúºÎ°ú ÌéòÏù¥ÏßÄÎäî 1Î∂ÄÌÑ∞ ÏãúÏûë
+	if(request.getParameter("air_time_minute") != null){
+		// Ï†ïÏàòÌòïÏúºÎ°ú ÌÉÄÏûÖ Î≥ÄÍ≤Ω
+		air_time_minute = Integer.parseInt(request.getParameter("air_time_minute"));
+	
+	}
+%>
+<!-- Ìó§Îçî -->
 <jsp:include page="header.jsp"></jsp:include>
 
-<div class="divwrap1"> <!-- ∞°¿Â ≈´ ∆≤ -->
-<div class="divwrap2"> <!-- ªÛ¥‹ πË≥  -->
+<div class="divwrap1"> <!-- Í∞ÄÏû• ÌÅ∞ ÌãÄ -->
+<div class="divwrap2"> <!-- ÏÉÅÎã® Î∞∞ÎÑà -->
 <div class="divwrap2_1">
 <div class="divwrap2_1_1">
-¡¶¡÷
+<%= air_arrpt %>
 </div>
 <div class="divwrap2_1_2">
 ->
 </div>
 <div class="divwrap2_1_1">
-º≠øÔ
+<%= air_deppt %>
 </div>
 </div>
 <div class="divwrap2_2">
 <div class="divwrap2_1_1">
-2023-04-12 
+<%= air_dday %>
 </div>
 <div class="divwrap2_1_2">
 ->
 </div>
 <div class="divwrap2_1_1">
-2023-04-13 
+<%= air_aday %>
 </div>
 </div>
 <div class="divwrap2_3">
-º∫¿Œ 1
+ÏÑ±Ïù∏ 1
 </div>
 </div>
+<!-- ÏÉÅÎã® Î∞∞ÎÑà ÎÅù  / Ìï≠Í≥µ Ï°∞ÌöåÌëú? ÏãúÏûë-->
+ <%
+ 
+  	
+  FlightDao fd = new FlightDao();
+ Vector<Airinfo> list2 = fd.getList(pageNumber); 
+ for(int i = 0; i < list2.size(); i++) {
+	    Airinfo ai = list2.get(i);
+	    if(ai.getAir_deppt().equals(air_arrpt) && ai.getAir_arrpt().equals(air_deppt)) {
+	/*     if(air_dday == null || air_dday.isEmpty() || ai.getAir_dday().equals(air_dday)) { // air_depptÎ°ú ÏÑ§Ï†ïÌïú Í∞íÎßå Í∞ÄÏ†∏Ïò¥ ÍπÄÌè¨ ÏÑ†ÌÉùÌïòÎ©¥ Ï∂úÎ∞úÏßÄÍ∞Ä ÍπÄÌè¨Ïù∏ Í≤ÉÎßå */
+		 /* ÎÇ†ÏßúÍπåÏßÄ Ìè¨Ìï®ÌïòÎ©¥ Í∞íÏù¥ ÏïàÎÇòÏò§ÏßÄÎßå Ï∂úÎ∞úÏßÄ ÎèÑÏ∞©ÏßÄ Î™®Îëê ÎßûÏúºÎ©¥ Í≤ÄÏÉâÏù¥ ÎêòÍ∏¥ Ìï®. */ 
+  %>
 <div class="divwrap3">
 <div class="divwrap4">
 <div class="divwrap4all">
 <div class="divwrap4_1">
-06 : 00 
+<%= ai.getAir_dday_time() %>
 </div>
 <div class="divwrap4_2">
 <div class="divtimewrap2_1">
 <div class="divtimewrap2">
-1
+<%
+//ai.getAir_duration()Îäî Î∂Ñ Îã®ÏúÑÎ°ú Ï†ÄÏû•Îêú ÏÜåÏöîÏãúÍ∞Ñ Í∞íÏûÖÎãàÎã§.
+int duration = ai.getAir_time_minute();
+int hours = duration / 60; // ÏãúÍ∞Ñ Í≥ÑÏÇ∞
+int minutes = duration % 60; // Î∂Ñ Í≥ÑÏÇ∞
+%>
+<%= hours %>
 </div>
 <div class="divtimewrap2">
-Ω√∞£
+ÏãúÍ∞Ñ
 </div>
 <div class="divtimewrap2">
-5
+<%= minutes %>
 </div>
 <div class="divtimewrap2">
-∫–
+Î∂Ñ
 </div>
 </div>
-<img src="./flightimgs/øπæ‡¡∂»∏»≠ªÏ«•.svg" >
+<img src="./flightimgs/ÏòàÏïΩÏ°∞ÌöåÌôîÏÇ¥Ìëú.svg" >
 </div>
 <div class="divwrap4_3">
-07:05
+<%= ai.getAir_aday_time() %>
 </div>
 </div>
 <div class="divwrap4all2">
 <div class="divwrap4_4">
-f00001 / KAIR101
+<%= ai.getAir_model() %> / <%=ai.getAir_fligname() %>
 </div>
 
 </div>
 </div>
 <div class="divwrap5" tabindex="0">
 <div class="divwrap5_1">
-55,000 <!-- ≥™¡ﬂø° ∞™ πﬁæ∆º≠ √≥∏Æ -->
+<%= ai.getAir_price() %> <!-- ÎÇòÏ§ëÏóê Í∞í Î∞õÏïÑÏÑú Ï≤òÎ¶¨ -->
 </div>
 <div class="divwrap5_2">
-ø¯
+Ïõê
 </div>
 </div>
 </div>
+  <% 
+/* 	    }  */
+	 }
+	 } %>
 
-<div class="divwrap3">
-<div class="divwrap4">
-<div class="divwrap4all">
-<div class="divwrap4_1">
-06 : 00 
-</div>
-<div class="divwrap4_2">
-<div class="divtimewrap2_1">
-<div class="divtimewrap2">
-1
-</div>
-<div class="divtimewrap2">
-Ω√∞£
-</div>
-<div class="divtimewrap2">
-5
-</div>
-<div class="divtimewrap2">
-∫–
-</div>
-</div>
-<img src="./flightimgs/øπæ‡¡∂»∏»≠ªÏ«•.svg" >
-</div>
-<div class="divwrap4_3">
-07:05
-</div>
-</div>
-<div class="divwrap4all2">
-<div class="divwrap4_4">
-f00001 / KAIR101
-</div>
-
-</div>
-</div>
-<div class="divwrap5" tabindex="0">
-<div class="divwrap5_1">
-55,000 <!-- ≥™¡ﬂø° ∞™ πﬁæ∆º≠ √≥∏Æ -->
-</div>
-<div class="divwrap5_2">
-ø¯
-</div>
-</div>
-</div>
-
-<div class="divwrap3">
-<div class="divwrap4">
-<div class="divwrap4all">
-<div class="divwrap4_1">
-06 : 00 
-</div>
-<div class="divwrap4_2">
-<div class="divtimewrap2_1">
-<div class="divtimewrap2">
-1
-</div>
-<div class="divtimewrap2">
-Ω√∞£
-</div>
-<div class="divtimewrap2">
-5
-</div>
-<div class="divtimewrap2">
-∫–
-</div>
-</div>
-<img src="./flightimgs/øπæ‡¡∂»∏»≠ªÏ«•.svg" >
-</div>
-<div class="divwrap4_3">
-07:05
-</div>
-</div>
-<div class="divwrap4all2">
-<div class="divwrap4_4">
-f00001 / KAIR101
-</div>
-
-</div>
-</div>
-<div class="divwrap5" tabindex="0">
-<div class="divwrap5_1">
-55,000 <!-- ≥™¡ﬂø° ∞™ πﬁæ∆º≠ √≥∏Æ -->
-</div>
-<div class="divwrap5_2">
-ø¯
-</div>
-</div>
-</div>
-
-<div class="divwrap3">
-<div class="divwrap4">
-<div class="divwrap4all">
-<div class="divwrap4_1">
-06 : 00 
-</div>
-<div class="divwrap4_2">
-<div class="divtimewrap2_1">
-<div class="divtimewrap2">
-1
-</div>
-<div class="divtimewrap2">
-Ω√∞£
-</div>
-<div class="divtimewrap2">
-5
-</div>
-<div class="divtimewrap2">
-∫–
-</div>
-</div>
-<img src="./flightimgs/øπæ‡¡∂»∏»≠ªÏ«•.svg" >
-</div>
-<div class="divwrap4_3">
-07:05
-</div>
-</div>
-<div class="divwrap4all2">
-<div class="divwrap4_4">
-f00001 / KAIR101
-</div>
-
-</div>
-</div>
-<div class="divwrap5" tabindex="0">
-<div class="divwrap5_1">
-55,000 <!-- ≥™¡ﬂø° ∞™ πﬁæ∆º≠ √≥∏Æ -->
-</div>
-<div class="divwrap5_2">
-ø¯
-</div>
-</div>
-</div>
-
-<div class="divwrap3">
-<div class="divwrap4">
-<div class="divwrap4all">
-<div class="divwrap4_1">
-06 : 00 
-</div>
-<div class="divwrap4_2">
-<div class="divtimewrap2_1">
-<div class="divtimewrap2">
-1
-</div>
-<div class="divtimewrap2">
-Ω√∞£
-</div>
-<div class="divtimewrap2">
-5
-</div>
-<div class="divtimewrap2">
-∫–
-</div>
-</div>
-<img src="./flightimgs/øπæ‡¡∂»∏»≠ªÏ«•.svg" >
-</div>
-<div class="divwrap4_3">
-07:05
-</div>
-</div>
-<div class="divwrap4all2">
-<div class="divwrap4_4">
-f00001 / KAIR101
-</div>
-
-</div>
-</div>
-<div class="divwrap5" tabindex="0">
-<div class="divwrap5_1">
-55,000 <!-- ≥™¡ﬂø° ∞™ πﬁæ∆º≠ √≥∏Æ -->
-</div>
-<div class="divwrap5_2">
-ø¯
-</div>
-</div>
-</div>
-</div>
 <div class="divbottom1">
 <div class="divbottom2">
 <div class="divbottom2_1">
 <div class="divbottom2_1_1">
-øπªÛ ∞·¡¶ ±›æ◊ 
+ÏòàÏÉÅ Í≤∞Ï†ú Í∏àÏï° 
 </div>
 </div>
 <div class="divbottom2_2">
 <div>
 </div>
 <div class="divbottom2_2_1">
-55000<!-- ≥™¡ﬂø° ∞™ πﬁæ∆º≠ √≥∏Æ -->
+<%= air_price%> <!-- ÎÇòÏ§ëÏóê Í∞í Î∞õÏïÑÏÑú Ï≤òÎ¶¨ -->
 </div>
 <div class="divbottom2_2_2">
-ø¯
+Ïõê
 </div>
 </div>
-<div class="divbottom2_3">
+<div class="divbottom2_3" onclick="location.href='flight4.jsp'">
 <div class="divbottom2_3_1">
-¥Ÿ¿Ω ø©¡§ <!-- ø’∫π¿Ã∏È ø¿¥¬≥Ø ∫Ò«‡±‚ ¡∂»∏ ∆‰¿Ã¡ˆ∑Œ ∫∏≥ø -->
+Îã§Ïùå Ïó¨Ï†ï <!-- ÏôïÎ≥µÏù¥Î©¥ Ïò§ÎäîÎÇ† ÎπÑÌñâÍ∏∞ Ï°∞Ìöå ÌéòÏù¥ÏßÄÎ°ú Î≥¥ÎÉÑ -->
 </div>
 </div>
 </div>
 </div>
-<%-- <!-- «™≈Õ -->
+<%-- <!-- Ìë∏ÌÑ∞ -->
 <jsp:include page="footer.jsp"></jsp:include> --%>
 </body>
 </html>

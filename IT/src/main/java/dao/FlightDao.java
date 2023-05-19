@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.Vector;
 
 import dto.Airinfo;
-import dto.Cominfo;
 
 import java.sql.Connection;
 
@@ -17,17 +16,17 @@ public class FlightDao {
 	
 	public FlightDao() {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://13.211.240.42/:3306/teamproject?useUnicode=true&characterEncoding=utf8";
-			String dbID = "all";
-			String dbPW = "1234";
+			Class.forName("com.mysql.jdbc.Driver");
+			String dbURL = "jdbc:mysql://localhost:3306/teamproject?useUnicode=true&characterEncoding=UTF-8";
+			String dbID = "root";
+			String dbPW = "eogkrrksek!1";
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	// 출발지 선택
+	// 출발지 도착지 선택
 	public Vector<Airinfo> pt(Airinfo airinfo) {
 	    String SQL = "SELECT * FROM air_inquiry WHERE air_deppt = ? AND air_arrpt = ? AND air_dday = ?";
 	    Vector<Airinfo> list1 = new Vector<Airinfo>();
@@ -63,12 +62,12 @@ public class FlightDao {
 
 	    // 조회된 기준 air_num으로 내림차순하여 pageNumber에 해당하는 10개의 항공편을 보여주는 쿼리 
 	    String SQL = "SELECT * FROM air_inquiry"
-	            + " WHERE air_num < ? ORDER BY air_num LIMIT 10 OFFSET ?";
+	            + " WHERE air_num < ? ORDER BY air_num LIMIT 100 OFFSET ?";
 	         
 	    Vector<Airinfo> list1 = new Vector<Airinfo>();
 	         
 	    try {
-	        PreparedStatement pstat = conn.prepareStatement(SQL);
+	    	PreparedStatement pstat = conn.prepareStatement(SQL);
 	        pstat.setInt(1, getNext() - (pageNumber - 1 ) * 10);
 	        pstat.setInt(2, (pageNumber - 1) * 10);
 	        rs = pstat.executeQuery();
@@ -108,4 +107,35 @@ public class FlightDao {
         }
         return -1; // 데이터베이스 오류
     }
+    
+	// 특가 상품 조회시 오늘 이후의 것부터 조회되게 만드는 쿼리 
+	public Vector<Airinfo> pt2(Airinfo airinfo) {
+		String SQL = "SELECT * FROM air_inquiry WHERE air_deppt = ? AND air_arrpt = ? AND air_dday > DATE_ADD(NOW(), INTERVAL 1 DAY)";
+	    Vector<Airinfo> list1 = new Vector<Airinfo>();
+	    try {
+	        PreparedStatement pstat = conn.prepareStatement(SQL);
+	        pstat.setString(1, airinfo.getAir_deppt());
+	        pstat.setString(2, airinfo.getAir_arrpt());
+	        
+	        rs = pstat.executeQuery(); // ResultSet 객체 생성
+	        while(rs.next()) {
+	            Airinfo ai = new Airinfo();
+	            ai.setAir_num(rs.getInt(1));
+	            ai.setAir_deppt(rs.getString(2));
+	            ai.setAir_dday(rs.getString(3));
+	            ai.setAir_arrpt(rs.getString(4));
+	            ai.setAir_aday(rs.getString(5));
+	            ai.setAir_model(rs.getString(6));
+	            ai.setAir_fligname(rs.getString(7));
+	            ai.setAir_dday_time(rs.getTime(8));
+	            ai.setAir_aday_time(rs.getTime(9));
+	            ai.setAir_time_minute(rs.getInt(10));
+	            ai.setAir_price(rs.getInt(11));
+	            list1.add(ai);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return list1;
+	}
 }

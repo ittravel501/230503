@@ -361,7 +361,7 @@ $("img[name=close]").click(function(){
 
 $(".cl1").click(function(){
 
-  $("label[class=come2]").show();
+  $("label[class=come3]").show();
     $("input[class=date2]").show();
  
 });
@@ -369,7 +369,7 @@ $(".cl1").click(function(){
 
 $(".cl2").click(function(){
 
-    $("label[class=come2]").hide();
+    $("label[class=come3]").hide();
     $("input[class=date2]").hide();
 });
 
@@ -512,4 +512,87 @@ $(document).ready(function(){
 	 
 });//end ready
 
+
+$(document).ready(function(){
+  // 오늘 날짜를 구합니다.
+  var today = new Date();
+  // 내일 날짜를 계산합니다.
+  var tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  // 내일 날짜를 yyyy-mm-dd 형식의 문자열로 변환합니다.
+  var tomorrowStr = tomorrow.toISOString().slice(0, 10);
+  
+  var after30Days = new Date(tomorrow);
+	after30Days.setDate(after30Days.getDate() + 30);
+var after30DaysStr = after30Days.toISOString().slice(0, 10);
+
+  $('.country1').click(function() {
+    sendData('ICN', 'JFK', tomorrowStr,after30DaysStr);
+  });
+
+  $('.country2').click(function() {
+    sendData('ICN', 'BKK', tomorrowStr,after30DaysStr);
+  });
+  
+  $('.country3').click(function() {
+    sendData('ICN', 'HNL', tomorrowStr,after30DaysStr);
+  });
+  
+  $('.country4').click(function() {
+    sendData('ICN', 'CDG', tomorrowStr,after30DaysStr);
+  });
+  
+  $('.country5').click(function() {
+    sendData('GMP', 'CJU', tomorrowStr,after30DaysStr);
+  });
+  
+  $('.country6').click(function() {
+    sendData('GMP', 'PUS', tomorrowStr,after30DaysStr);
+  });
+  
+  $('.country7').click(function() {
+    sendData('YNY', 'CJU', tomorrowStr,after30DaysStr);
+  });
+  
+  $('.country8').click(function() {
+    sendData('RSU', 'GMP', tomorrowStr,after30DaysStr);
+  });
+
+  function sendData(air_deppt, air_arrpt, air_dday, air_aday) {
+    var xhr = new XMLHttpRequest();
+    var url = "flightAction2.jsp"; // 전송할 페이지 URL
+    var params = "air_deppt=" + air_deppt + "&air_arrpt=" + air_arrpt + "&air_dday=" + air_dday + "&air_aday=" + air_aday; // 전송할 매개변수
+    xhr.open("POST", url, true);
+
+    // 헤더 설정
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    // 전송 완료 시 처리
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        // 전송 완료 후 처리할 내용 작성
+      }
+    }
+
+    xhr.send(params); // 전송
+  }
+   
+});
+
+
+function checkForm() {
+  var come1 = document.querySelector('.come1').value;
+  var come2 = document.querySelector('.come2').value;
+  var date1 = document.querySelector('.date1').value;
+  var date2 = document.querySelector('.date2').value;
+  var adult = document.querySelector('.personwrap1').value;
+  var child = document.querySelector('.personwrap2').value;
+  
+  if (date1 === '' || date2 === '' || come1 === '' || come2 === '' || (child !== '0' && adult === '0')) {
+    alert('정보를 모두 선택해주세요.');
+    return false;
+  }
+  
+  return true;
+}
 
