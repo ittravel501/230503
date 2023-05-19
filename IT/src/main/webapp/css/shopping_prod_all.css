@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+*{
+	font-family: 'NanumBarunGothicExtraLight';
+	font-family: 'NanumBarunGothicLight';
+	font-family: 'NanumBarunGothic';
+	font-family: 'NanumBarunGothicBold';
+}
+
+
+* {
+ 	margin: 0;
+ 	padding: 0;
+ }
+
+ ul, ol, li {
+ 	list-style: none;
+ }
+
+ a {
+ 	text-decoration: none;
+ 	color: #333;
+ }
+
+ /**/
+
+section .shopping_prod_all_wrap{
+	width: 1280px;
+	margin: 0 auto;
+}
+
+/*/////////////////////////////////////////////////////////*/
+
+section #shopping_quickmenu_wrap {
+	text-align: center;
+    width: 100px;
+    border: 1px solid #d9d9d9;
+    border-radius: 30px;
+    position: absolute;
+    margin-left: 1400px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    top: 750px;	
+      	
+}
+
+#shopping_quickmenu_wrap.sticky {
+  position: fixed;
+  top: 0;
+}
+
+
+section .s_quickmenu{
+	position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 70px;
+    padding-top: 5px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+	
+}
+
+/* ////////////////////////////////// */
+
+section #shopping_topmenu_wrap{
+	width: 	1900px;
+	position: absolute;
+	top: 200px;	
+	background-color: white;
+/* 	border: solid 1px; */
+	border-bottom: solid 1px;
+	z-index: 999;
+	margin-left: -330px;
+}
+
+#shopping_topmenu_wrap.sticky {
+  position: fixed;
+/*   top: 0; */
+}
+
+section #shopping_topmenu{
+	position: relative;
+	width: 700px;
+	height: 70px;
+	line-height: 70px;
+	margin: 0 auto;
+	z-index: 5
+}
+
+section #shopping_topmenu_wrap  ul{
+	display: flex;
+	justify-content: space-around;
+	font-size: 30px;
+}
+
+section #shopping_topmenu_wrap  ul li{
+	cursor: pointer;
+	
+}
+
+/* ////////////////////////////////// */
+
+section .shopping_prod_all_wrap{
+	width: 1200px;
+	padding-top: 100px;
+}
+
+section #shopping_prod_all{
+	width: 1008px;
+    /* height: 370px; */
+    background-color: white;
+    margin-bottom: 20px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+section #prod_wrap {
+    /* width: 1008px; */
+    width: 25%;
+    height: 300px;
+    display: inline-block;
+}
+
