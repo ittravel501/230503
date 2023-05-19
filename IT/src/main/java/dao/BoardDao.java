@@ -15,8 +15,8 @@ public class BoardDao{
 	public BoardDao() { 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String dbURL = "jdbc:mysql://13.211.240.42/:3306/teamproject?useUnicode=true&characterEncoding=utf8";
-			String dbID = "all";
+			String dbURL = "jdbc:mysql://3.27.74.199:3306/ittravel?useUnicode=true&characterEncoding=utf8";
+			String dbID = "IT";
 			String dbPW = "1234";
 			conn = DriverManager.getConnection(dbURL, dbID, dbPW);
 		} catch (Exception e) {

@@ -3,10 +3,10 @@
 		name="jdbc/MySQLD"
 		auth="Container"
 		type="javax.sql.DataSource"
-		username="root"
+		username="IT"
 		password="1234"
-		driverClassName="com.mysql.jdbc.Driver"
+		driverClassName="com.mysql.cj.jdbc.Driver"
 		factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
-		url="jdbc:mysql://localhost:3306/teamproject?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8"
+		url="jdbc:mysql://3.27.74.199:3306/ittravel?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8"
 		maxActive="500"/>
 </Context>

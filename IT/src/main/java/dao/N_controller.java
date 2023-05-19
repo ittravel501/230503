@@ -40,7 +40,7 @@ public class N_controller {
 
 		try{
 
-			conn = DriverManager.getConnection("jdbc:mysql://13.211.240.42/:3306/teamproject?useUnicode=true&characterEncoding=utf8","all","1234");		
+			conn = DriverManager.getConnection("jdbc:mysql://3.27.74.199:3306/ittravel?useUnicode=true&characterEncoding=utf8","IT","1234");		
 			
 			if(conn==null) {
 				throw new Exception("데이터베이스에 연결할 수 없습니다.");

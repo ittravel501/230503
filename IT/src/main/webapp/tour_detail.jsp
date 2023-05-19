@@ -23,10 +23,10 @@
 		<div class="wrap01">
 		<div class="top_wrap">
 			<ul class="ul_wrap">
-			<%String tour_city = tourlist.getTour_city(); %>
+<%-- 			<%String tour_city = tourlist.getTour_city(); %> --%>
 				<li><a href="tour002.jsp">투어 홈</a></li> 
 				<li>여행구분</li> 
-				<li><%=tour_city %></li> 
+<%-- 				<li><%=tour_city %></li>  --%>
 				<li><c:out value="${tourlist.tour_tour}"/></li>
 			</ul>
 			<div class="prod_info_wrap">
@@ -59,6 +59,7 @@
 					<input type="submit" id="basket_btn" value="장바구니">
 					<input type="submit" id="buy_btn" value="구매하기">
 				</li>
+				
 				</ul>
 				
 			</div>
