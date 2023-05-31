@@ -2,12 +2,8 @@
 <%@page import="vo.TravelPlanVO"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.SimpleDateFormat"%>
-<%
- request.setCharacterEncoding("utf-8");
-%>
-<%
-	ArrayList<TravelPlanVO> cityList=(ArrayList<TravelPlanVO>)request.getAttribute("cityList");
-%>
+<% request.setCharacterEncoding("utf-8"); %>
+<% ArrayList<TravelPlanVO> cityList=(ArrayList<TravelPlanVO>)request.getAttribute("cityList"); %>
 
 <!DOCTYPE html>
 <html>
@@ -155,7 +151,7 @@ function inputnum(){ //인원 직접 입력하기
 						<div class="cityexplain2" style="padding: 30px;">
 							<h2 style="letter-spacing: 2px;" id="smallcity1" onclick="smallcity1()">방콕</h2>
 							<h3	style="margin-top: 10px; font-family: TheJamsil2Light; letter-spacing: 2px;"id="smallcity2">BANGKOK</h3>
-							<div style="font-family: TheJamsil2Light; color: grey; font-size: 15px; margin-top: 15px;">
+							<div style="font-family: TheJamsil2Light; color: grey; font-size: 15px; margin-top: 15px;" id="city_exp">
 								방콕은 이러쿵 저렇궁 저렇구요 Kids were laughing in my classes While I was
 								scheming for the masses Who do you think you are? Dreaming 'bout
 								being a big star They say, "You're basic", they say, "You're
@@ -177,7 +173,7 @@ function inputnum(){ //인원 직접 입력하기
 
 			<!--///////////// 팝업창 ////////// 	 -->
 
-
+<% String tra_mem_id =(String)session.getAttribute("mem_id");%>
 
 
 			<!-- ///////////메인화면////////// -->
@@ -189,6 +185,7 @@ function inputnum(){ //인원 직접 입력하기
 					<div id="destintext">떠나고 싶은 여행지를 검색해보세요!</div>
 					<div class="depdatewrap">
 						<ul>
+							<li><input type="hidden" name = "mem_id" value = <%= tra_mem_id%>></li>
 							<li><input type="text" size="50" name="coouncity"
 								class="inputdes" style="padding-left: 10px;" placeholder="여행지를 입력해주세요" required></li>
 							<li><input type="button" class="btn" value="가는날"
@@ -264,7 +261,7 @@ function inputnum(){ //인원 직접 입력하기
 					if(cityList != null){
 						for(int i=0;i<cityList.size();i++){			
 							if("asia".equals(cityList.get(i).getCity_con())){%>			 
-							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>', '<%=cityList.get(i).getCity_exp() %>')">	
 								<div class="pic">
 									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
 				<!-- 						pic	 -->
@@ -290,7 +287,7 @@ function inputnum(){ //인원 직접 입력하기
 					if(cityList != null){
 						for(int i=0;i<cityList.size();i++){			
 							if("america".equals(cityList.get(i).getCity_con())){%>			 
-							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>', '<%=cityList.get(i).getCity_exp() %>')">
 								<div class="pic">
 									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
 				<!-- 						pic	 -->
@@ -316,7 +313,7 @@ function inputnum(){ //인원 직접 입력하기
 					if(cityList != null){
 						for(int i=0;i<cityList.size();i++){			
 							if("europe".equals(cityList.get(i).getCity_con())){%>			 
-							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>', '<%=cityList.get(i).getCity_exp() %>')">
 								<div class="pic">
 									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
 				<!-- 						pic	 -->
@@ -342,7 +339,7 @@ function inputnum(){ //인원 직접 입력하기
 					if(cityList != null){
 						for(int i=0;i<cityList.size();i++){			
 							if("oceania".equals(cityList.get(i).getCity_con())){%>			 
-							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>', '<%=cityList.get(i).getCity_exp() %>')">
 								<div class="pic">
 									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
 				<!-- 						pic	 -->
@@ -368,7 +365,7 @@ function inputnum(){ //인원 직접 입력하기
 					if(cityList != null){
 						for(int i=0;i<cityList.size();i++){			
 							if("africa".equals(cityList.get(i).getCity_con())){%>			 
-							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>')">
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>', '<%=cityList.get(i).getCity_exp() %>')">
 								<div class="pic">
 									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
 				<!-- 						pic	 -->
@@ -592,14 +589,15 @@ function inputnum(){ //인원 직접 입력하기
 	</footer>
 
 <script>
-function openmodal(city_eng, city_name) {
+function openmodal(city_eng, city_name, city_exp) {
 	$('#background').fadeIn(200);
 	$('#front').fadeIn(200);
 	$('body').addClass('modal-open');
 	console.log(city_eng);
 	document.getElementById("photo2").style.backgroundImage = "url('travelplanimgs/"+city_eng + ".jpg')",
 	document.getElementById("smallcity1").innerText = city_name,
-	document.getElementById("smallcity2").innerText = city_eng.toUpperCase()
+	document.getElementById("smallcity2").innerText = city_eng.toUpperCase(),
+	document.getElementById("city_exp").innerText = city_exp
 };
 </script>
 

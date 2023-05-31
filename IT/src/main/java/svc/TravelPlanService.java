@@ -8,8 +8,8 @@ import vo.TravelPlanVO;
 
 public class TravelPlanService {
 
-	public ArrayList<TravelPlanVO> selectCityList() throws Exception{
-		
+	public ArrayList<TravelPlanVO> selectCityList() throws Exception {
+
 		ArrayList<TravelPlanVO> cityList = null;
 		Connection con = getConnection();
 		TravelPlanDAO travelPlanDAO = TravelPlanDAO.getInstance();
@@ -17,7 +17,7 @@ public class TravelPlanService {
 		cityList = travelPlanDAO.selectCityList();
 		close(con);
 		return cityList;
-		
+
 	}
 
 }

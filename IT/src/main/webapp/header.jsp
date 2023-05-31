@@ -73,12 +73,12 @@
 		          <ul>
 		              <div id="menulist_all" >
 		              
-			              <li class="menulist2">  
-			              	<% if(mem_nick != null){%>
-			              		<a href="./travel_plan.jsp" class="menu">여행지추가</a>
-			              	<% }else{%>
-			              		<a href="#" class="menu" onclick="alert('로그인이 필요합니다!'); location.href='./login001.jsp';">여행지추가</a>
-			              	<% }%>
+			              <li class="menulist2"><a href="/travelPlan.bo" class="menu">여행지추가</a> 
+<%-- 			              	<% if(mem_nick != null){%> --%>
+<!-- 			              		<a href="./travel_plan.jsp" class="menu">여행지추가</a> -->
+<%-- 			              	<% }else{%> --%>
+<!-- 			              		<a href="#" class="menu" onclick="alert('로그인이 필요합니다!'); location.href='./login001.jsp';">여행지추가</a> -->
+<%-- 			              	<% }%> --%>
 			              </li>
 			              
 			              <li class="menulist3">
@@ -113,12 +113,12 @@
 			      <div class="menu_down">
 			      
 				       <ul class="m_place">
-				         <li>
-				           <% if(mem_nick != null){%>
-			              <a href="./travel_plan.jsp" class="menu">여행지추가</a>
-			              <% }else{%>
-			              <a href="#" class="menu" onclick="alert('로그인이 필요합니다!'); location.href='./login001.jsp';">여행지추가</a>
-			              <% }%>
+				         <li><a href="/travelPlan.bo" class="menu">여행지추가</a>
+<%-- 				           <% if(mem_nick != null){%> --%>
+<!-- 			              <a href="./travel_plan.jsp" class="menu">여행지추가</a> -->
+<%-- 			              <% }else{%> --%>
+<!-- 			              <a href="#" class="menu" onclick="alert('로그인이 필요합니다!'); location.href='./login001.jsp';">여행지추가</a> -->
+<%-- 			              <% }%> --%>
 				         </li>		        
 				      </ul>
 			
@@ -133,6 +133,9 @@
 			              	<% }else{%>
 			              		<a href="#" class="menu" onclick="alert('로그인이 필요합니다!'); location.href='./login001.jsp';">일정짜기</a>
 			              	<% }%>
+				         </li>
+				          <li>
+					        <a href="/selectTravelList.bo?tra_mem_id=<%= mem_id %>" class="menu">내 일정보기</a>
 				         </li>
 				
 				     </ul>

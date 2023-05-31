@@ -7,19 +7,18 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import dao.TravelPlanDAO;
-import vo.TravelSchMngVO;
+import dto.TravelDTO;
 
-public class Travel_SchDayService {
+public class TravelListService {
+	public ArrayList<TravelDTO> selectTravelList(String tra_mem_id) throws Exception {
 
-	public ArrayList<TravelSchMngVO> schDayList() throws Exception {
-
-		ArrayList<TravelSchMngVO> SchDay = null;
+		ArrayList<TravelDTO> travelList = null;
 		Connection con = getConnection();
 		TravelPlanDAO travelPlanDAO = TravelPlanDAO.getInstance();
 		travelPlanDAO.setConnection(con);
-		SchDay = travelPlanDAO.selectSchMng();
+		travelList = travelPlanDAO.selectTravelList(tra_mem_id);
 		close(con);
-		return SchDay;
+		return travelList;
 
 	}
 

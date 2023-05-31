@@ -7,8 +7,15 @@ public class TravelPlanVO {
 	private String city_name;
 	private String city_eng;
 	private String city_con;
+	private String city_exp;
 	
 
+	public String getCity_exp() {
+		return city_exp;
+	}
+	public void setCity_exp(String city_exp) {
+		this.city_exp = city_exp;
+	}
 	public int getCity_num() {
 		return city_num;
 	}
