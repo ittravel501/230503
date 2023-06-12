@@ -3,8 +3,16 @@ package dto;
 public class TravelSchDTO {
 
 	int tra_num, sch_num, sch_tra_num, sch_loc_num, sch_filnum, loc2_num;
-	String sch_day, sch_pla, loc2_name, loc2_loc, sch_filter, loc2_filter, sch_memo;
+	String sch_day, sch_pla, loc2_name, loc2_loc, sch_filter, loc2_filter, sch_memo, sch_modified_date;
 	
+	public String getSch_modified_date() {
+		return sch_modified_date;
+	}
+
+	public void setSch_modified_date(String sch_modified_date) {
+		this.sch_modified_date = sch_modified_date;
+	}
+
 	public int getTra_num() {
 		return tra_num;
 	}

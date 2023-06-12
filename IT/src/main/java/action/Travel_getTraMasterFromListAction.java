@@ -38,9 +38,6 @@ public class Travel_getTraMasterFromListAction implements Action {
 	
 	request.setAttribute("tra_cityList", tra_cityFromList);
 	
-	
-	
-	
 	//오른쪽 사이드바 추천장소 구성
     ArrayList<TravelDTO> locList = new ArrayList<TravelDTO>();
     Travel_LocListService locListService = new Travel_LocListService();
