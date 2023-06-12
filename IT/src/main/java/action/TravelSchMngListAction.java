@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import dto.TravelDTO;
 import svc.Travel_LocListService;
 import svc.Travel_SchDayService;
+import svc.Travel_getTraMasterFromListService;
 import svc.TravelPlanService;
 import svc.TravelSchMngListService;
 import vo.ActionForward;
@@ -19,37 +20,38 @@ public class TravelSchMngListAction implements Action {
 
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		//왼쪽 사이드바를 구성하는 부분1 - 도시 등 정보
-		TravelDTO tra_cityList =new TravelDTO();		
 		
-		//왼쪽 사이드바를 구성하는 부분2 - 날짜 정보
-		ArrayList<TravelSchMngVO> travelSchMngVO = new ArrayList<TravelSchMngVO>();
+
+		
+		
+		// 왼쪽 사이드바를 구성하는 부분1 - 도시 등 정보
+		TravelDTO tra_cityList = new TravelDTO();
 		TravelSchMngListService travelSchMngListService = new TravelSchMngListService();
-		Travel_SchDayService schDayService = new Travel_SchDayService();
-		
 		tra_cityList = travelSchMngListService.tra_cityList();
-		travelSchMngVO = schDayService.schDayList();
-				
 		request.setAttribute("tra_cityList", tra_cityList);
+		
+		// 왼쪽 사이드바를 구성하는 부분2 - 날짜 정보
+		ArrayList<TravelSchMngVO> travelSchMngVO = new ArrayList<TravelSchMngVO>();
+		Travel_SchDayService schDayService = new Travel_SchDayService();
+
+		travelSchMngVO = schDayService.schDayList();
 		request.setAttribute("sch_dayList", travelSchMngVO);
+				
+		String tra_city = tra_cityList.getTra_city();
+
+        ArrayList<TravelDTO> locList = new ArrayList<TravelDTO>();
+        Travel_LocListService locListService = new Travel_LocListService();
+        locList = locListService.selectLocList(tra_city);
+        request.setAttribute("locList", locList);
+
+        
+       
 		
-		
-		//오른쪽 사이드바 구성하는 부분
-		ArrayList<Travel_LocInfoVO> locList=new ArrayList<Travel_LocInfoVO>();		
-			
-		Travel_LocListService locListService = new Travel_LocListService();
-		locList = locListService.selectCityList();
-	   		
-		request.setAttribute("locList", locList);
-	
-		
-		ActionForward forward= new ActionForward();
-   		forward.setPath("/travel_sch_mng.jsp");
-   		return forward;
-   		
-   		
-   		
-   		
-	
+        // 오른쪽 사이드바 구성하는 부분
+
+		ActionForward forward = new ActionForward();
+		forward.setPath("/travel_sch_mng.jsp");
+		return forward;
+
 	}
 }

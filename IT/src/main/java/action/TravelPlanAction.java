@@ -7,21 +7,20 @@ import svc.TravelPlanService;
 import vo.ActionForward;
 import vo.TravelPlanVO;
 
- public class TravelPlanAction {
-	 
-		public ActionForward execute(HttpServletRequest request,HttpServletResponse response) throws Exception{	 
+public class TravelPlanAction {
 
-		 
-		ArrayList<TravelPlanVO> cityList=new ArrayList<TravelPlanVO>();		
-		
+	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ArrayList<TravelPlanVO> cityList = new ArrayList<TravelPlanVO>();
+
 		TravelPlanService travelPlanService = new TravelPlanService();
 		cityList = travelPlanService.selectCityList();
-   		
+
 		request.setAttribute("cityList", cityList);
-		ActionForward forward= new ActionForward();
-   		forward.setPath("travel_plan.jsp");
-   		return forward;
-   		
-	 }
-	 
- }
+		ActionForward forward = new ActionForward();
+		forward.setPath("travel_plan.jsp");
+		return forward;
+
+	}
+
+}
