@@ -38,8 +38,6 @@ public class TravelPlanDAO {
 		this.con = con;
 	}
 
-	
-	//여행스케줄 추가페이지에서 불러올 도시리스트
 	public ArrayList<TravelPlanVO> selectCityList() {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -71,9 +69,7 @@ public class TravelPlanDAO {
 
 	}
 
-	
-	//여행 출발일-도착일 사이 일자
-	public ArrayList<String> getDates(String startDate, String endDate) {
+	public ArrayList<String> getDatesBetween(String startDate, String endDate) {
 		ArrayList<String> dates = new ArrayList<>();
 		LocalDate start = LocalDate.parse(startDate);
 		LocalDate end = LocalDate.parse(endDate);
@@ -85,7 +81,6 @@ public class TravelPlanDAO {
 		return dates;
 	}
 
-	//여행스케줄 추가
 	public int insertTravelMaster(TravelDTO article) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -101,12 +96,9 @@ public class TravelPlanDAO {
 				num = rs.getInt("tra_num");
 			}
 
-			sql = "INSERT INTO tra_master"
-				+ "(tra_num, tra_mem_id, tra_title, tra_dday, "
-				+ "tra_aday, tra_ppl, tra_city_num, tra_city) "
-				+ "SELECT ?, ?, ?, ?, ?, ?, city_num, city_name "
-				+ "FROM city_info " + "WHERE city_name = ?";
-			
+			sql = "INSERT INTO tra_master (tra_num, tra_mem_id, tra_title, tra_dday, tra_aday, tra_ppl, tra_city_num, tra_city) "
+					+ "SELECT ?, ?, ?, ?, ?, ?, city_num, city_name " // 물음표(?) 추가
+					+ "FROM city_info " + "WHERE city_name = ?";
 			System.out.println("dfsdf");
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, num);
@@ -115,9 +107,28 @@ public class TravelPlanDAO {
 			pstmt.setString(4, article.getTra_dday());
 			pstmt.setString(5, article.getTra_aday());
 			pstmt.setInt(6, article.getTra_ppl());
+			// pstmt.setInt(7, article.getTra_city_num());
 			pstmt.setString(7, article.getTra_city());
 
 			insertCount = pstmt.executeUpdate();
+
+//			sql = "SELECT tra_dday, tra_aday FROM tra_master where tra_num = ?";		        
+//		        pstmt = con.prepareStatement(sql);
+//				pstmt.setInt(1, tra_num);
+//		        rs = pstmt.executeQuery();
+//		        if(rs.next()){
+//		            tra_num = rs.getInt(1);
+//		            System.out.println(tra_num);
+//		            // sch_manage 테이블에 추가할 데이터를 생성
+//		            List<String> sch_days = getDatesBetween(article.getTra_dday(), article.getTra_aday());
+//		            for(String dates : sch_days){
+//		                sql = "INSERT INTO sch_manage (sch_tra_num, sch_day) VALUES (?, ?)";
+//		                pstmt = con.prepareStatement(sql);
+//		                pstmt.setInt(1, tra_num);
+//		                pstmt.setString(2, dates);
+//		                insertCount += pstmt.executeUpdate();
+//		            }
+//		        }
 		} catch (Exception ex) {
 			ex.printStackTrace(); // 오류 발생 시 콘솔에 오류 메시지 출력
 		} finally {
@@ -131,20 +142,14 @@ public class TravelPlanDAO {
 
 	}
 
-	
-	//여행스케줄 -> 일정관리에서 불러올 여행정보
 	public TravelDTO selectTraMasterList() {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String traMaster_sql = "SELECT tm.tra_num, tm.tra_city, tm.tra_dday, "
-							 + 	"tm.tra_aday, tm.tra_ppl, ci.city_eng "
-							 + "FROM tra_master tm " 
-							 + "INNER JOIN city_info ci "
-							 + "ON tm.tra_city_num = ci.city_num "
-							 + "WHERE tm.tra_num = (SELECT MAX(tra_num) "
-							 + "FROM tra_master)";
-
+		String traMaster_sql = "SELECT tm.tra_num, tm.tra_city, tm.tra_dday, tm.tra_aday, tm.tra_ppl, ci.city_eng\r\n"
+				+ "		FROM tra_master tm\r\n" + "		INNER JOIN city_info ci ON tm.tra_city_num = ci.city_num\r\n"
+				+ "		WHERE tm.tra_num = (SELECT MAX(tra_num) FROM tra_master)";
+//		ArrayList<TravelDTO> selectTraMaster = new ArrayList<TravelDTO>();
 		TravelDTO travelDTO = null;
 
 		try {
@@ -174,16 +179,13 @@ public class TravelPlanDAO {
 
 	}
 	
-	
-	//내 여행목록 -> 일정관리에서 불러올 여행정보
 	public TravelDTO selectTraMasterFromList(int tra_num) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String traMaster_sql = "SELECT tm.tra_num, tm.tra_city, tm.tra_dday, "
-							+  "tm.tra_aday, tm.tra_ppl, ci.city_eng "
+		String traMaster_sql = "SELECT tm.tra_num, tm.tra_city, tm.tra_dday, tm.tra_aday, tm.tra_ppl, ci.city_eng\r\n"
 				+ "		FROM tra_master tm\r\n" + "		INNER JOIN city_info ci ON tm.tra_city_num = ci.city_num\r\n"
-				+ "WHERE tm.tra_num = ?";
+				+ "		WHERE tm.tra_num = ?";
 //		ArrayList<TravelDTO> selectTraMaster = new ArrayList<TravelDTO>();
 		TravelDTO travelDTO = null;
 
@@ -215,19 +217,14 @@ public class TravelPlanDAO {
 
 	}
 	
-	//내 여행 목록 -> 일정관리에 불러올 일정/메모
+	
 	public ArrayList<TravelSchDTO> selectSchFromList(int tra_num) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-	    String traMaster_sql = "SELECT sm.sch_num, sm.sch_tra_num, "
-	    					 + "sm.sch_day, sm.sch_filter, "
-	    					 + "sm.sch_pla, sm.sch_memo, li2.loc2_loc "
-	    					 + "FROM sch_manage sm INNER JOIN tra_master tm "
-	    					 + "ON tm.tra_num = sm.sch_tra_num "
-	    					 + "INNER JOIN loc_info2 li2 ON sm.sch_loc_num = li2.loc2_num "
-	    					 + "WHERE tm.tra_num =  ?";
-
+		String traMaster_sql =  "SELECT sm.sch_num, sm.sch_tra_num, sm.sch_day, sm.sch_filter, sm.sch_pla, sm.sch_memo, sch_loc_num "
+	            + "FROM sch_manage sm INNER JOIN tra_master tm ON tm.tra_num = sm.sch_tra_num "
+	            + "WHERE tm.tra_num = ?";
 		ArrayList<TravelSchDTO> selectSchFromList = new ArrayList<TravelSchDTO>();
 
 
@@ -237,17 +234,17 @@ public class TravelPlanDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				 TravelSchDTO travelSchDTO = new TravelSchDTO();
-		            travelSchDTO.setSch_num(rs.getInt("sm.sch_num"));
-		            travelSchDTO.setSch_tra_num(rs.getInt("sm.sch_tra_num"));
-		            travelSchDTO.setSch_day(rs.getString("sm.sch_day"));
-		            travelSchDTO.setSch_filter(rs.getString("sm.sch_filter"));
-		            travelSchDTO.setSch_pla(rs.getString("sm.sch_pla"));
-		            travelSchDTO.setSch_memo(rs.getString("sm.sch_memo"));
-		            travelSchDTO.setLoc2_loc(rs.getString("li2.loc2_loc"));
-		            System.out.println(rs.getString("li2.loc2_loc"));
+				TravelSchDTO travelSchDTO = new TravelSchDTO();
+				travelSchDTO.setSch_num(rs.getInt("sm.sch_num"));
+				travelSchDTO.setSch_tra_num(rs.getInt("sm.sch_tra_num"));
+				travelSchDTO.setSch_day(rs.getString("sm.sch_day"));
+				travelSchDTO.setSch_filter(rs.getString("sm.sch_filter"));
+				travelSchDTO.setSch_pla(rs.getString("sm.sch_pla"));
+				travelSchDTO.setSch_memo(rs.getString("sm.sch_memo"));
+				travelSchDTO.setSch_loc_num(rs.getInt("sch_loc_num"));
 
-		            selectSchFromList.add(travelSchDTO);
+
+				selectSchFromList.add(travelSchDTO);
 			}
 
 		} catch (Exception ex) {
@@ -261,7 +258,7 @@ public class TravelPlanDAO {
 
 	}
 	
-	//?
+	
     public int getTraCityNum(String tra_city) {
 	        int tra_city_num = 0;
 	        Connection conn = null;
@@ -293,10 +290,7 @@ public class TravelPlanDAO {
 	public ArrayList<TravelDTO> selectLocList(String tra_city) {
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
-	    String locInfoVO_sql = 	  "SELECT DISTINCT li.* FROM loc_info2 li "
-	    						+ "INNER JOIN tra_master tm "
-	    						+ "ON tm.tra_city_num = li.loc2_city_num "
-	    						+ "WHERE tm.tra_city = ?";
+	    String locInfoVO_sql = "SELECT DISTINCT li.* FROM loc_info2 li INNER JOIN tra_master tm ON tm.tra_city_num = li.loc2_city_num WHERE tm.tra_city = ?";
 	    ArrayList<TravelDTO> selectLocList = new ArrayList<TravelDTO>();
 
 	    try {
@@ -331,9 +325,6 @@ public class TravelPlanDAO {
 
 	    return selectLocList;
 	}
-	
-	
-
 
 //	public ArrayList<TravelDTO> selectLocList() {
 //		PreparedStatement pstmt = null;
@@ -374,7 +365,6 @@ public class TravelPlanDAO {
 //
 //	}
 
-	
 	public ArrayList<TravelSchMngVO> selectSchMng() {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -405,7 +395,6 @@ public class TravelPlanDAO {
 
 	}
 
-	//일정추가
 	public int insertSch(TravelSchDTO article) {
 		PreparedStatement pstmt = null;
 
@@ -414,17 +403,22 @@ public class TravelPlanDAO {
 		ResultSet generatedKeys = null;
 		int sch_num = 0;
 
-
 		try {
-			sql = "INSERT INTO sch_manage (sch_tra_num, sch_day, "
-				+ "sch_filter, sch_loc_num, sch_pla, sch_modified_date) "
-				+ "SELECT ?, ?, loc2_filter, loc2_num, "
-				+ "loc2_name, CURRENT_TIMESTAMP "
-				+ "FROM loc_info2 "
-				+ "WHERE loc2_filter=? and loc2_num =? "
-				+ "and loc2_name  = ?";
+			sql = "INSERT INTO sch_manage (sch_tra_num, sch_day, sch_filter, sch_loc_num, sch_pla) "
+					+ "select ?, ?, loc2_filter, loc2_num, loc2_name " + "from loc_info2 "
+					+ "where loc2_filter=? and loc2_num =? and  loc2_name  = ?";
 
 			pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+////	        System.out.println(article.getSch_day());
+//	        pstmt.setInt(1, article.getSch_tra_num());
+////	        System.out.println(article.getSch_tra_num());
+//	        pstmt.setString(2, article.getSch_day());
+//	        pstmt.setString(3, article.getLoc2_filter());
+//	        System.out.println(article.getLoc2_filter());
+////	        pstmt.setString(4, article.getLoc2_name());
+//	        pstmt.setInt(4, article.getLoc2_num());
+//	        System.out.println(article.getLoc2_filter());
+//	        pstmt.setString(5, article.getLoc2_name());
 
 			// JSON 데이터 파싱
 			JSONObject json = new JSONObject(article);
@@ -455,7 +449,6 @@ public class TravelPlanDAO {
 		return insertCount;
 	}
 	
-	//메모추가
 	public int insertMemo(TravelSchDTO article) {
 		PreparedStatement pstmt = null;
 
@@ -474,8 +467,10 @@ public class TravelPlanDAO {
 			pstmt.setInt(2, json.getInt("sch_num"));
 			System.out.println(json.getInt("sch_num"));
 
-			insertCount = pstmt.executeUpdate();
+			insertCount = pstmt.executeUpdate(); // 첫 번째 호출만 유지합니다.
+
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
@@ -485,7 +480,6 @@ public class TravelPlanDAO {
 		return insertCount;
 	}
 
-	//메모수정
 	public int editMemo(TravelSchDTO article) {
 
 		PreparedStatement pstmt = null;
@@ -502,7 +496,6 @@ public class TravelPlanDAO {
 
 			editCount=pstmt.executeUpdate();
 		}catch(Exception ex){
-			ex.printStackTrace();
 		}	finally{
 			close(pstmt);
 		}
@@ -510,9 +503,7 @@ public class TravelPlanDAO {
 		return editCount;
 
 	}
-
 	
-	//메모삭제
 	public int deleteMemo(int sch_num) {
 
 		PreparedStatement pstmt = null;
@@ -524,7 +515,6 @@ public class TravelPlanDAO {
 			pstmt.setInt(1, sch_num);
 			deleteCount=pstmt.executeUpdate();
 		}catch(Exception ex){
-			ex.printStackTrace();
 		}	finally{
 			close(pstmt);
 		}
@@ -538,24 +528,7 @@ public class TravelPlanDAO {
 	public ArrayList<TravelDTO> selectTravelList(String tra_mem_id) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-//		String travelDTO_list_sql = "SELECT tra_num, tra_mem_id, tra_title, tra_dday, tra_aday, tra_ppl "
-//				+ "FROM ( "
-//				+ "SELECT tra_num, tra_mem_id, tra_title, tra_dday, tra_aday, tra_ppl, sch_modified_date, "
-//				+ "ROW_NUMBER() OVER (PARTITION BY tra_num ORDER BY sch_modified_date DESC) AS row_num "
-//				+ "FROM tra_master "
-//				+ "JOIN sch_manage ON tra_master.tra_num = sch_manage.sch_tra_num "
-//				+ "WHERE tra_master.tra_mem_id = ? "
-//				+ ") AS subquery "
-//				+ "WHERE row_num = 1 "
-//				+ "ORDER BY sch_modified_date DESC;";
-		
-		String travelDTO_list_sql = "SELECT tm.tra_num, tm.tra_mem_id, tm.tra_title, tm.tra_dday, tm.tra_aday, tm.tra_ppl, \r\n"
-				+ "MAX(sm.sch_modified_date) AS sch_modified_date\r\n"
-				+ "FROM tra_master tm\r\n"
-				+ "JOIN sch_manage sm ON tm.tra_num = sm.sch_tra_num\r\n"
-				+ "WHERE tm.tra_mem_id = ?\r\n"
-				+ "GROUP BY tm.tra_num, tm.tra_mem_id, tm.tra_title, tm.tra_dday, tm.tra_aday, tm.tra_ppl\r\n"
-				+ "ORDER BY sch_modified_date DESC;";
+		String travelDTO_list_sql = "select tra_num, tra_mem_id, tra_title, tra_dday, tra_aday, tra_ppl from tra_master where tra_mem_id = ?";
 		ArrayList<TravelDTO> selectTravelList = new ArrayList<TravelDTO>();
 		TravelDTO travelDTO = null;
 
@@ -576,71 +549,15 @@ public class TravelPlanDAO {
 			}
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
 		} finally {
 			close(rs);
 			close(pstmt);
 		}
 
 		return selectTravelList;
-	}
-	
-	
-	//여행리스트 불러오기
-	public ArrayList<TravelPlanVO> autocompleteList(String value) {
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			String travelDTO_list_sql = "SELECT city_num, city_name FROM city_info WHERE city_name LIKE '%' || ? || '%'";
-			ArrayList<TravelPlanVO> autocityList = new ArrayList<TravelPlanVO>();
-			TravelDTO travelDTO = null;
-			 try {
-			        pstmt = con.prepareStatement(travelDTO_list_sql);
-			        pstmt.setString(1, value);
-			        rs = pstmt.executeQuery();
 
-			        while (rs.next()) {
-			        	TravelPlanVO travelPlanVO = new TravelPlanVO();
-			        	travelPlanVO.setCity_num(rs.getInt("city_num"));
-			        	travelPlanVO.setCity_name(rs.getString("city_name"));
-			        	autocityList.add(travelPlanVO);
-			        }
-
-			    } catch (Exception ex) {
-			        ex.printStackTrace();
-			    } finally {
-			        close(rs);
-			        close(pstmt);
-			    }
-
-			    return autocityList;
-			}
-
-//여행목록에서 선택한 여행 지우기
-	public int deleteTravel(int tra_num) {
-	    PreparedStatement pstmt = null;
-	    String sch_manage_delete_sql = "DELETE FROM sch_manage WHERE sch_tra_num = ?";
-	    String tra_master_delete_sql = "DELETE FROM tra_master WHERE tra_num = ?";
-	    
-	    int deleteCount = 0;
-
-	    try {
-	        // sch_manage 테이블에서 레코드 삭제
-	        pstmt = con.prepareStatement(sch_manage_delete_sql);
-	        pstmt.setInt(1, tra_num);
-	        pstmt.executeUpdate();
-	        
-	        // tra_master 테이블에서 레코드 삭제
-	        pstmt = con.prepareStatement(tra_master_delete_sql);
-	        pstmt.setInt(1, tra_num);
-	        deleteCount = pstmt.executeUpdate();
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
-	    } finally {
-	        close(pstmt);
-	    }
-
-	    return deleteCount;
 	}
 
+	
 
 }

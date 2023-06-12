@@ -16,9 +16,7 @@ import action.TravelListAction;
 import action.TravelMasterAction;
 import action.TravelPlanAction;
 import action.TravelSchMngListAction;
-import action.Travel_AutocompleteAction;
 import action.Travel_DeleteScheduleAction;
-import action.Travel_DeleteTravelAction;
 import action.Travel_InsertMemoAction;
 import action.Travel_InsertScheduleAction;
 import action.Travel_getTraMasterFromListAction;
@@ -46,17 +44,7 @@ public class TravelPlanController extends javax.servlet.http.HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		
-		if (command.equals("/autocomplete.bo")) {
-			System.out.println("autocomplete open");
-			Travel_AutocompleteAction travel_AutocompleteAction = new Travel_AutocompleteAction();
-			try {
-				forward = travel_AutocompleteAction.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
+
 		if (command.equals("/insertTravel.bo")) {
 			action = new TravelMasterAction();
 			try {
@@ -140,17 +128,7 @@ public class TravelPlanController extends javax.servlet.http.HttpServlet {
 			}
 		}
 		
-		if (command.equals("/deleteTravel.bo")) {
-			action = new Travel_DeleteTravelAction();
-			try {
-				// 액션 실행
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if (forward != null) { 
+		if (forward != null) {
 
 			if (forward.isRedirect()) {
 				response.sendRedirect(forward.getPath());

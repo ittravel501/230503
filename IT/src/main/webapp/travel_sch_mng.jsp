@@ -16,7 +16,21 @@ ArrayList<TravelDTO> locList = (ArrayList<TravelDTO>) request.getAttribute("locL
 ArrayList<TravelSchMngVO> schdayList = (ArrayList<TravelSchMngVO>) request.getAttribute("sch_dayList");
 ArrayList<TravelSchDTO> schDTO1 = (ArrayList<TravelSchDTO>) request.getAttribute("schDTO1");
 ArrayList<TravelSchDTO> schdayListFromList = (ArrayList<TravelSchDTO>) request.getAttribute("sch_dayList1");
+// 	// schdayList가 ArrayList<TravelSchMngVO>인 경우
+// 	String minDate = schdayList.get(0).getSch_day();
+// 	String maxDate = schdayList.get(0).getSch_day();
 
+// 	for (TravelSchMngVO sch : schdayList) {
+// 	    String currentDate = sch.getSch_day();
+// 	    if (currentDate.compareTo(minDate) < 0) {
+// 	        minDate = currentDate;
+// 	    }
+// 	    if (currentDate.compareTo(maxDate) > 0) {
+// 	        maxDate = currentDate;
+// 	    }
+// 	}
+%>
+<%
 TravelDTO tra_cityList = (TravelDTO) request.getAttribute("tra_cityList");
 String tra_city = "";
 String city_eng = "";
@@ -156,131 +170,97 @@ while (!cal.getTime().after(endDate)) {
 
 		<!--///////////// 왼쪽 사이드 바 ////////// 	 -->
 		<div class="mainwrap">
-<div class="leftsidebar">
-    <div class="titleanaddate">
-        <div class="destitle"> 
-            <%= tra_city %>
-        </div>
-        <div class="destitle2">
-            <%= city_eng.toUpperCase() %>
-        </div>
-        <div class="traveldate">
-            <%= tra_dday %> ~ <%= tra_aday %>
-        </div>
-        <div style="margin: 0 auto; display: block; text-align: center; padding: 20px;">
-            동행 : <%= tra_ppl %>명
-        </div>
-        <!-- titleanddate -->
-    </div>
+			<div class="leftsidebar">
+				<div class="titleanaddate">
+					<div class="destitle">
+						<%=tra_city%>
+					</div>
+					<div class="destitle2">
+						<%=city_eng.toUpperCase()%>
+					</div>
+					<div class="traveldate">
+						<%=// 세션 객체에서 저장된 날짜 값을 가져옴
+		tra_dday%>
+						~
+						<%=tra_aday%>
+					</div>
+					<div
+						style="margin: 0 auto; display: block; text-align: center; padding: 20px;">
+						동행 :
+						<%=tra_ppl%>명
+					</div>
+					<!-- 			titleanddate -->
+				</div>
 
-    <div class="daysandedit">
-        <div class="dayeditwiden">
-            <div class="dayswrap">
-                <%
-					long diffInMllies = Math.abs(startDate.getTime() - endDate.getTime());
-					long diff = TimeUnit.DAYS.convert(diffInMllies, TimeUnit.MILLISECONDS);
 
-					String formattedDate = "";
+				<div class="daysandedit">
+					<div class="dayeditwiden">
+						<div class="dayswrap">
+							<%
+							long diffInMllies = Math.abs(startDate.getTime() - endDate.getTime());
+							long diff = TimeUnit.DAYS.convert(diffInMllies, TimeUnit.MILLISECONDS);
 
-					for (int i = 0; i <= diff; i++) {
+							String formattedDate = "";
+							// diff 만큼의 날짜 출력
+							for (int i = 0; i <= diff; i++) {
+								// i일 후의 날짜를 계산
+								cal.setTime(startDate);
+								cal.add(Calendar.DATE, i);
+								Date currentDate = cal.getTime();
 
-					cal.setTime(startDate);
-					cal.add(Calendar.DATE, i);
-					Date currentDate = cal.getTime();
-
-					formattedDate = sdf.format(currentDate);
-					%>
-                	<div class="Day<%= i %>" style="margin-bottom: 40px; width: 280px;">
-                    <%=formattedDate%>
-                    <div class="days" style="margin-right: 15px;">
-                    Day<%= i+1 %>
-                    </div>
-                    <div class="widen">
-                        <a href="widenlist">펼쳐보기</a>
-                    </div>
-                    <div class="schlistwrap" id="widenlist">
-                        <div class="schlist" id="schlist">
-                            <ul>
-                                <% 
-                                int index = -1;
-                                if (schdayListFromList != null) {
-                                    for (int j = 0; j < schdayListFromList.size(); j++) {
-                                        String schListDay = schdayListFromList.get(j).getSch_day();
-                                        int schListNum = schdayListFromList.get(j).getSch_num();
-                                        String schListMemo = schdayListFromList.get(j).getSch_memo();
-                                        if (formattedDate.equals(schListDay)) { 
-                                %>
-                                <li>
-                                	<div class="listtitlewrap">
-										<div class="listtitle"><%=schdayListFromList.get(j).getSch_pla()%></div>
-										<input type="hidden" value = <%= schListNum%>>						
-										<div class="listremove" onclick="deleteschedule(this)" style="cursor: pointer;">삭제</div>
+								// 날짜를 "yyyy-MM-dd" 형식으로 포맷팅하여 출력
+								formattedDate = sdf.format(currentDate);
+							%>
+							<div class="Day<%=i%>" style="margin-bottom: 40px; width: 280px;">
+								<%=formattedDate%>
+								<div class="days" style="margin-right: 15px;">
+									Day<%=i + 1%>
+								</div>
+								<div class="widen">
+									<a href="widenlist">펼쳐보기</a>
+								</div>
+								<div class="edit">편집</div>
+								<div class="schlistwrap" id="widenlist">
+									<div class="schlist" id="schlist">
+										<ul>
+										<% if (schdayListFromList != null) {
+											for (int j = 0; j < schdayListFromList.size(); j++) {
+     											if (formattedDate.equals(schdayListFromList.get(j).getSch_day())) {%>     																	
+											<li>
+												<div class="listtitlewrap">
+													<div class="listtitle"><%=schdayListFromList.get(j).getSch_pla()%></div>						
+													<div class="listremove" onclick="deletememo(this)" style="cursor: pointer;">삭제</div>
+												</div>
+												<div class="details">
+													<div class="categories" style="font-size: 13px; color: grey; margin: 10px; text-align: left; letter-spacing: 1px;"><%=schdayListFromList.get(j).getSch_filter()%> · </div>
+													<div class="memos" id="memomemo"></div>
+													<div class="btns">
+														<button style="float: left; display : block;" onclick="openModal()" class="addmemo100">메모추가</button>
+														<button style="float: left; display : none;" onclick="editModal()" class="editmemo100">메모수정</button>
+														<button style="margin-left: 70px;" onclick="openMoneyModal()" class="addmoney">가계부추가</button>
+													</div>
+												</div>
+											</li>
+										 <% }}} %>	
+										</ul>
+										<!-- 								schlist	 -->
 									</div>
-									<div class="details">
-										<div class="categories" style="font-size: 13px; color: grey; margin: 10px; text-align: left; letter-spacing: 1px;">
-										<% String sch_filter2 = schdayListFromList.get(j).getSch_filter();
-											if (sch_filter2.equals("1")) {
-											    sch_filter2 = "식당";
-											} else if (sch_filter2.equals("2")) {
-											    sch_filter2 = "카페";
-											} else if (sch_filter2.equals("3")) {
-											    sch_filter2 = "관광";
-											} else if (sch_filter2.equals("4")) {
-											    sch_filter2 = "쇼핑";
-											} else if (sch_filter2.equals("5")) {
-											    sch_filter2 = "숙소";
-											} else if (sch_filter2.equals("6")) {
-											    sch_filter2 = "술집/바";
-											}
-											%>
-										<%=sch_filter2%> · <%=schdayListFromList.get(j).getLoc2_loc()%></div>
-										<div class="memos" id="memomemo<%= schListNum%>">
-											<ul>
-												<li style = "font-family: 'TheJamsil3Regular';">
-													<% if(schListMemo !=null){  %>
-													<%=schListMemo%>
-													<% } %>
-												</li>
-											</ul>
-										</div>
-										<div class="btns">
-											<% if (schListMemo != null) { %>
-											  <button style="float: left; display: none;" onclick="openModal()" class="addmemo100" id="addmemo<%= schListNum %>">메모추가</button>
-											  <button style="float: left; display: block;" onclick="editModal()" class="editmemo100" id="editmemo<%= schListNum %>">메모수정</button>
-											<% } else { %>
-											  <button style="float: left; display: block;" onclick="openModal()" class="addmemo100" id="addmemo<%= schListNum %>">메모추가</button>
-											  <button style="float: left; display: none;" onclick="editModal()" class="editmemo100" id="editmemo<%= schListNum %>">메모수정</button>
-											<% } %>
-											<button style="margin-left: 70px;" onclick="openMoneyModal()" class="addmoney">가계부추가</button>
-										</div>
-									</div>
-                                </li>
-                                <% 
-                                        }
-                                    }
-                                } 
-                                %>	
-                            </ul>
-                            <!-- schlist	 -->
-                        </div>
-                        <!-- schlistwrap	 -->
-                    </div>
-                    <!-- day		 -->
-                </div>
-
-                <%} %>
-
-
-              </div>
-                <!-- for문 닫음	 -->
-            </div>
-            <!-- dayswrap -->
-        </div>
-        <!-- dayeditwiden -->
-    </div>
-    <!-- daysandedit -->
-</div>
-<!-- leftsidebar -->
+									<!-- 							schlistwrap	 -->
+								</div>
+								<!-- 				day		 -->
+							</div>
+							<!-- 				for문 닫음	 -->
+							<%
+							}
+							%>
+							<!-- 			dayswrap -->
+						</div>
+						<!-- 		dayeditwiden -->
+					</div>
+					<!-- 	daysandedit	 -->
+				</div>
+				<!-- leftsidebar -->
+			</div>
 
 			<div class="hideleft">
 				<button class="hidesidebar" onclick="hidebar()">
@@ -307,22 +287,18 @@ while (!cal.getTime().after(endDate)) {
 					<ul>
 						<%
 						if (locList != null) {
-							for (int k = 0; k < locList.size(); k++) {
+							for (int i = 0; i < locList.size(); i++) {
 						%>
 						<li>
 							<div class="recpicntwrap">
 								<div class="locnameandpic" id="danangcathedral"
-									onclick="locinfo('<%=locList.get(k).getLoc2_num()%>','<%=locList.get(k).getLoc2_name()%>', 
-													'<%=locList.get(k).getLoc2_filter()%>', '<%=locList.get(k).getLoc2_name_lang()%>',
-													'<%=locList.get(k).getLoc2_addr()%>', '<%=locList.get(k).getLoc2_webp()%>',
-													'<%=locList.get(k).getLoc2_hour()%>', '<%=locList.get(k).getLoc2_exp()%>', 
-													'<%=locList.get(k).getLoc2_phone()%>', '<%=locList.get(k).getLoc2_loc()%>', 
-									'<%=locList.get(k).getLoc2_lat()%>',  '<%=locList.get(k).getLoc2_lng()%>' )">
-									<img src="./schmngimgs/<%=locList.get(k).getLoc2_name()%>.jpg">
-									<div class="recinfo" id="<%=locList.get(k).getLoc2_name()%>"
-										name="<%=locList.get(k).getLoc2_name()%>"><%=locList.get(k).getLoc2_name()%></div>
-									<button class="addbtn">
-										추가하기</button>
+									onclick="locinfo('<%=locList.get(i).getLoc2_num()%>','<%=locList.get(i).getLoc2_name()%>', '<%=locList.get(i).getLoc2_filter()%>', '<%=locList.get(i).getLoc2_name_lang()%>','<%=locList.get(i).getLoc2_addr()%>', '<%=locList.get(i).getLoc2_webp()%>', '<%=locList.get(i).getLoc2_hour()%>', '<%=locList.get(i).getLoc2_exp()%>', '<%=locList.get(i).getLoc2_phone()%>', '<%=locList.get(i).getLoc2_loc()%>',  '<%=locList.get(i).getLoc2_lat()%>',  '<%=locList.get(i).getLoc2_lng()%>' )">
+									<img src="./schmngimgs/<%=locList.get(i).getLoc2_name()%>.jpg">
+									<div class="recinfo" id="<%=locList.get(i).getLoc2_name()%>"
+										name="<%=locList.get(i).getLoc2_name()%>"><%=locList.get(i).getLoc2_name()%></div>
+									<button
+										onclick="addlist('<%=locList.get(i).getLoc2_name()%>','<%=locList.get(i).getLoc2_filter()%>','<%=locList.get(i).getLoc2_loc()%>')"
+										class="addbtn">추가하기</button>
 								</div>
 							</div>
 						</li>
@@ -337,7 +313,7 @@ while (!cal.getTime().after(endDate)) {
 			</div>
 			<!-- 	mainwrap -->
 		</div>
-<!--///////////// 오른쪽 사이드 바 끝 ////////// 	 -->
+		<!--///////////// 오른쪽 사이드 바 끝 ////////// 	 -->
 		<div class="hideright">
 			<button class="hidesidebar-right" onclick="hidebar-right()">
 				<img src="./schmngimgs/arrow_left.png" class="leftarrow">
@@ -345,15 +321,15 @@ while (!cal.getTime().after(endDate)) {
 		</div>
 
 
-<!--///////////// 구글지도 시작 ////////// 	 -->
+		<!--///////////// 구글지도 시작 ////////// 	 -->
 		<div id="map" style="width: 100%; height: 100vh; z-index: 0;"></div>
 		<script async defer
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuNMOuY4ydQhCxU3_i4uMSs_jxhb1Qxk0&callback=initMap&region=kr"></script>
 		<script src="js/travel_sch_mng.js"></script>
-<!--///////////// 구글지도 끝 ////////// 	 -->
+		<!--///////////// 구글지도 끝 ////////// 	 -->
 
-<!--///////////// 장소팝업창 ////////// 	 -->
-
+		<!--///////////// 장소팝업창 ////////// 	 -->
+		<!-- 			<form action = "insertSchedule.bo" method="post" onsubmit="callinfo()"> -->
 		<div class='gray_layer' id='background' onclick="closemodal()"></div>
 		<div class='over_layer' id='front'>
 			<div class="photocity" style="display: flex;">
@@ -363,30 +339,24 @@ while (!cal.getTime().after(endDate)) {
 					<!-- 				photo -->
 				</div>
 				<div class="cityexplain">
-					<div class="cityexplain2" style="padding: 15px; display: grid;">
+					<div class="cityexplain2" style="padding: 15px;">
 						<div class="nameandloc" display="display: flex;">
 							<h2
-								style="letter-spacing: 1px; font-size: 20px; font-weight: bold; color: #222222; display: block;"
-								name="loc2_name" id="loc1">추천장소이름</h2>
+								style="letter-spacing: 2px; font-size: 20px; font-weight: bold; color: #222222; display: block;"
+								name="loc2_name" id="loc1">뽕따에이드</h2>
 							<input type="hidden" name="loc2_num" id="loc_num" value="aa">
+							<h2 style="float: right;" name="loc2_loc" id="loc">떡꼬치</h2>
 						</div>
-						
 						<h3
-							style="margin-top: 2px; font-size: 12px; font-family: arial; font-weight: 400; letter-spacing: 2px;"
-							id="loc2">추천장소 현지언어이름</h3>
-						<div style ="display: inline-block;">
-							<h5 style="float: left;" name="loc2_loc" id="loc">추천장소위치</h5>
-							<h5 style="float:left;"> · </h5>
-							<h5 style="float: left;" name="loc2_filter" id="category">추천장소종류</h5>
-							
-						</div>
+							style="margin-top: 5px; font-size: 12px; font-family: arial; font-weight: 400; letter-spacing: 2px;"
+							id="loc2">BANGKOK</h3>
 						<div class="fknexp"
 							style="font-family: TheJamsil2Light; color: grey; font-size: 15px; margin-top: 5px;">
 							<ul>
-								<li id=description>추천장소 설명</li>
-								
+								<li id=description>떤딘 성당은 분홍색 예쁜 성당입니다.</li>
+								<li id="category" name="loc2_filter">투어</li>
 								<li>
-									<div>추천장소 주소</div>
+									<div>주소</div>
 									<div id="addr"font-family:arial; font-weight: 400; ></div>
 								</li>
 								<li id="hour">
@@ -437,7 +407,9 @@ while (!cal.getTime().after(endDate)) {
 			</div>
 			<!-- 		over_layer -->
 		</div>
-<!--///////////// 장소팝업창 끝 ////////// 	 -->
+
+
+		<!--///////////// 장소팝업창 끝 ////////// 	 -->
 
 	</section>
 </body>
@@ -454,7 +426,7 @@ var loc2_name = "";
 var loc2_filter = "";
 var loc2_loc = "";
 var sch_day = "";
-var sch_tra_num= <%= tra_num %>;
+var sch_tra_num= <%=tra_num%>;
 var sch_memo = "";
 
 function setPopupValue() {
@@ -483,7 +455,9 @@ function setPopupValue() {
 function addsch() {
 	
 	setPopupValue();
+	
 
+	//sch_manage에 값을 넣는 ajax
 	$.ajax({
         type: "POST",
         url: "insertSchedule.bo",
@@ -498,18 +472,20 @@ function addsch() {
         contentType: "application/json",
         dataType: "json",
         success: function(response) {
-        	       	
+        	console.log(response); // 이미 JavaScript 객체로 인식되어 있으므로 추가적인 JSON 파싱이 필요 없음
+
+        	// JavaScript 객체의 속성에 접근하여 필요한 값 추출
         	sch_day = response.sch_day;
         	var loc2_filter = response.loc2_filter;
         	var loc2_num = response.loc2_num;
         	var loc2_loc = response.loc2_loc;
         	var loc2_name = response.loc2_name;
-       	
         	
+        	// 추가로 필요한 값을 response 객체에서 추출
 
         	var sch_num = response.sch_num;
         	
-        	
+        	// 추출한 값들을 활용하여 원하는 동작 수행
 
 			if(loc2_filter == "1"){
 				loc2_filter = "식당";			            				
@@ -523,7 +499,7 @@ function addsch() {
 			else if(loc2_filter =="4"){
 				loc2_filter = "쇼핑" ;   		
 			}
-			else if(loc2_filter =="5"){
+			else if(loc.loc2_filter =="5"){
 				loc2_filter = "숙소" ;   		
 			}
 			else if(loc.loc2_filter =="6"){
@@ -535,24 +511,19 @@ function addsch() {
 			newItem.innerHTML = `
 				<div class="listtitlewrap">
 					<div class="listtitle">`+loc2_name+`</div>						
-						<div class="listremove" onclick="deleteschedule(this)" style="cursor: pointer;">삭제</div>
+						<div class="listremove" onclick="deletememo(this)" style="cursor: pointer;">삭제</div>
 					</div>
 					<div class="details">
 						<div class="categories" style="font-size: 13px; color: grey; margin: 10px; text-align: left; letter-spacing: 1px;">`+ loc2_filter+` · `+ loc2_loc +`</div>
-						<div class="memos" id="memomemo">
-							<ul>
-							</ul>
-						</div>
+						<div class="memos" id="memomemo"></div>
 						<div class="btns">
-							<button style="float: left; display : block;" onclick="openModal()" id="addmemobtn" class="addmemo100">메모추가</button>
-							<button style="float: left; display : none;" onclick="editModal()" id="editmemobtn" class="editmemo100">메모수정</button>
+							<button style="float: left; display : block;" onclick="openModal()" class="addmemo100">메모추가</button>
+							<button style="float: left; display : none;" onclick="editModal()" class="editmemo100">메모수정</button>
 							<button style="margin-left: 70px;" onclick="openMoneyModal()" class="addmoney">가계부추가</button>
 					</div>
 				</div>
 				`;
-			
-		
-				
+
 			var selectedDate = document.getElementById("selectedDate");
 
 			var dateElements = document.querySelectorAll(".dayswrap > .schlistwrap > .schlist > ul");
@@ -572,18 +543,11 @@ function addsch() {
 			var newUl = document.createElement("ul");
 			newUl.appendChild(newItem);
 
-			var selectedDateIndex = selectedDate.selectedIndex;
-			var dayElement = document.querySelector(".Day" + selectedDateIndex);
+			var dayElement = document.querySelector(".Day" + (selectedDate.selectedIndex));
 			var schlistElement = dayElement.querySelector(".schlist");
-			console.log(dayElement);
 			schlistElement.appendChild(newUl);
-			
-			var addmemobtn = document.getElementById("addmemobtn");
-			addmemobtn.dataset.buttonId = sch_num;
-			var editmemobtn = document.getElementById("editmemobtn");
-			editmemobtn.dataset.buttonId = sch_num;	
                    
-// //   메모 추가하는 부분() -----------------------------------------------	    
+//   메모 추가하는 부분() -----------------------------------------------	    
 			var memoDivs = document.querySelectorAll(".memos");
 			var addbtns = document.querySelectorAll(".addmemo100");
 			var memoCount = 1;
@@ -614,11 +578,11 @@ function addsch() {
 				};
 			}(newAddId);
 			newItem.querySelector(".editmemo100").id = newEditId;
-			newItem.querySelector(".editmemo100").onclick = function(id) {
-				return function() {
-					editModal();
-				};
-			}(newEditId);      	    	
+// 			newItem.querySelector(".editmemo100").onclick = function(id) {
+// 				return function() {
+// 					editModal();
+// 				};
+// 			}(newEditId);      	    	
 			var dayElement = document.querySelector(".Day" + (selectedDate.selectedIndex));
 			var schlistElement = dayElement.querySelector(".schlist");
 			schlistElement.appendChild(newItem);   
@@ -658,14 +622,12 @@ function addMemo() {
 		var memoId = memo.id;
 		var number2 = parseInt(memoId.match(/\d+$/)[0]);
 		if (number1 === number2) {
-			var ul = memo.querySelector("ul");
-			if (!ul) {
-				ul = document.createElement("ul");
-				memo.appendChild(ul);
+			var existingMemoItem = memo.querySelector("li");
+			if (!existingMemoItem) {
+				existingMemoItem = document.createElement("li");
+				memo.appendChild(existingMemoItem);
 			}
-			var li = document.createElement("li");
-			li.textContent = memoInput;
-			ul.appendChild(li);
+			existingMemoItem.textContent += "\n" + memoInput;
 			break;
 		}
 	}			  
@@ -686,7 +648,9 @@ function addMemo() {
 		contentType: "application/json",
 		dataType: "json",
 		success: function(response) {
-			console.log(response); 
+			console.log(response); // 이미 JavaScript 객체로 인식되어 있으므로 추가적인 JSON 파싱이 필요 없음
+
+      	// JavaScript 객체의 속성에 접근하여 필요한 값 추출
 			sch_memo = response.sch_memo;
 			sch_num = response.sch_num; },
 		error: function handleError2 (jqXHR, textStatus, errorThrown) {
@@ -698,7 +662,7 @@ function addMemo() {
 	closeModal();
 }
 	  
-function deleteschedule(el){
+function deletememo(el){
 	var liElement = el.closest("li");
 	var sch_num = liElement.getAttribute("data-sch-num");
 	console.log(sch_num);
@@ -732,7 +696,7 @@ function editModal() {
     editButtons.forEach(function(button) {
         button.addEventListener("click", function() {
             var memoItem = button.closest("li");
-            var memoText = memoItem.querySelector(".memos").textContent.trim();
+            var memoText = memoItem.querySelector(".memos").textContent;
 
             // 모달 창에 textarea 추가 및 메모 내용 설정
             var memoModal = document.getElementById("memo-modal");
@@ -746,7 +710,7 @@ function editModal() {
             neweditconfirm = "editmemoconfirm" + sch_num;
             var addconfirm = document.getElementById("addconfirm");
             editconfirmbtn.id = neweditconfirm
-            editconfirmbtn.style.display = "block";
+            editconfirmbtn.style.display = "block"; // 메모 수정 버튼 보이기
             addconfirm.style.display = "none";
             
             // 모달 창 열기
@@ -805,23 +769,218 @@ function editMemoconfirm(){
 
 }
 
-function filter() {
-	  var searchvalue, name, item, i;
+//function addsch() {
+//$.ajax({
+//type: "POST",
+//url: "insertSchedule.bo",
+//data: data = {
+//	  "loc2_name": loc2_name,
+//	  "loc2_filter": loc2_filter,
+//	  "loc2_loc": loc2_loc,
+//	  "sch_day": sch_day,
+//	  sch_tra_num
+//},
+//success: function(response) {
+//  console.log("success");
+//  console.log(response);
 
-	  searchvalue = document.getElementById("searchvalue").value;
-	  item = document.getElementsByClassName("recpicntwrap");
+//    var newItem = document.createElement("li");
+//    newItem.innerHTML = `
+//      <div class="listtitlewrap">
+//        <div class="listtitle">`+data.loc2_name+`</div>
+//        <div class="listremove" onclick="removeListItem(this)" style="cursor: pointer;">삭제</div>
+//      </div>
+//      <div class="details">
+//        <div class="categories" style="font-size: 13px; color: grey; margin: 10px; text-align: left; letter-spacing: 1px;">`+ data.loc2_filter+` · `+data.loc2_loc + `</div>
+//        <div class="memos" id="memomemo">
+//        	<ul>
+//        	</ul>
+//        </div>
+//        <div class="btns">
+//        <button style="float: left;" id="addmemo" onclick="openModal()" class="addmemo100">메모추가</button>
+//          <button style="margin-left: 70px;" onclick="openMoneyModal()" class="addmoney">가계부추가</button>
+//        </div>
+//      </div>
+//    `;
 
-	  for (i = 0; i < item.length; i++) {
-	    name = item[i].querySelectorAll(".locnameandpic > .recinfo");
-	    if (name[0].innerHTML.indexOf(searchvalue) > -1) {
-	      item[i].style.display = "flex";
-	    } else {
-	      item[i].style.display = "none";
-	      // parentNode인 li의 display를 none으로 설정
-	      item[i].parentNode.style.display = "none";
-	    }
-	  }
-	}
+//    var selectedDate = document.getElementById("selectedDate");
+//    var dateElements = document.querySelectorAll(".dayswrap  .schlistwrap > .schlist > ul");
+//    console.log(dateElements);
+//    for (var i = 0; i < dateElements.length; i++) {
+//      var dateElement = dateElements[i];
+
+//      var dateLabel = dateElement.closest(".schlistwrap").parentNode.querySelector(".days");
+//      var labelDate = dateLabel ? dateLabel.textContent.trim() : "";
+
+//      if (selectedDate.value === labelDate) {
+   	 
+         
+// 		var ul = dateElement;
+//  	ul.appendChild(newItem);
+//      }
+ 
+//}
+//},
+//error: function(xhr, textStatus, errorThrown) {
+//  console.error("에러 발생:", errorThrown);
+//  alert("에러가 발생했습니다.");
+//}
+//});
+//};
+
+
+
+
+//function addsch(){
+  
+//   var loc2_name = document.getElementById("loc1").innerText;
+//   var loc2_filter = document.getElementById("category").innerText;
+//   var loc2_loc =  document.getElementById("loc").innerText;
+//   var sch_day = document.getElementById("selectedDate").value;
+<%-- <%-- 	   var sch_tra_num = "<%= tra_num %>"; --%> 
+<%-- <%-- 	   var formattedDate = "<%=formattedDate%>"; --%> 
+//   console.log(sch_day);
+//// 	   console.log(sch_tra_num);
+  
+//   if(loc2_filter == "식당"){
+//		loc2_filter = "1";			            				
+//	}
+//	else if(loc2_filter =="카페"){
+//		loc2_filter = "2";   		
+//   	}
+//   	else if(loc2_filter =="관광"){
+//   		loc2_filter = "3";   		
+//   	}
+//   	else if(loc2_filter =="쇼핑"){
+//   		loc2_filter = "4" ;   		
+//   	}
+//   	else if(loc2_filter =="숙소"){
+//   		loc2_filter = "5" ;   		
+//   	}   
+  
+//   if(loc2_filter == "1"){
+//		loc2_filter = "식당";			            				
+//	}
+//	else if(loc2_filter =="2"){
+//		loc2_filter = "카페";   		
+//   	}
+//   	else if(loc2_filter =="3"){
+//   		loc2_filter = "관광";   		
+//   	}
+//   	else if(loc2_filter =="4"){
+//   		loc2_filter = "쇼핑" ;   		
+//   	}
+//   	else if(loc2_filter =="5"){
+//   		loc2_filter = "숙소" ;   		
+//   	}   
+
+//// 	   var data = {
+//// 			   "loc2_name": loc2_name,
+//// 			   "loc2_filter": loc2_filter,
+//// 			   "loc2_loc" : loc2_loc,
+//// 			   "sch_day" : sch_day,
+<%-- <%-- 			   "sch_tra_num": <%=formattedDate%> --%>
+
+//// 		 }; 
+ 	   
+//    var newItem = document.createElement("li");
+//    newItem.innerHTML = `
+//      <div class="listtitlewrap">
+//        <div class="listtitle">`+loc2_name+`</div>
+//        <div class="listremove" onclick="removeListItem(this)" style="cursor: pointer;">삭제</div>
+//      </div>
+//      <div class="details">
+//        <div class="categories" style="font-size: 13px; color: grey; margin: 10px; text-align: left; letter-spacing: 1px;">`+ loc2_filter+` · `+loc2_loc + `</div>
+//        <div class="memos" id="memomemo">
+//        	<ul>
+//        	</ul>
+//        </div>
+//        <div class="btns">
+//        <button style="float: left;" id="addmemo" onclick="openModal()" class="addmemo100">메모추가</button>
+//          <button style="margin-left: 70px;" onclick="openMoneyModal()" class="addmoney">가계부추가</button>
+//        </div>
+//      </div>
+//    `;
+
+//    var selectedDate = document.getElementById("selectedDate");
+//    var dateElements = document.querySelectorAll(".dayswrap  .schlistwrap > .schlist > ul");
+//    console.log(dateElements);
+//    for (var i = 0; i < dateElements.length; i++) {
+//      var dateElement = dateElements[i];
+
+//      var dateLabel = dateElement.closest(".schlistwrap").parentNode.querySelector(".days");
+//      var labelDate = dateLabel ? dateLabel.textContent.trim() : "";
+
+//      if (selectedDate.value === labelDate) {
+   	 
+         
+//   		var ul = dateElement;
+//    	ul.appendChild(newItem);
+//      }
+//    }
+
+////   data: JSON.stringify(schbyDays),
+////   dataType: "json",
+////   contentType: "application/json; charset=utf-8", 
+//success: function(response) {
+//// 	    var jsonData = $.parseJSON(response);
+//// 	    var loc2_name = jsonData.loc2_name;
+//	    // 추출한 값(loc2_name)을 원하는 방식으로 처리
+//	    console.log(loc2_name);
+//  console.log("데이터가 성공적으로 저장되었습니다.");
+//// 	console.log(JSON.stringify(data));
+//  var newItem = document.createElement("li");
+//  newItem.innerHTML = `
+//    <div class="listtitlewrap">
+//      <div class="listtitle">${loc2_name}</div>
+//      <div class="listremove" onclick="removeListItem(this)" style="cursor: pointer;">삭제</div>
+//    </div>
+//    <div class="details">
+//      <div class="categories" style="font-size: 13px; color: grey; margin: 10px; text-align: left; letter-spacing: 1px;"></div>
+//      <div class="btns">
+//        <button style="float: left;" onclick="openModal()" class="addmemo100">메모추가</button>
+//        <button style="margin-left: 70px;" onclick="openMoneyModal()" class="addmoney">가계부추가</button>
+//      </div>
+//    </div>
+//  `;
+
+//  var selectedDate = document.getElementById("selectedDate");
+
+//  var dateElements = document.querySelectorAll(".dayswrap > .schlistwrap > .schlist > ul");
+
+//  for (var i = 0; i < dateElements.length; i++) {
+//    var dateElement = dateElements[i];
+//    var dateLabel = dateElement.closest(".schlistwrap").previousElementSibling.querySelector(".days");
+//    var labelDate = dateLabel ? dateLabel.textContent.trim() : "";
+
+//    if (selectedDate.value === labelDate) {
+//      var ul = dateElement;
+//      ul.appendChild(newItem);
+//      return;
+//    }
+//  }
+
+//  var newUl = document.createElement("ul");
+//  newUl.appendChild(newItem);
+
+//  var dayElement = document.querySelector(".Day" + (selectedDate.selectedIndex));
+//  var schlistElement = dayElement.querySelector(".schlist");
+//  schlistElement.appendChild(newUl);
+//},
+//error: function(jqXHR, textStatus, errorThrown) {
+//	  console.error("에러 발생:", textStatus, errorThrown);
+//  alert("데이터 저장 중 에러가 발생했습니다.");
+//}
+//});
+
+
+   
+  
+
+
+   
+
+   
    
 </script>
 

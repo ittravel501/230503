@@ -12,14 +12,11 @@
 <link rel="stylesheet" href="css/travel_plan.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <title>여행지 추가</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 </head>
 
-
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="js/travel_plan.js"></script>
-
 
 <script>
 
@@ -189,13 +186,8 @@ function inputnum(){ //인원 직접 입력하기
 					<div class="depdatewrap">
 						<ul>
 							<li><input type="hidden" name = "mem_id" value = <%= tra_mem_id%>></li>
-							<li><input type="text" size="50" name="coouncity" id="inputDestination"
-								class="inputdes" style="padding-left: 10px;" placeholder="여행지를 입력해주세요" required autocomplete="on"></li>
-							<li>
- 					           <div id="autocompleteResults" class="autocomplete-results">
-                					<ul id="autocompleteList" class="autocomplete-list"></ul>
-            					</div>
-        					</li>
+							<li><input type="text" size="50" name="coouncity"
+								class="inputdes" style="padding-left: 10px;" placeholder="여행지를 입력해주세요" required></li>
 							<li><input type="button" class="btn" value="가는날"
 								style="font-family: TheJamsil2Light;"> <input
 								type="date" name="depdate" required></li>
@@ -269,29 +261,26 @@ function inputnum(){ //인원 직접 입력하기
 					if(cityList != null){
 						for(int i=0;i<cityList.size();i++){			
 							if("asia".equals(cityList.get(i).getCity_con())){%>			 
-							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>',
-							'<%=cityList.get(i).getCity_name() %>', '<%=cityList.get(i).getCity_exp() %>')">	
+							<div class="pntwrap" onclick="openmodal('<%=cityList.get(i).getCity_eng() %>','<%=cityList.get(i).getCity_name() %>', '<%=cityList.get(i).getCity_exp() %>')">	
 								<div class="pic">
 									<img src="travelplanimgs/<%=cityList.get(i).getCity_eng() %>.jpg" class="zoom">
-<!-- 						pic	 -->
+				<!-- 						pic	 -->
 								</div>
 								<div class="textwrap">
 									<ul class="text">
 										<li><%=cityList.get(i).getCity_name() %></li>  
+				<!-- 									나중에 나라이름 넣을 것 -->
 										<li><%=cityList.get(i).getCity_eng().toUpperCase()%></li>
 									</ul>
-<!-- 						textwrap	 -->
+				<!-- 						textwrap	 -->
 								</div>
-<!-- 					pntwrap1 -->
+				<!-- 					pntwrap1 -->
 							</div>
 							<%}%>
 						<%}
 					}%>
 					</div>
 				</div>
-				
-				
-				
 				<div class="recdes_america">
 					<div class="picwrap1">
 					<%
@@ -600,7 +589,6 @@ function inputnum(){ //인원 직접 입력하기
 	</footer>
 
 <script>
-
 function openmodal(city_eng, city_name, city_exp) {
 	$('#background').fadeIn(200);
 	$('#front').fadeIn(200);
@@ -611,49 +599,6 @@ function openmodal(city_eng, city_name, city_exp) {
 	document.getElementById("smallcity2").innerText = city_eng.toUpperCase(),
 	document.getElementById("city_exp").innerText = city_exp
 };
-$(document).ready(function() {
-	  $('#filter-bar li').click(function() {
-	    $(this).addClass('active').siblings().removeClass('active');
-	  });
-	});
-
-$('#inputDestination').autocomplete({
-    source: function(request, response) {
-        $.ajax({
-            url: "/autocomplete.bo",
-            type: "POST",
-            dataType: "JSON",
-            data: { value: request.term },
-            success: function(data) {
-                var resultList = data.resultList;
-                var $autocompleteList = $('#autocompleteList');
-                $autocompleteList.empty(); // 기존 목록 초기화
-
-                $.each(resultList, function(index, item) {
-                    var $li = $('<li>').text(item.city_name);
-                    $autocompleteList.append($li);
-                });
-
-                // 결과 목록을 보이게 함
-                $('#autocompleteResults').show();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error("에러 발생:", textStatus, errorThrown);
-                $("#error-message").text("오류가 발생했습니다.");
-            }
-        });
-    },
-    focus: function(event, ui) {
-        return false;
-    },
-    minLength: 1,
-    autoFocus: true,
-    delay: 100,
-    select: function(evt, ui) {
-        console.log(ui.item.label);
-        console.log(ui.item.idx);
-    }
-});
 </script>
 
 </body>
